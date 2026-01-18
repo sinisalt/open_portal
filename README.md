@@ -1,4 +1,66 @@
-# Getting Started with Create React App
+# OpenPortal - API-Driven Business UI Platform
+
+OpenPortal is an **API-configured Business UI Platform** where the frontend is a generic rendering engine and all UI structure, logic, and workflows come from backend APIs.
+
+## 🎯 What Makes This Different
+
+- **Zero frontend changes** for new features - everything is configured via API
+- **Configuration-driven** - Pages defined as JSON consumed by React renderer
+- **Reusable widget library** - 30+ widgets with stable contracts
+- **Smart caching** - Static configs cached, dynamic data fetched on demand
+- **Real-time ready** - Built-in WebSocket support for live updates
+
+## 📚 Documentation
+
+Complete project documentation is available in the [`/documentation`](./documentation) folder:
+
+- **[Getting Started](./documentation/getting-started.md)** - Introduction and orientation
+- **[Project Overview](./documentation/project-overview.md)** - Vision, goals, and status
+- **[Architecture](./documentation/architecture.md)** - Technical architecture
+- **[API Specification](./documentation/api-specification.md)** - Complete API docs
+- **[Widget Catalog](./documentation/widget-catalog.md)** - All available widgets
+- **[JSON Schemas](./documentation/json-schemas.md)** - Configuration schemas
+- **[Roadmap](./documentation/roadmap.md)** - Implementation plan
+
+**Start here:** [documentation/getting-started.md](./documentation/getting-started.md)
+
+## 🚀 Current Status
+
+**Phase:** Planning & Specification ✅
+
+All foundational documentation completed. Ready to begin Phase 0 (Discovery & Foundation).
+
+## 💡 Quick Example
+
+A complete dashboard page defined in JSON:
+
+```json
+{
+  "pageId": "dashboard",
+  "title": "Dashboard",
+  "widgets": [
+    {
+      "id": "revenue-kpi",
+      "type": "KPI",
+      "datasourceId": "revenue",
+      "props": { "label": "Revenue", "format": "currency" }
+    }
+  ],
+  "datasources": [
+    {
+      "id": "revenue",
+      "kind": "http",
+      "http": { "method": "GET", "url": "/api/kpi/revenue" }
+    }
+  ]
+}
+```
+
+The React frontend renders this config without any hardcoded UI logic!
+
+---
+
+## Development (Create React App)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
