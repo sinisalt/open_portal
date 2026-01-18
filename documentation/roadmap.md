@@ -364,6 +364,14 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 
 ---
 
-**Version:** 1.0
-**Last Updated:** January 2026
+**Version:** 1.1
+**Last Updated:** January 18, 2026
 **Status:** Planning Phase
+
+**Related Documents:**
+- [AI-First Implementation Plan](./ai-first-implementation-plan.md) - Alternative task-based approach for AI agents
+- [Architecture](./architecture.md) - Technical architecture
+- [Project Overview](./project-overview.md) - Vision and goals
+- [Authentication Scenarios](./authentication-scenarios.md) - Auth implementation details
+- [User Profile Scenarios](./user-profile-scenarios.md) - Profile feature specifications
+

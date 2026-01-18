@@ -6,21 +6,43 @@ OpenPortal is an **API-configured Business UI Platform** where the frontend is a
 
 - **Zero frontend changes** for new features - everything is configured via API
 - **Configuration-driven** - Pages defined as JSON consumed by React renderer
-- **Reusable widget library** - 30+ widgets with stable contracts
-- **Smart caching** - Static configs cached, dynamic data fetched on demand
+- **Enterprise UI** - Built on Ant Design (MIT License) with 30+ professional widgets
+- **Smart caching** - Multi-layer caching (Redis + Browser) for optimal performance
 - **Real-time ready** - Built-in WebSocket support for live updates
+- **AI-first development** - Designed for rapid development with AI coding agents
 
 ## 📚 Documentation
 
 Complete project documentation is available in the [`/documentation`](./documentation) folder:
 
+### Getting Started
 - **[Getting Started](./documentation/getting-started.md)** - Introduction and orientation
 - **[Project Overview](./documentation/project-overview.md)** - Vision, goals, and status
-- **[Architecture](./documentation/architecture.md)** - Technical architecture
+
+### Detailed Scenarios
+- **[Authentication Scenarios](./documentation/authentication-scenarios.md)** - Complete auth flows with API examples
+  - Username/password login
+  - OAuth/SSO integration
+  - Token refresh and management
+- **[User Profile Scenarios](./documentation/user-profile-scenarios.md)** - Profile workflows and navigation
+  - Profile viewing and editing
+  - Sub-section navigation (API Keys, Audit History, etc.)
+  - Browser history integration
+  - Caching strategies
+
+### Technical Documentation
+- **[Architecture](./documentation/architecture.md)** - Technical architecture with Redis caching
 - **[API Specification](./documentation/api-specification.md)** - Complete API docs
 - **[Widget Catalog](./documentation/widget-catalog.md)** - All available widgets
 - **[JSON Schemas](./documentation/json-schemas.md)** - Configuration schemas
-- **[Roadmap](./documentation/roadmap.md)** - Implementation plan
+
+### Implementation
+- **[AI-First Implementation Plan](./documentation/ai-first-implementation-plan.md)** - Task-based development plan
+  - Atomic task decomposition for AI agents
+  - TDD with mock APIs
+  - 125 specific tasks across 6 phases
+  - 3-4x faster than traditional development
+- **[Roadmap](./documentation/roadmap.md)** - Traditional phased implementation plan
 
 **Start here:** [documentation/getting-started.md](./documentation/getting-started.md)
 

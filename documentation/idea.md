@@ -49,10 +49,13 @@ User Action → Generic Renderer → API (returns UI config + data) → Backend 
 
 ## Technology Stack
 
-- **Frontend:** React (TypeScript)
+- **Frontend:** React 19+ with TypeScript
+- **UI Library:** Ant Design (antd) - MIT License
 - **Backend:** Technology-agnostic (REST APIs + WebSockets)
 - **Configuration:** JSON Schema-based
-- **Caching:** Browser-native (ETag, IndexedDB)
+- **Caching:** 
+  - Frontend: Browser-native (ETag, IndexedDB, React Query)
+  - Backend: Redis (multi-layer caching strategy)
 
 ## Current Status: Planning Phase
 

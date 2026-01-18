@@ -588,5 +588,13 @@ wss://api.example.com/v1/ui/ws?token=<accessToken>
 
 ---
 
-**Version:** 1.0
-**Last Updated:** January 2026
+**Version:** 1.1
+**Last Updated:** January 18, 2026
+
+**Related Documents:**
+- [Authentication Scenarios](./authentication-scenarios.md) - Complete auth flow examples with this API
+- [User Profile Scenarios](./user-profile-scenarios.md) - Profile-related API usage examples
+- [User Journey Scenarios](./user-journey-scenarios.md) - End-to-end scenarios using these APIs
+- [Architecture](./architecture.md) - System architecture and caching strategies
+- [JSON Schemas](./json-schemas.md) - Request/response schemas
+

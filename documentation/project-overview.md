@@ -52,14 +52,29 @@ Move to a configuration-driven architecture where:
 ## Technology Stack
 
 ### Frontend
-- **React** - Rendering engine and UI framework
-- Modern JavaScript/TypeScript
-- Component-based architecture
+- **React** (v19+) - Rendering engine and UI framework
+- **TypeScript** - Type-safe development
+- **Ant Design** (antd) - Enterprise-grade UI component library (MIT License)
+  - Comprehensive widget set (30+ components)
+  - Professional design system
+  - Excellent accessibility support
+  - Active maintenance and community
+- **React Router** - Client-side routing
+- **Zustand** - Lightweight state management
+- **React Query** - Server state management and caching
+- **Axios** - HTTP client with interceptors
+- **Socket.IO** - WebSocket client for real-time features
+- **Zod** - Schema validation
 
 ### Backend
 - **Technology-agnostic** - Any backend that provides required APIs
 - RESTful API endpoints
 - WebSocket support for real-time interactivity
+- **Redis** - Caching layer for performance optimization
+  - Page configuration caching
+  - Session management
+  - Query result caching
+  - Permissions caching
 
 ## Current Status
 

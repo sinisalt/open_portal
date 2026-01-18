@@ -8,14 +8,40 @@ Welcome to the OpenPortal documentation! This folder contains all the planning, 
 - **[getting-started.md](./getting-started.md)** - Introduction and orientation guide
 - **[idea.md](./idea.md)** - Quick project overview and key concepts
 
+### Detailed Scenarios (NEW)
+- **[authentication-scenarios.md](./authentication-scenarios.md)** - Complete authentication flows
+  - Username/password login with headers/payloads
+  - OAuth/SSO integration (Google example)
+  - Token refresh mechanism
+  - Logout flow
+  - Security considerations
+- **[user-profile-scenarios.md](./user-profile-scenarios.md)** - User profile workflows
+  - Profile viewing with side menu
+  - Profile editing with validation
+  - Sub-section navigation (API Keys, Audit History, Documents, Preferences)
+  - Browser back/forward button integration
+  - Static vs dynamic data caching with Redis
+- **[user-journey-scenarios.md](./user-journey-scenarios.md)** - End-to-end user journeys
+  - First-time login to dashboard
+  - Profile editing and API key management
+  - Real-time dashboard updates via WebSocket
+  - Deep linking with authentication
+  - Error handling and recovery
+  - Multi-tab coordination
+
 ### Project Information
 - **[project-overview.md](./project-overview.md)** - Vision, goals, problem statement, and current status
-- **[roadmap.md](./roadmap.md)** - Phased implementation plan and timeline
+- **[roadmap.md](./roadmap.md)** - Traditional phased implementation plan and timeline
+- **[ai-first-implementation-plan.md](./ai-first-implementation-plan.md)** - AI-assisted development plan (NEW)
+  - 125 atomic tasks for AI agents
+  - TDD with mock API approach
+  - Task dependencies and parallelization
+  - 3-4x faster timeline vs traditional approach
 
 ### Technical Documentation
-- **[architecture.md](./architecture.md)** - System architecture, components, and data flows
+- **[architecture.md](./architecture.md)** - System architecture, components, data flows, and Redis caching
 - **[api-specification.md](./api-specification.md)** - Complete API endpoint definitions
-- **[widget-catalog.md](./widget-catalog.md)** - Widget library with props, events, and bindings
+- **[widget-catalog.md](./widget-catalog.md)** - Widget library with props, events, and bindings (Ant Design-based)
 - **[json-schemas.md](./json-schemas.md)** - JSON Schema definitions and examples
 
 ## 🎯 Quick Navigation by Role
