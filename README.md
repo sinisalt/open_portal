@@ -42,6 +42,11 @@ Complete project documentation is available in the [`/documentation`](./document
   - TDD with mock APIs
   - 125 specific tasks across 6 phases
   - 3-4x faster than traditional development
+- **[TDD & Mock API Guide](./documentation/tdd-mock-api-guide.md)** - Test-Driven Development guide
+  - TDD principles (Red-Green-Refactor)
+  - Mock API setup (JSON Server and MSW)
+  - Complete testing examples
+  - Integration testing strategies
 - **[Roadmap](./documentation/roadmap.md)** - Traditional phased implementation plan
 
 **Start here:** [documentation/getting-started.md](./documentation/getting-started.md)

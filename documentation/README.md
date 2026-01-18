@@ -32,11 +32,19 @@ Welcome to the OpenPortal documentation! This folder contains all the planning, 
 ### Project Information
 - **[project-overview.md](./project-overview.md)** - Vision, goals, problem statement, and current status
 - **[roadmap.md](./roadmap.md)** - Traditional phased implementation plan and timeline
-- **[ai-first-implementation-plan.md](./ai-first-implementation-plan.md)** - AI-assisted development plan (NEW)
+
+### Implementation Guides (NEW)
+- **[ai-first-implementation-plan.md](./ai-first-implementation-plan.md)** - AI-assisted development plan
   - 125 atomic tasks for AI agents
   - TDD with mock API approach
   - Task dependencies and parallelization
   - 3-4x faster timeline vs traditional approach
+- **[tdd-mock-api-guide.md](./tdd-mock-api-guide.md)** - Test-Driven Development guide
+  - TDD principles and workflow (Red-Green-Refactor)
+  - Mock API setup (JSON Server and MSW)
+  - Complete examples with tests
+  - Integration testing strategies
+  - CI/CD configuration
 
 ### Technical Documentation
 - **[architecture.md](./architecture.md)** - System architecture, components, data flows, and Redis caching
