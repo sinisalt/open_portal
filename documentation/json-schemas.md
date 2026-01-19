@@ -4,6 +4,11 @@
 
 This document provides JSON Schema definitions for the core configuration objects used in the OpenPortal platform.
 
+**Related Documentation:**
+- [Action Catalog](./action-catalog.md) - Comprehensive documentation of all standard actions
+- [Widget Taxonomy](./widget-taxonomy.md) - Widget specifications
+- [API Specification](./api-specification.md) - Backend API contracts
+
 ---
 
 ## Core Schema: PageConfig
@@ -217,60 +222,97 @@ Complete page configuration including widgets, datasources, and actions.
       "properties": {
         "id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Unique action identifier"
         },
         "kind": {
           "type": "string",
           "enum": [
-            "executeAction",
-            "apiCall",
             "navigate",
+            "goBack",
+            "reload",
+            "apiCall",
+            "executeAction",
+            "setState",
+            "resetState",
+            "mergeState",
+            "showToast",
+            "showDialog",
+            "closeDialog",
+            "submitForm",
+            "validateForm",
+            "resetForm",
+            "refreshDatasource",
+            "invalidateCache",
             "openModal",
             "closeModal",
-            "setState",
-            "showToast"
-          ]
+            "downloadFile",
+            "uploadFile",
+            "log",
+            "delay",
+            "conditional",
+            "sequence",
+            "parallel",
+            "forEach"
+          ],
+          "description": "Action type from the standard catalog"
         },
-        "executeAction": {
+        "params": {
+          "type": "object",
+          "description": "Action-specific parameters (supports template interpolation)"
+        },
+        "condition": {
+          "type": "string",
+          "description": "Conditional execution template (e.g., {{user.isAdmin}})"
+        },
+        "onSuccess": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          },
+          "description": "Actions to execute on success"
+        },
+        "onError": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          },
+          "description": "Actions to execute on error"
+        },
+        "loading": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show loading indicator during execution"
+        },
+        "timeout": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Execution timeout in milliseconds"
+        },
+        "retry": {
           "type": "object",
           "properties": {
-            "endpoint": {
+            "attempts": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "default": 3
+            },
+            "delay": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Delay between retries in milliseconds"
+            },
+            "backoff": {
               "type": "string",
-              "default": "/ui/actions/execute"
-            },
-            "actionId": {
-              "type": "string"
+              "enum": ["linear", "exponential"],
+              "default": "exponential"
             }
-          }
-        },
-        "navigate": {
-          "type": "object",
-          "required": ["to"],
-          "properties": {
-            "to": {
-              "type": "string"
-            },
-            "replace": {
-              "type": "boolean",
-              "default": false
-            }
-          }
-        },
-        "showToast": {
-          "type": "object",
-          "required": ["message"],
-          "properties": {
-            "message": {
-              "type": "string"
-            },
-            "variant": {
-              "type": "string",
-              "enum": ["success", "error", "warning", "info"],
-              "default": "info"
-            }
-          }
+          },
+          "description": "Retry configuration for failed actions"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "EventHandler": {
       "type": "object",
@@ -2529,41 +2571,60 @@ except jsonschema.exceptions.ValidationError as err:
   "actions": [
     {
       "id": "submit-registration",
-      "kind": "apiCall",
-      "apiCall": {
-        "method": "POST",
-        "url": "/api/users/register",
-        "body": "{{form}}"
+      "kind": "sequence",
+      "params": {
+        "actions": [
+          {
+            "id": "validate-form",
+            "kind": "validateForm",
+            "params": {
+              "formId": "registration-form"
+            }
+          },
+          {
+            "id": "call-api",
+            "kind": "apiCall",
+            "params": {
+              "method": "POST",
+              "url": "/api/users/register",
+              "body": "{{formData}}"
+            },
+            "loading": true,
+            "timeout": 10000
+          },
+          {
+            "id": "show-success",
+            "kind": "showToast",
+            "params": {
+              "variant": "success",
+              "message": "Registration successful! Welcome aboard."
+            }
+          },
+          {
+            "id": "navigate-dashboard",
+            "kind": "navigate",
+            "params": {
+              "to": "/dashboard"
+            }
+          }
+        ]
       },
-      "onSuccess": ["show-success-toast", "navigate-to-dashboard"],
-      "onError": ["show-error-toast"]
-    },
-    {
-      "id": "show-success-toast",
-      "kind": "showToast",
-      "showToast": {
-        "variant": "success",
-        "message": "Registration successful! Welcome aboard."
-      }
-    },
-    {
-      "id": "show-error-toast",
-      "kind": "showToast",
-      "showToast": {
-        "variant": "error",
-        "message": "Registration failed. Please try again."
-      }
-    },
-    {
-      "id": "navigate-to-dashboard",
-      "kind": "navigate",
-      "navigate": {
-        "to": "/dashboard"
-      }
+      "onError": [
+        {
+          "id": "show-error",
+          "kind": "showToast",
+          "params": {
+            "variant": "error",
+            "message": "Registration failed: {{error.message}}"
+          }
+        }
+      ]
     }
   ]
 }
 ```
+
+**Note:** For complete action specifications and examples, see [action-catalog.md](./action-catalog.md).
 
 ---
 
@@ -2586,13 +2647,22 @@ ajv validate -s page-config.schema.json -d dashboard-page.json
 
 ---
 
-**Version:** 2.0  
+**Version:** 2.1  
 **Last Updated:** January 2026  
-**Status:** Complete - Issue #002 Requirements Met
+**Status:** Complete - Issue #002 & #003 Requirements Met
 
 ## Changelog
 
-### Version 2.0 (January 2026)
+### Version 2.1 (January 2026 - Issue #003)
+- Enhanced Action schema with all 25+ standard actions from action catalog
+- Added action chaining support (sequence, parallel, forEach, conditional)
+- Added action lifecycle properties (onSuccess, onError, loading, timeout, retry)
+- Added template interpolation support for action parameters
+- Updated action examples to use new schema structure
+- Added cross-reference to action-catalog.md documentation
+- Improved action schema documentation and descriptions
+
+### Version 2.0 (January 2026 - Issue #002)
 - Added RouteConfig schema with examples
 - Added BootstrapConfig schema with AuthConfig, ThemeConfig, BrandingConfig, MenuConfig
 - Added comprehensive ValidationRules schema
