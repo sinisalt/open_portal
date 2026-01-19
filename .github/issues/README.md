@@ -251,10 +251,27 @@ You can convert these markdown files to GitHub issues using:
 
 ```bash
 # Using GitHub CLI (only numbered issue files)
+# Check if GitHub CLI is installed
+if ! command -v gh &> /dev/null; then
+  echo "Error: GitHub CLI (gh) is not installed. Please install it first."
+  exit 1
+fi
+
+# Create issues with error handling
 for file in .github/issues/[0-9][0-9][0-9]-*.md; do
+  if [ ! -f "$file" ]; then
+    echo "Warning: File not found: $file"
+    continue
+  fi
+  
   issue_num=$(basename "$file" | cut -d'-' -f1)
   issue_title=$(basename "$file" .md | cut -d'-' -f2- | tr '-' ' ' | sed 's/\b\(.\)/\u\1/g')
-  gh issue create --title "#${issue_num}: ${issue_title}" --body-file "$file"
+  
+  if gh issue create --title "#${issue_num}: ${issue_title}" --body-file "$file"; then
+    echo "Created issue #${issue_num}: ${issue_title}"
+  else
+    echo "Error: Failed to create issue for $file"
+  fi
 done
 ```
 
@@ -323,6 +340,15 @@ Track phase completion:
 **Total Issues Created:** 39
 **Total Detailed Issues:** 39
 **Estimated Total Effort:** 300+ person-days (parallelizable)
+
+**Note:** The 300+ person-days estimate is calculated by summing individual issue efforts:
+- Phase 0: ~17 days
+- Phase 1: ~95 days  
+- Phase 2: ~10 days (detailed issues)
+- Phase 3: ~20 days (detailed issues)
+- Phase 4: ~30 days
+- Phase 5: ~10 days
+Many tasks can be executed in parallel by different team members, significantly reducing calendar time.
 
 ## Contributing
 

@@ -125,9 +125,9 @@ CREATE TABLE menu_configs (
   role VARCHAR(100),
   config JSONB NOT NULL,
   created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW(),
-  INDEX idx_menu_tenant_role (tenant_id, role)
+  updated_at TIMESTAMP DEFAULT NOW()
 );
+CREATE INDEX idx_menu_tenant_role ON menu_configs(tenant_id, role);
 ```
 
 ## Dependencies
