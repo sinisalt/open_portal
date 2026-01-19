@@ -250,9 +250,11 @@ Understanding issue dependencies is critical for proper task sequencing. Key dep
 You can convert these markdown files to GitHub issues using:
 
 ```bash
-# Using GitHub CLI
-for file in .github/issues/*.md; do
-  gh issue create --title "$(basename $file .md)" --body-file "$file"
+# Using GitHub CLI (only numbered issue files)
+for file in .github/issues/[0-9][0-9][0-9]-*.md; do
+  issue_num=$(basename "$file" | cut -d'-' -f1)
+  issue_title=$(basename "$file" .md | cut -d'-' -f2- | tr '-' ' ' | sed 's/\b\(.\)/\u\1/g')
+  gh issue create --title "#${issue_num}: ${issue_title}" --body-file "$file"
 done
 ```
 
@@ -343,6 +345,6 @@ For questions about:
 ---
 
 **Version:** 1.0  
-**Last Updated:** January 2026  
+**Last Updated:** January 2025  
 **Status:** Planning Phase  
 **Total Issues:** 39

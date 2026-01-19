@@ -34,14 +34,14 @@ Implement advanced form capabilities including conditional field visibility, cro
 ## Cross-field Validation
 ```typescript
 {
-  type: "DatePicker",
+  type: "TextInput",
   props: { label: "End Date" },
   validation: {
     custom: (value, formData) => {
       if (value < formData.startDate) {
         return "End date must be after start date";
       }
-      return true;
+      return null; // null indicates no error
     }
   }
 }
