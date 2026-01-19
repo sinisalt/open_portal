@@ -71,10 +71,12 @@ When creating or modifying widgets:
 ### Widget Categories
 
 The platform uses these widget categories (see `/documentation/widget-taxonomy.md`):
-- **Layout & Structure**: Page, Container, Grid, Tabs
-- **Form Inputs**: TextInput, Select, Checkbox, DatePicker
-- **Data Display**: Table, KPI
-- **Dialogs & Feedback**: Modal, Toast
+- **Layout & Structure** (4 widgets): Page, Section, Grid, Card
+- **Form Inputs** (4 widgets): TextInput, Select, DatePicker, Checkbox
+- **Data Display** (2 widgets): Table, KPI
+- **Dialogs & Feedback** (2 widgets): Modal, Toast
+
+**Total: 12 Core Widgets**
 
 ## File Organization
 
@@ -244,5 +246,5 @@ Before submitting changes:
 
 ---
 
-*Last Updated: January 2026*  
+*Last Updated: January 19, 2026*  
 *For questions or clarifications, refer to `/documentation/` or project maintainers.*
