@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0",
+  "apiBaseUrl": "https://api.example.com",
+  "authConfig": {
+    "type": "oauth2",
+    "loginUrl": "/auth/login",
+    "logoutUrl": "/auth/logout",
+    "tokenEndpoint": "/auth/token",
+    "refreshTokenEnabled": true,
+    "sessionTimeout": 3600
+  },
+  "theme": {
+    "primaryColor": "#1976D2",
+    "secondaryColor": "#424242",
+    "mode": "light",
+    "fontFamily": "Inter, sans-serif"
+  },
+  "branding": {
+    "tenantId": "acme-corp",
+    "companyName": "ACME Corporation",
+    "logoUrl": "/assets/logo.png",
+    "faviconUrl": "/assets/favicon.ico",
+    "colors": {
+      "primary": "#FF6B6B",
+      "secondary": "#4ECDC4",
+      "accent": "#FFE66D"
+    }
+  },
+  "menu": {
+    "items": [
+      {
+        "id": "dashboard",
+        "label": "Dashboard",
+        "icon": "dashboard",
+        "path": "/",
+        "order": 1
+      },
+      {
+        "id": "users",
+        "label": "Users",
+        "icon": "people",
+        "path": "/users",
+        "permissions": ["users.view"],
+        "order": 2
+      }
+    ],
+    "position": "left",
+    "collapsible": true
+  },
+  "defaultPageId": "dashboard",
+  "locale": "en-US",
+  "timezone": "America/New_York",
+  "features": {
+    "enableNotifications": true,
+    "enableDarkMode": true,
+    "enableExport": false
+  }
+}
