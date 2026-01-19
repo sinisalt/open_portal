@@ -117,7 +117,8 @@ Authorization: Bearer <accessToken>
   "tenant": {
     "id": "tenant456",
     "name": "Acme Corp",
-    "domain": "acme.example.com"
+    "domain": "acme.example.com",
+    "brandingVersion": "1.2.0"
   },
   "permissions": [
     "dashboard.view",
@@ -144,10 +145,163 @@ Authorization: Bearer <accessToken>
   "defaultRoute": "/dashboard",
   "uiConfigVersion": "v1.2.3",
   "schemaVersion": "1.0",
+  "branding": {
+    "version": "1.2.0",
+    "url": "/ui/branding?tenantId=tenant456"
+  },
   "featureFlags": {
     "newDashboard": true,
     "betaFeatures": false
   }
+}
+```
+
+## Branding API
+
+### GET /ui/branding
+Get tenant-specific branding configuration (logos, colors, typography, theme).
+
+**Query Parameters:**
+- `tenantId` (required): The tenant identifier
+
+**Headers:**
+```
+Authorization: Bearer <accessToken>
+```
+
+**Response:**
+```json
+{
+  "tenantId": "tenant456",
+  "version": "1.2.0",
+  "lastUpdated": "2026-01-15T10:30:00Z",
+  "branding": {
+    "logos": {
+      "primary": {
+        "url": "https://cdn.example.com/tenants/acme/logo-primary.svg",
+        "altText": "Acme Corporation",
+        "width": 180,
+        "height": 50
+      },
+      "login": {
+        "url": "https://cdn.example.com/tenants/acme/logo-login.svg",
+        "altText": "Acme Corporation",
+        "width": 300,
+        "height": 100
+      },
+      "favicon": {
+        "url": "https://cdn.example.com/tenants/acme/favicon.ico"
+      },
+      "mobileIcons": {
+        "icon192": "https://cdn.example.com/tenants/acme/icon-192.png",
+        "icon512": "https://cdn.example.com/tenants/acme/icon-512.png"
+      }
+    },
+    "colors": {
+      "primary": {
+        "50": "#e3f2fd",
+        "500": "#2196f3",
+        "900": "#0d47a1"
+      },
+      "secondary": {
+        "50": "#fce4ec",
+        "500": "#e91e63",
+        "900": "#880e4f"
+      },
+      "success": "#4caf50",
+      "warning": "#ff9800",
+      "error": "#f44336",
+      "info": "#2196f3",
+      "background": {
+        "default": "#ffffff",
+        "paper": "#f5f5f5"
+      },
+      "text": {
+        "primary": "#212121",
+        "secondary": "#757575"
+      }
+    },
+    "typography": {
+      "fontFamily": {
+        "primary": "'Roboto', sans-serif",
+        "secondary": "'Open Sans', sans-serif"
+      },
+      "googleFonts": [
+        {
+          "name": "Roboto",
+          "weights": [300, 400, 500, 700]
+        },
+        {
+          "name": "Open Sans",
+          "weights": [400, 600]
+        }
+      ],
+      "sizes": {
+        "h1": "2.5rem",
+        "h2": "2rem",
+        "body1": "1rem",
+        "body2": "0.875rem"
+      }
+    },
+    "spacing": {
+      "unit": 8,
+      "scale": [0, 4, 8, 16, 24, 32, 48, 64]
+    },
+    "borderRadius": {
+      "small": "4px",
+      "medium": "8px",
+      "large": "16px"
+    }
+  },
+  "cacheControl": "public, max-age=3600",
+  "etag": "W/\"1.2.0-tenant456\""
+}
+```
+
+**Response (Default Branding - No Custom Tenant Branding):**
+```json
+{
+  "tenantId": "default",
+  "version": "1.0.0",
+  "isDefault": true,
+  "branding": {
+    "logos": {
+      "primary": {
+        "url": "https://cdn.example.com/default/logo-primary.svg",
+        "altText": "OpenPortal",
+        "width": 180,
+        "height": 50
+      },
+      "login": {
+        "url": "https://cdn.example.com/default/logo-login.svg",
+        "altText": "OpenPortal",
+        "width": 300,
+        "height": 100
+      }
+    },
+    "colors": {
+      "primary": {
+        "500": "#1976d2"
+      }
+    }
+  }
+}
+```
+
+**Cache Headers:**
+```
+ETag: W/"1.2.0-tenant456"
+Cache-Control: public, max-age=3600
+```
+
+**Error Response (Tenant Not Found - Fallback to Default):**
+```json
+{
+  "tenantId": "default",
+  "version": "1.0.0",
+  "isDefault": true,
+  "message": "Tenant branding not found, using default",
+  "branding": { /* default branding */ }
 }
 ```
 

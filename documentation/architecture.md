@@ -126,13 +126,39 @@ Builds route/page configuration based on:
 - Tenant-specific overrides
 - Version management
 
-#### 7. Observability
+#### 7. Branding Service
+- Tenant-specific branding configurations
+- Logo management and delivery
+- Theme customization (colors, fonts, spacing)
+- Asset hosting and CDN integration
+- Branding version control and caching
+- Fallback to default branding
+
+#### 8. Observability
 - Audit trail of actions
 - Config version tracking
 - Error logging
 - Performance metrics
 
 ## Data Flow
+
+### Branding Load Flow
+
+1. **User authenticates** (login with credentials or OAuth)
+2. **Backend identifies tenant** from login/domain/session
+3. **Bootstrap API called** → `/ui/bootstrap`
+   - Returns user info, permissions, menu
+   - Includes tenant info with `brandingVersion`
+4. **Frontend loads branding** → `/ui/branding?tenantId={id}`
+   - Check localStorage cache with version/ETag
+   - Fetch if not cached or version mismatch
+5. **Apply branding to application**:
+   - Inject theme (colors, typography, spacing)
+   - Load tenant logos (header, login)
+   - Apply custom fonts (Google Fonts or custom)
+   - Update favicon and PWA icons
+6. **Cache branding configuration** for subsequent sessions
+7. **Fallback to default** if tenant branding unavailable
 
 ### Page Load Flow
 
@@ -143,7 +169,7 @@ Builds route/page configuration based on:
    - Check cache with ETag
    - Fetch if not cached or stale
 5. **Execute datasources** based on fetch policies
-6. **Render page** with widgets and data
+6. **Render page** with widgets and data (styled with tenant theme)
 7. **Subscribe to real-time updates** (if configured)
 
 ### Action Execution Flow
@@ -189,6 +215,7 @@ Builds route/page configuration based on:
 - Text labels (i18n keys)
 - Theme tokens
 - Datasource definitions
+- **Branding configuration** (logos, colors, typography, spacing)
 
 #### Dynamic (Refreshed)
 - Table rows and data
