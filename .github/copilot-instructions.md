@@ -28,6 +28,40 @@ npm test          # Run tests in watch mode
 npm run build     # Production build
 ```
 
+## Development Workflow
+
+### Issue-Based Development
+
+All development work follows an **issue-driven approach**:
+
+1. **Issue Files**: Development tasks are defined in `ISSUE-XXX-*.md` files in the project root
+2. **Step-by-Step Execution**: Each issue contains detailed development steps to follow
+3. **Completion Tracking**: When an issue is completed, create an `ISSUE-XXX-COMPLETION.md` file documenting:
+   - What was delivered
+   - Acceptance criteria met
+   - Files created/modified
+   - Testing performed
+   - Any relevant notes or decisions
+
+4. **Roadmap Updates**: After completing an issue, **always update** `/documentation/roadmap.md`:
+   - Mark completed tasks with `[x]` checkboxes
+   - Update phase progress
+   - Document any deviations or learnings
+
+### Development Process
+
+1. Read the issue file thoroughly
+2. Follow the defined steps in order
+3. Test each deliverable
+4. Create completion documentation
+5. Update the roadmap with completed tasks
+6. Commit changes with reference to issue number
+
+**Example:**
+- Issue file: `ISSUE-002-CONFIGURATION-SCHEMA.md`
+- Completion file: `ISSUE-002-COMPLETION.md`
+- Roadmap update: Mark "Configuration schema draft" as `[x]` in Phase 0
+
 ## Coding Standards
 
 ### React Components
@@ -95,8 +129,12 @@ The platform has a comprehensive widget catalog (see `/documentation/widget-cata
   api-specification.md # Backend API contracts
   json-schemas.md      # Configuration schemas
   getting-started.md   # Project introduction
+  roadmap.md          # Implementation roadmap with progress tracking
 /public               # Static assets
 /.github              # GitHub configurations
+  copilot-instructions.md  # This file
+/ISSUE-*.md           # Active issue definitions (development tasks)
+/ISSUE-*-COMPLETION.md     # Completed issue documentation
 ```
 
 **Future structure** (as implementation progresses):
@@ -231,6 +269,8 @@ Before submitting changes:
 - [ ] Documentation updated
 - [ ] No business logic in frontend components
 - [ ] Performance optimized (lazy loading, memoization)
+- [ ] Issue completion file created (if applicable)
+- [ ] Roadmap updated with completed tasks
 
 ## Common Pitfalls to Avoid
 
@@ -248,6 +288,8 @@ Before submitting changes:
 - Architecture Guide: `/documentation/architecture.md`
 - API Contracts: `/documentation/api-specification.md`
 - Getting Started: `/documentation/getting-started.md`
+- Implementation Roadmap: `/documentation/roadmap.md`
+- Issue Files: `ISSUE-*.md` in project root
 
 ## Best Practices for OpenPortal
 
