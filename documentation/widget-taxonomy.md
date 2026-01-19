@@ -9,7 +9,7 @@
 
 ## Overview
 
-This document defines the initial widget taxonomy for the OpenPortal platform, focusing on the 10-15 core widgets required for the Minimum Viable Product (MVP). Each widget is a reusable, configurable component with a stable contract defined through TypeScript interfaces.
+This document defines the initial widget taxonomy for the OpenPortal platform, focusing on the 12 core widgets required for the Minimum Viable Product (MVP). Each widget is a reusable, configurable component with a stable contract defined through TypeScript interfaces.
 
 The widget taxonomy establishes the foundation for:
 - Widget registry implementation
@@ -1201,28 +1201,11 @@ Each widget must meet comprehensive testing standards to ensure reliability, acc
 
 This widget taxonomy aligns with other OpenPortal documentation:
 
-### Architecture Documentation
-- **[architecture.md](./architecture.md)** - Widget Registry implementation details
-- **[architecture.md](./architecture.md)** - State Management and data binding
-- **[architecture.md](./architecture.md)** - Event system and Action Engine
-
-### API Specification
-- **[api-specification.md](./api-specification.md)** - Page Configuration API structure
-- **[api-specification.md](./api-specification.md)** - Widget configuration format
-- **[api-specification.md](./api-specification.md)** - Datasource bindings
-
-### JSON Schemas
-- **[json-schemas.md](./json-schemas.md)** - Widget configuration JSON Schema
-- **[json-schemas.md](./json-schemas.md)** - Props validation schemas
-- **[json-schemas.md](./json-schemas.md)** - Event and action schemas
-
-### Widget Catalog
-- **[widget-catalog.md](./widget-catalog.md)** - Complete widget reference (30+ widgets)
-- **[widget-catalog.md](./widget-catalog.md)** - Extended widget features and variants
-
-### Roadmap
-- **[roadmap.md](./roadmap.md)** - Phase 1: Widget implementation schedule
-- **[roadmap.md](./roadmap.md)** - Phase 0: Widget taxonomy establishment
+- **[Architecture](./architecture.md)** - Widget Registry implementation, State Management, data binding, Event system, and Action Engine
+- **[API Specification](./api-specification.md)** - Page Configuration API structure, widget configuration format, and datasource bindings
+- **[JSON Schemas](./json-schemas.md)** - Widget configuration JSON Schema, props validation, and event/action schemas
+- **[Widget Catalog](./widget-catalog.md)** - Complete widget reference (30+ widgets) with extended features and variants
+- **[Roadmap](./roadmap.md)** - Phase 0 widget taxonomy establishment and Phase 1 widget implementation schedule
 
 ---
 
