@@ -1,0 +1,27 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "pageId": "dashboard",
+      "exact": true,
+      "title": "Dashboard",
+      "requiresAuth": true
+    },
+    {
+      "path": "/users",
+      "pageId": "user-list",
+      "title": "Users",
+      "requiresAuth": true,
+      "permissions": ["users.view"]
+    },
+    {
+      "path": "/users/:userId",
+      "pageId": "user-detail",
+      "title": "User Details",
+      "requiresAuth": true,
+      "permissions": ["users.view"]
+    }
+  ],
+  "notFoundPageId": "not-found",
+  "errorPageId": "error"
+}
