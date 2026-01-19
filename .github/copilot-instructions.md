@@ -70,27 +70,40 @@ When creating or modifying widgets:
 
 ### Widget Categories
 
-The platform uses these widget categories (see `/documentation/widget-taxonomy.md`):
+The platform has a comprehensive widget catalog (see `/documentation/widget-catalog.md`) with 30+ widgets, but the **MVP focuses on 12 core widgets** (see `/documentation/widget-taxonomy.md`):
+
+**MVP Core Widgets (12):**
 - **Layout & Structure** (4 widgets): Page, Section, Grid, Card
 - **Form Inputs** (4 widgets): TextInput, Select, DatePicker, Checkbox
 - **Data Display** (2 widgets): Table, KPI
 - **Dialogs & Feedback** (2 widgets): Modal, Toast
 
-**Total: 12 Core Widgets**
+**Extended Widget Catalog** includes additional widgets like Tabs, Toolbar, Textarea, MultiSelect, DateRangePicker, RadioGroup, Switch, FileUpload, ImagePicker, Chart, Timeline, Badge, Breadcrumbs, Pagination, Drawer, ConfirmDialog, Alert, Spinner, and ProgressBar.
 
 ## File Organization
 
 ```
-/src                    # Source code
-  /widgets             # Widget library (future)
-  /core                # Core rendering engine (future)
-  /state               # State management (future)
+/src                    # Source code (Create React App structure)
+  App.js               # Main application component
+  App.test.js          # App tests
+  index.js             # Application entry point
+  setupTests.js        # Test configuration
 /documentation         # Comprehensive project docs
   architecture.md      # System architecture
-  widget-catalog.md    # Widget specifications
+  widget-catalog.md    # Complete widget specifications (30+ widgets)
+  widget-taxonomy.md   # MVP core widgets (12 widgets)
   api-specification.md # Backend API contracts
   json-schemas.md      # Configuration schemas
+  getting-started.md   # Project introduction
 /public               # Static assets
+/.github              # GitHub configurations
+```
+
+**Future structure** (as implementation progresses):
+```
+/src/widgets          # Widget library components
+/src/core             # Core rendering engine
+/src/state            # State management
 ```
 
 ## Documentation
@@ -202,8 +215,10 @@ const datasources = {
 - **Current Phase**: Planning & Specification ✅
 - **Next Phase**: Phase 0 - Discovery & Foundation
 - **Architecture**: Fully documented in `/documentation/`
-- **Widget Catalog**: 30+ widgets specified
-- **Implementation**: Basic Create React App scaffold in place
+- **Widget Specifications**: 
+  - 12 core MVP widgets defined in `/documentation/widget-taxonomy.md`
+  - 30+ widgets in full catalog in `/documentation/widget-catalog.md`
+- **Implementation**: Basic Create React App scaffold in place, widget implementation pending
 
 ## Code Review Checklist
 
