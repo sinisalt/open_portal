@@ -11,7 +11,7 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 **Objective:** Establish technical foundations and make key architectural decisions.
 
 ### Deliverables
-- [ ] Widget taxonomy v1 (10-15 core widgets)
+- [x] Widget taxonomy v1 (10-15 core widgets)
 - [ ] Configuration schema draft (JSON Schema)
 - [ ] Action catalog (10-20 standard actions)
 - [ ] Technical stack finalization

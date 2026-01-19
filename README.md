@@ -18,6 +18,7 @@ Complete project documentation is available in the [`/documentation`](./document
 - **[Project Overview](./documentation/project-overview.md)** - Vision, goals, and status
 - **[Architecture](./documentation/architecture.md)** - Technical architecture
 - **[API Specification](./documentation/api-specification.md)** - Complete API docs
+- **[Widget Taxonomy](./documentation/widget-taxonomy.md)** - Core widget taxonomy (MVP)
 - **[Widget Catalog](./documentation/widget-catalog.md)** - All available widgets
 - **[JSON Schemas](./documentation/json-schemas.md)** - Configuration schemas
 - **[Roadmap](./documentation/roadmap.md)** - Implementation plan
