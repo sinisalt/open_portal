@@ -43,8 +43,11 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - [ ] Login page implementation
 - [ ] OAuth integration
 - [ ] Token management (storage, refresh)
-- [ ] Bootstrap API integration
+- [ ] Bootstrap API integration (including branding reference)
 - [ ] User context management
+- [ ] Tenant identification and context
+- [ ] Basic branding loading (logos, colors)
+- [ ] Default branding configuration
 
 #### 1.2 Routing & Page Loading (Week 4-5)
 - [ ] Route resolver implementation
@@ -101,10 +104,13 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 
 #### 1.1 Core APIs (Week 3-5)
 - [ ] Authentication endpoints
-- [ ] `/ui/bootstrap` implementation
+- [ ] `/ui/bootstrap` implementation (with tenant and branding info)
+- [ ] `/ui/branding` endpoint implementation
 - [ ] `/ui/routes/resolve` implementation
 - [ ] `/ui/pages/:pageId` implementation
 - [ ] Config storage schema
+- [ ] Branding storage schema (tenant_branding table)
+- [ ] Default branding configuration
 
 #### 1.2 Actions & Validation (Week 5-7)
 - [ ] `/ui/actions/execute` endpoint

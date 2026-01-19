@@ -15,6 +15,8 @@ Welcome to the OpenPortal documentation! This folder contains all the planning, 
 ### Technical Documentation
 - **[architecture.md](./architecture.md)** - System architecture, components, and data flows
 - **[api-specification.md](./api-specification.md)** - Complete API endpoint definitions
+- **[branding.md](./branding.md)** - Multi-tenant branding and theme system
+- **[branding-implementation-plan.md](./branding-implementation-plan.md)** - Step-by-step branding implementation plan
 - **[widget-catalog.md](./widget-catalog.md)** - Widget library with props, events, and bindings
 - **[json-schemas.md](./json-schemas.md)** - JSON Schema definitions and examples
 
@@ -38,14 +40,16 @@ Focus on API and configuration:
 1. [getting-started.md](./getting-started.md)
 2. [api-specification.md](./api-specification.md)
 3. [architecture.md](./architecture.md) - Backend Architecture section
-4. [json-schemas.md](./json-schemas.md)
+4. [branding.md](./branding.md) - Branding API and configuration
+5. [json-schemas.md](./json-schemas.md)
 
 ### 🏗️ System Architects
 Comprehensive technical overview:
 1. [architecture.md](./architecture.md)
 2. [api-specification.md](./api-specification.md)
-3. [widget-catalog.md](./widget-catalog.md)
-4. [roadmap.md](./roadmap.md)
+3. [branding.md](./branding.md)
+4. [widget-catalog.md](./widget-catalog.md)
+5. [roadmap.md](./roadmap.md)
 
 ## 📖 What is OpenPortal?
 
