@@ -1,5 +1,17 @@
 # Implementation Roadmap
 
+## Development Workflow
+
+**Issue-Driven Development:** This roadmap is implemented through structured issue files (`ISSUE-XXX-*.md`) in the project root. Each issue contains detailed development steps. When completing an issue:
+1. Follow the steps defined in the issue file
+2. Create an `ISSUE-XXX-COMPLETION.md` file documenting deliverables
+3. **Update this roadmap** by marking completed tasks with `[x]`
+4. Commit changes with issue reference
+
+**Progress Tracking:** All checkboxes `[ ]` in this roadmap should be updated to `[x]` as tasks are completed. This ensures the roadmap reflects the actual project status.
+
+---
+
 ## Project Phases
 
 This document outlines the phased approach to implementing the OpenPortal platform, from planning through production deployment.
@@ -11,8 +23,8 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 **Objective:** Establish technical foundations and make key architectural decisions.
 
 ### Deliverables
-- [x] Widget taxonomy v1 (10-15 core widgets)
-- [ ] Configuration schema draft (JSON Schema)
+- [x] Widget taxonomy v1 (10-15 core widgets) - **Completed via ISSUE-001**
+- [x] Configuration schema draft (JSON Schema) - **Completed via ISSUE-002**
 - [ ] Action catalog (10-20 standard actions)
 - [ ] Technical stack finalization
 - [ ] Development environment setup
