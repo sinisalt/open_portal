@@ -27,7 +27,7 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - [x] Configuration schema draft (JSON Schema) - **Completed via ISSUE-002**
 - [x] Action catalog (10-20 standard actions) - **Completed via ISSUE-003**
 - [x] Technical stack finalization - **Completed via ISSUE-004**
-- [ ] Development environment setup
+- [x] Development environment setup - **Completed via ISSUE-005**
 - [ ] Project repository structure
 
 ### Key Decisions

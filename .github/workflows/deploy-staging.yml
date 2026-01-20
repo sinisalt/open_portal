@@ -1,0 +1,95 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy to Staging
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://staging.openportal.example.com
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test -- --coverage --watchAll=false
+
+      - name: Build application
+        run: npm run build
+        env:
+          CI: true
+          REACT_APP_API_URL: ${{ secrets.STAGING_API_URL }}
+          REACT_APP_AUTH_ENABLED: true
+
+      - name: Build Docker image
+        run: |
+          docker build -t openportal-frontend:staging .
+          docker tag openportal-frontend:staging openportal-frontend:${{ github.sha }}
+
+      # Placeholder for actual deployment steps
+      # These would typically push to a container registry and deploy to cloud infrastructure
+      
+      # Example: Push to Docker registry
+      # - name: Login to Docker registry
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: ${{ secrets.DOCKER_REGISTRY }}
+      #     username: ${{ secrets.DOCKER_USERNAME }}
+      #     password: ${{ secrets.DOCKER_PASSWORD }}
+      #
+      # - name: Push Docker image
+      #   run: |
+      #     docker push openportal-frontend:staging
+      #     docker push openportal-frontend:${{ github.sha }}
+      
+      # Example: Deploy to cloud platform
+      # - name: Deploy to staging
+      #   run: |
+      #     # Deployment commands specific to your cloud provider
+      #     # E.g., kubectl, AWS CLI, Azure CLI, etc.
+
+      - name: Create deployment summary
+        run: |
+          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment:** Staging" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build artifacts:** Docker image \`openportal-frontend:staging\`" >> $GITHUB_STEP_SUMMARY
+
+  # Rollback capability
+  rollback:
+    name: Rollback Deployment
+    runs-on: ubuntu-latest
+    if: failure()
+    needs: build-and-deploy
+    steps:
+      - name: Rollback to previous version
+        run: |
+          echo "🔄 Rolling back deployment to previous stable version..."
+          # Add rollback commands here
+          # This would typically:
+          # 1. Identify the previous stable deployment
+          # 2. Redeploy that version
+          # 3. Notify the team of the rollback
+
+      - name: Notify team of rollback
+        run: |
+          echo "⚠️ Deployment failed and was rolled back"
+          # Add notification logic (Slack, email, etc.)
