@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
+import OAuthCallback from './components/OAuthCallback';
 import { useAuth } from './hooks/useAuth';
 import './App.css';
 
@@ -63,6 +64,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/auth/callback" element={<OAuthCallback />} />
         <Route
           path="/"
           element={

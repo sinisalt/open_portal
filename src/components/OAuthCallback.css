@@ -1,0 +1,156 @@
+/**
+ * OAuth Callback Component Styles
+ *
+ * Provides a clean, centered loading/success/error display
+ * for the OAuth callback flow.
+ */
+
+.oauth-callback-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem;
+}
+
+.oauth-callback-card {
+  background: white;
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.oauth-callback-card h2 {
+  margin: 1.5rem 0 1rem;
+  color: #1f2937;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.oauth-callback-card p {
+  color: #6b7280;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+}
+
+/* Spinner animation */
+.oauth-callback-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Success icon */
+.oauth-callback-success {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  animation: fadeInScale 0.5s ease-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Error icon */
+.oauth-callback-error {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  animation: shake 0.5s ease-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+.error-message {
+  color: #dc2626;
+  font-weight: 500;
+  margin: 1rem 0;
+}
+
+.error-hint {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .oauth-callback-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .oauth-callback-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .oauth-callback-card p {
+    font-size: 0.875rem;
+  }
+
+  .spinner,
+  .oauth-callback-success svg,
+  .oauth-callback-error svg {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .spinner,
+  .oauth-callback-success,
+  .oauth-callback-error {
+    animation: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .oauth-callback-card {
+    border: 2px solid #000;
+  }
+
+  .spinner {
+    border-width: 5px;
+  }
+}
