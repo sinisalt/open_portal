@@ -11,7 +11,7 @@ export const Route = createFileRoute('/login')({
   beforeLoad: async ({ search }) => {
     // If already authenticated, redirect to home or intended destination
     if (tokenManager.isAuthenticated()) {
-      const redirectTo = (search as LoginSearch)?.redirect || '/';
+      const redirectTo = search?.redirect || '/';
       throw redirect({ to: redirectTo });
     }
   },
