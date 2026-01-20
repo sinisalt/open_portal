@@ -4,7 +4,7 @@
  * Provides authentication state and methods to components
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import * as authService from '../services/authService';
 
 export function useAuth() {

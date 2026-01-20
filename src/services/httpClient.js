@@ -7,8 +7,8 @@
  * - Request queuing during refresh
  */
 
-import * as tokenManager from './tokenManager';
 import * as authService from './authService';
+import * as tokenManager from './tokenManager';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/v1';
 
@@ -89,7 +89,7 @@ export async function httpClient(url, options = {}) {
     } catch (error) {
       // If refresh fails, continue with existing token (might still work)
       // Only log in development
-      if (import.meta.env.MODE !== 'production') {
+      if (env.MODE !== 'production') {
         console.warn(
           `Proactive token refresh failed before request to ${fullUrl}. Continuing with existing access token.`,
           error

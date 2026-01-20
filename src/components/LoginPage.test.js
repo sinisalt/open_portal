@@ -2,12 +2,12 @@
  * LoginPage Component Tests
  */
 
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { BrowserRouter, useNavigate, useLocation } from 'react-router-dom';
-import LoginPage from './LoginPage';
+import { BrowserRouter, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import * as authService from '../services/authService';
+import LoginPage from './LoginPage';
 
 // Mock dependencies
 jest.mock('react-router-dom', () => ({

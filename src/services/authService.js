@@ -9,8 +9,9 @@
  */
 
 import * as tokenManager from './tokenManager';
+import { env } from '../config/env';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/v1';
+const API_BASE_URL = env.VITE_API_URL || 'http://localhost:3001/v1';
 
 /**
  * Login with username/email and password

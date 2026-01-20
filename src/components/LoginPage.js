@@ -9,8 +9,8 @@
  * - Deep link preservation
  */
 
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import * as authService from '../services/authService';
 import './LoginPage.css';
