@@ -34,12 +34,18 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - Actions gateway vs direct endpoints → **✅ Gateway**
 - Realtime: WebSocket vs SSE → **✅ WebSocket (Native API)**
 - Caching policy (ETag, TTL defaults) → **✅ ETag-based with Redis**
-- State management library → **✅ React Context API + Hooks**
-- UI component library → **✅ Custom Widget Library**
-- Build tool → **✅ Create React App 5.0.1**
+- State management library → **✅ TanStack Store + React Context (revised)** ⚠️ Updated in Phase 0.5
+- UI component library → **✅ shadcn/ui + Radix UI (revised)** ⚠️ Updated in Phase 0.5
+- Build tool → **✅ Vite 6 (revised)** ⚠️ Updated in Phase 0.5
+- Language → **✅ TypeScript 5 strict mode (revised)** ⚠️ Updated in Phase 0.5
+- Routing → **✅ TanStack Router v1.132 (revised)** ⚠️ Updated in Phase 0.5
+- Authentication → **✅ Azure MSAL + Custom OAuth (dual)** ⚠️ Updated in Phase 0.5
 - Backend runtime → **✅ Node.js 18+ LTS (recommended)**
 - Database → **✅ PostgreSQL 14+ (recommended)**
-- Testing → **✅ Jest + React Testing Library + Playwright**
+- Testing → **✅ Vitest + Playwright (revised)** ⚠️ Updated in Phase 0.5
+- Code Quality → **✅ BiomeJS Ultracite preset (revised)** ⚠️ Updated in Phase 0.5
+
+**Note:** Technology stack revised in ADR-012. See Phase 0.5 for migration details.
 
 ### Success Criteria
 - Team alignment on architecture
@@ -49,7 +55,74 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 
 ---
 
-## Phase 1: Core Platform (MVP Renderer) (Weeks 3-10)
+## Phase 0.5: Technology Stack Migration (Weeks 2.5-6.5) 🚀
+
+**Objective:** Migrate to modern technology stack before continuing Phase 1 to avoid compounding technical debt.
+
+**Rationale:** After completing Phase 0 and 75% of Phase 1.1, we identified significant limitations in the original stack (CRA, JavaScript, custom widgets). Migrating now prevents exponential debt growth.
+
+**See:** ADR-012 for full rationale and decision details.
+
+### 0.5.1 Build System Migration (Week 2.5)
+- [ ] Remove Create React App - **ISSUE-010**
+- [ ] Install and configure Vite 6 - **ISSUE-010**
+- [ ] Configure TypeScript 5 strict mode - **ISSUE-010**
+- [ ] Set up BiomeJS with Ultracite preset - **ISSUE-010**
+- [ ] Verify existing JavaScript files work - **ISSUE-010**
+- [ ] Migrate environment variables to VITE_ prefix - **ISSUE-010**
+- [ ] Update scripts in package.json - **ISSUE-010**
+
+### 0.5.2 Styling & UI Foundation (Week 3-3.5)
+- [ ] Install Tailwind CSS v4.1 - **ISSUE-011**
+- [ ] Initialize shadcn/ui CLI - **ISSUE-011**
+- [ ] Create CSS variables and theme - **ISSUE-011**
+- [ ] Map branding tokens to Tailwind - **ISSUE-011**
+- [ ] Configure dark mode support - **ISSUE-011**
+
+### 0.5.3 Routing Migration (Week 3.5-4.5)
+- [ ] Remove React Router v6 - **ISSUE-012**
+- [ ] Install TanStack Router v1.132 - **ISSUE-012**
+- [ ] Set up file-based routing - **ISSUE-012**
+- [ ] Migrate login route - **ISSUE-012**
+- [ ] Migrate OAuth callback route - **ISSUE-012**
+- [ ] Create index/home route - **ISSUE-012**
+- [ ] Implement route guards - **ISSUE-012**
+- [ ] Update navigation in existing components - **ISSUE-012**
+
+### 0.5.4 Authentication Enhancement (Week 4.5-5.5)
+- [ ] Install @azure/msal-browser and @azure/msal-react - **ISSUE-013**
+- [ ] Create MSAL configuration - **ISSUE-013**
+- [ ] Install first shadcn components (Input, Button, Card, Label) - **ISSUE-013**
+- [ ] Build LoginPageMSAL.tsx (first TypeScript component) - **ISSUE-013**
+- [ ] Create useMsalAuth.ts hook - **ISSUE-013**
+- [ ] Extend token manager for MSAL tokens - **ISSUE-013**
+- [ ] Update HTTP client for dual auth support - **ISSUE-013**
+- [ ] Implement feature flag switching (VITE_AUTH_PROVIDER) - **ISSUE-013**
+- [ ] Test both auth systems independently - **ISSUE-013**
+
+### 0.5.5 Widget Architecture POC (Week 5.5-6.5)
+- [ ] Implement widget registry - **ISSUE-014**
+- [ ] Create widget type definitions - **ISSUE-014**
+- [ ] Create widget renderer component - **ISSUE-014**
+- [ ] Implement TextInputWidget (proof-of-concept) - **ISSUE-014**
+- [ ] Validate 3-layer architecture (Radix → shadcn → OpenPortal → Registry) - **ISSUE-014**
+- [ ] Build demo page - **ISSUE-014**
+- [ ] Write tests for registry and TextInputWidget - **ISSUE-014**
+
+### Success Criteria
+- ✅ Dev server starts in <1s (vs 10-30s with CRA)
+- ✅ HMR updates in <100ms (vs 1-3s)
+- ✅ TypeScript strict mode enabled for new files
+- ✅ Both auth systems work (custom OAuth + MSAL)
+- ✅ TextInputWidget renders from JSON configuration
+- ✅ All existing tests pass (41 auth tests)
+- ✅ Widget architecture validated
+
+**Total Effort:** ~21 days (4 weeks)
+
+---
+
+## Phase 1: Core Platform (MVP Renderer) (Weeks 7-14)
 
 **Objective:** Build the foundational rendering engine with minimal viable functionality.
 
@@ -396,22 +469,31 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - ✅ Development environment setup (ISSUE-005)
 - ✅ Project repository structure (ISSUE-006)
 
+### Phase 0.5: Technology Stack Migration - 🚀 **0% Complete** (NEW PHASE)
+- ⏳ Vite + TypeScript 5 + BiomeJS (ISSUE-010) - pending
+- ⏳ Tailwind CSS + shadcn/ui setup (ISSUE-011) - pending
+- ⏳ TanStack Router migration (ISSUE-012) - pending
+- ⏳ Azure MSAL parallel implementation (ISSUE-013) - pending
+- ⏳ Widget registry + TextInputWidget POC (ISSUE-014) - pending
+
+**Note:** Phase 0.5 inserted to migrate technology stack before Phase 1 continues. See ADR-012 for rationale.
+
 ### Phase 1.1: Authentication & Bootstrap - 🚀 **75% Complete**
 - ✅ Login page implementation (ISSUE-007)
 - ✅ OAuth integration (ISSUE-008)
 - ✅ Token management (ISSUE-009)
-- ⏳ Bootstrap API integration (pending)
-- ⏳ Tenant identification (pending)
-- ⏳ Branding system (pending)
+- ⏳ Bootstrap API integration (pending - deferred until after Phase 0.5)
+- ⏳ Tenant identification (pending - deferred until after Phase 0.5)
+- ⏳ Branding system (pending - deferred until after Phase 0.5)
 
 ### Phase 1.2: Routing & Page Loading - ⏳ **0% Complete**
-- Pending
+- Pending (resumes after Phase 0.5)
 
 ### Phase 1.3: Widget Registry & Core Widgets - ⏳ **0% Complete**
-- Pending
+- Pending (resumes after Phase 0.5)
 
 ---
 
-**Version:** 1.1
-**Last Updated:** January 20, 2026
-**Status:** Active Development - Phase 1
+**Version:** 2.0  
+**Last Updated:** January 20, 2026  
+**Status:** Active Development - Phase 0.5 (Technology Stack Migration)

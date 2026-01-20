@@ -1,11 +1,55 @@
 # ADR-003: UI Component Library
 
-**Status:** Accepted  
-**Date:** 2026-01-20  
+**Status:** Superseded by ADR-012  
+**Date:** 2026-01-20 (Original), 2026-01-20 (Revised)  
 **Deciders:** Development Team  
-**Issue:** #004 - Technical Stack Finalization
+**Issue:** #004 - Technical Stack Finalization  
+**Superseded By:** ADR-012 - Technology Stack Revision
 
-## Context
+## ⚠️ REVISION NOTICE
+
+**This ADR has been superseded by ADR-012 (Technology Stack Revision).**
+
+**Original Decision (January 20, 2026):** Build custom widgets from scratch  
+**Revised Decision (January 20, 2026):** Use shadcn/ui + Radix UI primitives
+
+**Reason for Change:** After completing Phase 0, we recognized that building custom widgets from scratch would:
+- Take 2-3 days per widget (vs 2-3 hours with shadcn)
+- Require extensive accessibility work (Radix solves this)
+- Create maintenance burden (we own all widget code)
+- Delay Phase 1 completion significantly
+
+**New Architecture (3 Layers):**
+1. **Radix UI Primitives** - Headless, accessible components
+2. **shadcn/ui Components** - Styled, Tailwind-based components (we own the code)
+3. **OpenPortal Widgets** - Configuration-driven wrappers with stable contracts
+
+**Why shadcn/ui:**
+- ✅ Not a library (copy-paste, we own code after installation)
+- ✅ No breaking changes (no npm dependency)
+- ✅ Accessible by default (Radix UI handles WCAG 2.1 AA)
+- ✅ Fast development (2-3 hours vs 2-3 days per widget)
+- ✅ Fully customizable (Tailwind-based)
+- ✅ Small bundle (~1-5KB per component)
+
+**Migration:** See Phase 0.5 issues:
+- ISSUE-011: Tailwind CSS + shadcn/ui setup
+- ISSUE-013: First shadcn components (Input, Button, Card, Label)
+- ISSUE-014: TextInputWidget POC using shadcn Input
+
+**Full Rationale:** See ADR-012 for complete decision analysis.
+
+**Documentation:**
+- [Widget Architecture](../WIDGET-ARCHITECTURE.md) - 3-layer architecture details
+- [Widget Component Mapping](../WIDGET-COMPONENT-MAPPING.md) - MVP widgets → shadcn components
+
+---
+
+## Original Context (Preserved for History)
+
+**Note:** The following represents the original decision to build custom widgets. This decision was valid at the time but was revised after Phase 0 completion based on new insights about development velocity and accessibility requirements.
+
+---
 
 OpenPortal is a configuration-driven UI platform where all widgets are defined by JSON configurations from the backend. The frontend renders these widgets based on their type and configuration. We need to decide whether to use an existing UI component library or build a custom widget library from scratch.
 
