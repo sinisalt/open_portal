@@ -7,10 +7,11 @@
  * - Request queuing during refresh
  */
 
+import { env } from '../config/env';
 import * as authService from './authService';
 import * as tokenManager from './tokenManager';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/v1';
+const API_BASE_URL = env.VITE_API_URL || 'http://localhost:3001/v1';
 
 // Queue for requests waiting for token refresh
 let isRefreshing = false;
@@ -105,7 +106,7 @@ export async function httpClient(url, options = {}) {
   };
 
   if (accessToken && !options.skipAuth) {
-    headers['Authorization'] = `Bearer ${accessToken}`;
+    headers.Authorization = `Bearer ${accessToken}`;
   }
 
   // Make the request
@@ -128,7 +129,7 @@ export async function httpClient(url, options = {}) {
           Authorization: `Bearer ${newToken}`,
         },
       });
-    } catch (error) {
+    } catch (_error) {
       // Refresh failed, throw original 401 error
       throw new Error('Authentication failed. Please login again.');
     }

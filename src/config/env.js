@@ -12,16 +12,18 @@ const getEnv = () => {
     };
   }
 
-  // In Vite/browser, use import.meta.env when available
-  if (typeof import.meta !== 'undefined' && import.meta.env) {
-    return import.meta.env;
+  // In Vite/browser, use import.meta.env (wrapped in try-catch for Jest compatibility)
+  try {
+    // This will work in Vite but not in Jest
+    // biome-ignore lint/security/noGlobalEval: Required for Jest compatibility with import.meta.env
+    return eval('import.meta.env');
+  } catch (_e) {
+    // Fallback for any other context
+    return {
+      VITE_API_URL: 'http://localhost:3001/v1',
+      MODE: 'development',
+    };
   }
-
-  // Fallback for any other context
-  return {
-    VITE_API_URL: 'http://localhost:3001/v1',
-    MODE: 'development',
-  };
 };
 
 export const env = getEnv();

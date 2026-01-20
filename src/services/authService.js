@@ -8,8 +8,8 @@
  * - Logout
  */
 
-import * as tokenManager from './tokenManager';
 import { env } from '../config/env';
+import * as tokenManager from './tokenManager';
 
 const API_BASE_URL = env.VITE_API_URL || 'http://localhost:3001/v1';
 
