@@ -151,7 +151,7 @@ npm test
 npm test -- --coverage
 
 # Run linting
-npx eslint src/ --ext .js,.jsx,.ts,.tsx
+npx eslint 'src/**/*.{js,jsx,ts,tsx}'
 
 # Check formatting
 npm run format:check
