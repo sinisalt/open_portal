@@ -1,6 +1,6 @@
 /**
  * Login Page Styles
- * 
+ *
  * Responsive, accessible styles for the login page
  * Supports mobile-first design with desktop optimizations
  */
@@ -301,7 +301,7 @@
 
 .divider::before,
 .divider::after {
-  content: '';
+  content: "";
   flex: 1;
   border-bottom: 1px solid #e5e7eb;
 }

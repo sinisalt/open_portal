@@ -2,9 +2,9 @@
  * HTTP Client Tests
  */
 
+import * as authService from './authService';
 import * as httpClient from './httpClient';
 import * as tokenManager from './tokenManager';
-import * as authService from './authService';
 
 // Mock dependencies
 jest.mock('./tokenManager');

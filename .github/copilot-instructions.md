@@ -20,27 +20,26 @@ OpenPortal is an **API-driven Business UI Platform** where the frontend is a gen
 
 **Target Stack (Phase 0.5+):**
 - **Frontend**: React 19.2.3
-- **Build Tool**: Vite 6
-- **Language**: TypeScript 5 (strict mode for new files, JavaScript for existing)
-- **Routing**: TanStack Router v1.132 (file-based routing)
+- **Build Tool**: Vite 6 ✅ (ISSUE-010 Complete)
+- **Language**: TypeScript 5 (strict mode for new files, JavaScript for existing) ✅ (ISSUE-010 Complete)
+- **Routing**: TanStack Router v1.132 (file-based routing) - Pending ISSUE-012
 - **Data Fetching**: TanStack Query v5.90
 - **State Management**: TanStack Store v0.8 + React Context
-- **UI Components**: shadcn/ui + Radix UI primitives
-- **Styling**: Tailwind CSS v4.1
-- **Authentication**: Azure MSAL + Custom OAuth (dual, feature-flag switched)
+- **UI Components**: shadcn/ui + Radix UI primitives - Pending ISSUE-011
+- **Styling**: Tailwind CSS v4.1 - Pending ISSUE-011
+- **Authentication**: Azure MSAL + Custom OAuth (dual, feature-flag switched) - Pending ISSUE-013
 - **Forms**: React Hook Form + Zod validation
-- **Testing**: Vitest + Playwright (migrating from Jest)
-- **Code Quality**: BiomeJS Ultracite preset
+- **Testing**: Jest + Playwright (Vitest migration in later phase)
+- **Code Quality**: BiomeJS ✅ (ISSUE-010 Complete)
 - **Configuration**: JSON-based API contracts
-- **Architecture**: Widget registry pattern with 3-layer widget architecture
+- **Architecture**: Widget registry pattern with 3-layer widget architecture - Pending ISSUE-014
 
-**Legacy Stack (Phase 0-1.1, being replaced):**
-- **Build Tool**: Create React App 5.0.1 ❌ (removing in ISSUE-010)
-- **Language**: JavaScript ❌ (migrating to TypeScript in ISSUE-010)
-- **Routing**: React Router v6 ❌ (replacing with TanStack Router in ISSUE-012)
-- **UI Components**: Custom widgets ❌ (replacing with shadcn/ui in ISSUE-011)
-- **Testing**: Jest + React Testing Library ⚠️ (coexisting with Vitest during transition)
-- **Code Quality**: ESLint + Prettier ❌ (replacing with BiomeJS in ISSUE-010)
+**Legacy Stack (Phase 0-1.1, now replaced):**
+- **Build Tool**: Create React App 5.0.1 ✅ (Removed in ISSUE-010)
+- **Routing**: React Router v6 (Keeping for now, replacing with TanStack Router in ISSUE-012)
+- **UI Components**: Custom widgets (Replacing with shadcn/ui in ISSUE-011)
+- **Testing**: Jest + React Testing Library ✅ (Configured for Vite in ISSUE-010)
+- **Code Quality**: ESLint + Prettier ✅ (Replaced with BiomeJS in ISSUE-010)
 
 ### Widget Architecture (3 Layers)
 
@@ -58,22 +57,30 @@ See `/documentation/WIDGET-ARCHITECTURE.md` for details.
 
 ## Development Commands
 
-### During Migration (Phase 0.5)
+### Current Commands (After ISSUE-010)
 ```bash
-# Legacy (CRA) - Phase 0-1.1
-npm start          # Development server (http://localhost:3000)
-npm test          # Jest tests
-npm run build     # Production build
-
-# After ISSUE-010 (Vite migration)
+# Development
 npm run dev        # Vite dev server (http://localhost:3000)
 npm run build      # Vite production build
 npm run preview    # Preview production build
+
+# Code Quality
 npm run lint       # BiomeJS linting
 npm run lint:fix   # BiomeJS auto-fix
 npm run format     # BiomeJS formatting
-npm test          # Vitest tests (for new TS code)
+
+# Testing
+npm test           # Jest tests (existing tests)
+npm run test:watch # Jest tests in watch mode
+npm run test:coverage  # Jest tests with coverage
 npm run test:e2e   # Playwright E2E tests
+```
+
+### Legacy Commands (Removed in ISSUE-010)
+```bash
+# These no longer work after migration:
+npm start          # ❌ Replaced by npm run dev
+npm run eject      # ❌ No longer applicable
 ```
 
 ### shadcn Component Installation
@@ -468,13 +475,15 @@ components.json       # NEW: shadcn/ui CLI configuration
 
 ## Testing Guidelines
 
-### Legacy Testing (Pre-Phase 0.5)
+### Current Testing (After ISSUE-010)
 1. **Framework**: Jest + React Testing Library
-2. **Coverage**: >80% for authentication code (41 tests passing)
-3. **Files**: `*.test.js` files alongside components
+2. **Configuration**: Jest configured with Babel for Vite compatibility
+3. **Environment Variables**: Use `src/config/env.js` helper for test compatibility
+4. **Coverage**: >80% for authentication code (101/104 tests passing)
+5. **Files**: `*.test.js` files alongside components
 
-### New Testing (Phase 0.5+)
-1. **Framework**: Vitest + React Testing Library (for TypeScript code)
+### Future Testing (Post-Phase 0.5)
+1. **Framework**: Vitest + React Testing Library (for new TypeScript code)
 2. **Test Widget Contracts**: Verify props, events, and rendering
 3. **Accessibility Testing**: Radix UI handles most a11y, verify integration
 4. **Integration Testing**: Test widget interactions with config engine
@@ -622,17 +631,20 @@ const datasources = {
   - Widget implementation (Phase 1.3) - pending after migration
 
 **Recent Completions:**
+- ✅ ISSUE-010: Vite + TypeScript 5 + BiomeJS - **COMPLETE** (Jan 2026)
 - ✅ ISSUE-001 through ISSUE-009: Phase 0 and partial Phase 1.1
 - 🚀 Phase 0.5 Planning: Issues #010-#014 created, ADR-012 written
 
 **Migration Issues (Phase 0.5):**
-- ⏳ ISSUE-010: Vite + TypeScript 5 + BiomeJS - pending
+- ✅ ISSUE-010: Vite + TypeScript 5 + BiomeJS - **COMPLETE**
+  - Dev server: 251ms startup (vs 10-30s with CRA)
+  - Production build: 1.29s
+  - Tests: 101/104 passing (97%)
+  - BiomeJS linting and formatting operational
 - ⏳ ISSUE-011: Tailwind CSS + shadcn/ui setup - pending
 - ⏳ ISSUE-012: TanStack Router migration - pending
 - ⏳ ISSUE-013: Azure MSAL parallel implementation - pending
 - ⏳ ISSUE-014: Widget registry + TextInputWidget POC - pending
-- ✅ ISSUE-008: OAuth Integration
-- ✅ ISSUE-009: Token Management System
 
 ## Code Review Checklist
 

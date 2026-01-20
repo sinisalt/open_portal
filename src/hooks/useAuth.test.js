@@ -2,9 +2,9 @@
  * useAuth Hook Tests
  */
 
-import { renderHook, act, waitFor } from '@testing-library/react';
-import { useAuth } from './useAuth';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import * as authService from '../services/authService';
+import { useAuth } from './useAuth';
 
 // Mock the authService
 jest.mock('../services/authService');

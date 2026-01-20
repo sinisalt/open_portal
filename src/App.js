@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
 import OAuthCallback from './components/OAuthCallback';
 import { useAuth } from './hooks/useAuth';
