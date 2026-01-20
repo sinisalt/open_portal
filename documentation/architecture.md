@@ -33,6 +33,150 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
+## Repository Structure
+
+### Frontend Source Directory (`/src`)
+
+The frontend follows a modular architecture with clear separation of concerns:
+
+```
+src/
+├── components/         # Reusable UI components (non-widget)
+│   └── README.md      # Component guidelines and patterns
+├── widgets/           # Widget library (configuration-driven)
+│   └── README.md      # Widget catalog and specifications
+├── core/              # Core rendering engine
+│   ├── engine/        # Config, action, validation engines
+│   ├── registry/      # Widget and datasource registries
+│   └── README.md      # Core architecture documentation
+├── services/          # API service layer
+│   └── README.md      # Service patterns and guidelines
+├── hooks/             # Custom React hooks
+│   └── README.md      # Hook patterns and usage
+├── utils/             # Utility functions and helpers
+│   └── README.md      # Utility documentation
+├── types/             # TypeScript type definitions
+│   └── README.md      # Type definitions and patterns
+├── config/            # Runtime configuration
+│   └── README.md      # Configuration management
+├── styles/            # Global styles and CSS modules
+│   └── README.md      # Styling guidelines
+├── tests/             # Test utilities and mocks
+│   └── README.md      # Testing patterns and helpers
+├── App.js             # Root application component
+├── App.test.js        # Application tests
+├── index.js           # Application entry point
+└── setupTests.js      # Test configuration
+```
+
+### Directory Responsibilities
+
+#### `components/`
+- Generic, reusable UI components
+- Not part of the widget catalog
+- Used for app chrome (navigation, layouts, etc.)
+- Examples: Button, Input, Layout, Navigation
+
+#### `widgets/`
+- Configuration-driven widget components
+- Part of the official widget catalog
+- Rendered dynamically based on backend configs
+- Examples: TextInput, Table, Card, Modal
+- Each widget has stable contract: config, data, events
+
+#### `core/`
+- **engine/**: Configuration parser, action executor, validator
+- **registry/**: Maps widget types to React components
+- Heart of the rendering system
+- No business logic - purely configuration interpretation
+
+#### `services/`
+- API communication layer
+- Handles authentication, data fetching, caching
+- Abstracts backend communication
+- Examples: configService, authService, dataService
+
+#### `hooks/`
+- Custom React hooks for shared logic
+- Data fetching, authentication, form handling
+- Examples: usePageConfig, useAuth, useData
+
+#### `utils/`
+- Pure utility functions
+- No side effects
+- Examples: formatters, validators, parsers
+
+#### `types/`
+- TypeScript type definitions
+- Interfaces for configs, widgets, actions
+- Shared across the application
+
+#### `config/`
+- Runtime configuration
+- Environment variables, constants, defaults
+- Feature flags, theme settings
+
+#### `styles/`
+- Global CSS, variables, utilities
+- CSS modules for component styles
+- Theme definitions
+
+#### `tests/`
+- Test utilities, mocks, fixtures
+- Shared test helpers
+- Mock service implementations
+
+### Path Aliases (jsconfig.json)
+
+The project uses path aliases for cleaner imports:
+
+```javascript
+// Instead of:
+import Button from '../../../components/Button';
+
+// Use:
+import Button from '@/components/Button';
+```
+
+Configured aliases:
+- `@/components/*` → `src/components/*`
+- `@/widgets/*` → `src/widgets/*`
+- `@/core/*` → `src/core/*`
+- `@/services/*` → `src/services/*`
+- `@/hooks/*` → `src/hooks/*`
+- `@/utils/*` → `src/utils/*`
+- `@/types/*` → `src/types/*`
+- `@/config/*` → `src/config/*`
+- `@/styles/*` → `src/styles/*`
+
+### File Naming Conventions
+
+- **Components/Widgets**: PascalCase - `TextInput.js`, `Button.js`
+- **Services**: camelCase - `configService.js`, `authService.js`
+- **Hooks**: camelCase with "use" prefix - `usePageConfig.js`, `useAuth.js`
+- **Utils**: camelCase - `formatters.js`, `validators.js`
+- **Types**: camelCase with .types suffix - `widget.types.ts`, `api.types.ts`
+- **Tests**: Same name with .test suffix - `Button.test.js`, `useAuth.test.js`
+- **CSS Modules**: Same name with .module.css - `Button.module.css`
+
+### Import Order Convention
+
+```javascript
+// 1. External dependencies
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+// 2. Internal modules (using path aliases)
+import { Button } from '@/components/Button';
+import { useAuth } from '@/hooks/useAuth';
+import { formatDate } from '@/utils/formatters';
+import { API_URL } from '@/config/constants';
+
+// 3. Relative imports (same directory)
+import styles from './Component.module.css';
+import { helper } from './helpers';
+```
+
 ## Frontend Architecture
 
 ### Core Modules
