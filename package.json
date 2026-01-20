@@ -2,6 +2,7 @@
   "name": "openportal",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@azure/msal-browser": "^5.0.2",
     "@azure/msal-react": "^5.0.2",
