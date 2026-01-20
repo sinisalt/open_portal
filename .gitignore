@@ -47,3 +47,6 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# TanStack Router generated files
+/src/routeTree.gen.ts

@@ -9,13 +9,13 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearch } from '@tanstack/react-router';
 import * as authService from '../services/authService';
 import './OAuthCallback.css';
 
 function OAuthCallback() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const search = useSearch({ from: '/auth/callback' });
 
   const [status, setStatus] = useState('processing'); // processing, success, error
   const [error, setError] = useState(null);
@@ -24,10 +24,10 @@ function OAuthCallback() {
     const handleCallback = async () => {
       try {
         // Get parameters from URL
-        const code = searchParams.get('code');
-        const state = searchParams.get('state');
-        const errorParam = searchParams.get('error');
-        const errorDescription = searchParams.get('error_description');
+        const code = search?.code;
+        const state = search?.state;
+        const errorParam = search?.error;
+        const errorDescription = search?.error_description;
 
         // Check for OAuth provider errors
         if (errorParam) {
@@ -66,16 +66,13 @@ function OAuthCallback() {
 
         // Redirect to login after a delay
         setTimeout(() => {
-          navigate('/login', {
-            replace: true,
-            state: { error: err.message },
-          });
+          navigate({ to: '/login', replace: true });
         }, 3000);
       }
     };
 
     handleCallback();
-  }, [searchParams, navigate]);
+  }, [search, navigate]);
 
   return (
     <div className="oauth-callback-container">

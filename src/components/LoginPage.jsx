@@ -10,14 +10,14 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearch } from '@tanstack/react-router';
 import { useAuth } from '../hooks/useAuth';
 import * as authService from '../services/authService';
 import './LoginPage.css';
 
 function LoginPage() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const search = useSearch({ from: '/login' });
   const { login, isAuthenticated } = useAuth();
 
   // Form state
@@ -38,10 +38,10 @@ function LoginPage() {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      const from = location.state?.from || '/';
-      navigate(from, { replace: true });
+      const redirectTo = search?.redirect || '/';
+      navigate({ to: redirectTo, replace: true });
     }
-  }, [isAuthenticated, navigate, location]);
+  }, [isAuthenticated, navigate, search]);
 
   // Load OAuth providers
   useEffect(() => {
@@ -107,9 +107,9 @@ function LoginPage() {
     try {
       await login(email, password, rememberMe);
 
-      // Get redirect URL from location state or default to home
-      const from = location.state?.from || '/';
-      navigate(from, { replace: true });
+      // Get redirect URL from search params or default to home
+      const redirectTo = search?.redirect || '/';
+      navigate({ to: redirectTo, replace: true });
     } catch (err) {
       setError(err.message || 'Login failed. Please check your credentials.');
     } finally {
@@ -121,7 +121,7 @@ function LoginPage() {
    * Handle OAuth provider click
    */
   const handleOAuthLogin = providerId => {
-    const redirectUrl = location.state?.from || '/';
+    const redirectUrl = search?.redirect || '/';
     authService.initiateOAuth(providerId, redirectUrl);
   };
 
