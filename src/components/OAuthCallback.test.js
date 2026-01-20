@@ -10,7 +10,7 @@
 
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import OAuthCallback from './OAuthCallback';
 import * as authService from '../services/authService';
 
