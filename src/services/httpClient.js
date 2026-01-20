@@ -10,7 +10,7 @@
 import * as tokenManager from './tokenManager';
 import * as authService from './authService';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/v1';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/v1';
 
 // Queue for requests waiting for token refresh
 let isRefreshing = false;
@@ -89,7 +89,7 @@ export async function httpClient(url, options = {}) {
     } catch (error) {
       // If refresh fails, continue with existing token (might still work)
       // Only log in development
-      if (process.env.NODE_ENV !== 'production') {
+      if (import.meta.env.MODE !== 'production') {
         console.warn(
           `Proactive token refresh failed before request to ${fullUrl}. Continuing with existing access token.`,
           error
