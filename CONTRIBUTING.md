@@ -369,10 +369,10 @@ npm audit fix
 
 ```bash
 # Lint code
-npx eslint src/ --ext .js,.jsx,.ts,.tsx
+npx eslint 'src/**/*.{js,jsx,ts,tsx}'
 
 # Fix linting issues
-npx eslint src/ --ext .js,.jsx,.ts,.tsx --fix
+npx eslint 'src/**/*.{js,jsx,ts,tsx}' --fix
 
 # Check formatting
 npm run format:check
