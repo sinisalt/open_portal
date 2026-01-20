@@ -61,9 +61,9 @@ The React frontend renders this config without any hardcoded UI logic!
 
 ---
 
-## Development (Create React App)
+## Development (Vite + TypeScript)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project uses [Vite](https://vitejs.dev/) for fast development and [TypeScript](https://www.typescriptlang.org/) for type safety.
 
 ### Prerequisites
 
@@ -89,7 +89,7 @@ npm install
 cp .env.example .env
 
 # Start development server
-npm start
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the app.
@@ -117,13 +117,13 @@ For more details, see [CONTRIBUTING.md](CONTRIBUTING.md) and [TROUBLESHOOTING.md
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run dev`
 
-Runs the app in the development mode.\
+Runs the app in the development mode using Vite.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The page will hot-reload when you make changes (typically in ~50ms).\
+You'll see build errors and lint warnings in the console.
 
 ### `npm test`
 
@@ -138,16 +138,27 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `npm run preview`
+
+Preview the production build locally before deploying.
 
 ### `npm run test:e2e`
 
 Runs end-to-end tests using Playwright.\
 Requires Playwright browsers to be installed: `npx playwright install`
 
+### `npm run lint`
+
+Runs BiomeJS linter to check code quality.\
+BiomeJS provides fast, modern linting and formatting.
+
+### `npm run lint:fix`
+
+Automatically fixes linting issues where possible.
+
 ### `npm run format`
 
-Formats all source code using Prettier.\
+Formats all source code using BiomeJS.\
 Automatically run on commit via pre-commit hooks.
 
 ### `npm run format:check`
@@ -155,15 +166,37 @@ Automatically run on commit via pre-commit hooks.
 Checks if code is formatted correctly without making changes.\
 Used in CI/CD pipeline to ensure code quality.
 
-### `npm run eject`
+## UI Framework & Styling
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+OpenPortal uses a modern, component-based UI framework:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Tailwind CSS v4.1
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Utility-first CSS framework for rapid UI development:
+- Design tokens mapped to OpenPortal branding
+- Dark mode support configured
+- Custom color palette for primary/secondary colors
+- Responsive design utilities
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### shadcn/ui
+
+High-quality React components built on Radix UI:
+- Accessibility-first (WCAG 2.1 Level AA)
+- Customizable and composable
+- TypeScript support out of the box
+
+**Installing Components:**
+
+```bash
+# Install individual components as needed
+npx shadcn@latest add button
+npx shadcn@latest add input
+npx shadcn@latest add card
+
+# Components are installed to src/components/ui/
+```
+
+**Note:** We install components incrementally as widgets are implemented. See `documentation/WIDGET-COMPONENT-MAPPING.md` for the installation plan.
 
 ## Contributing
 
@@ -177,30 +210,21 @@ Also check [TROUBLESHOOTING.md](TROUBLESHOOTING.md) if you encounter any issues.
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### OpenPortal Documentation
+- [Architecture Guide](./documentation/architecture.md)
+- [Widget Development](./documentation/WIDGET-ARCHITECTURE.md)
+- [Component Mapping](./documentation/WIDGET-COMPONENT-MAPPING.md)
+- [Complete Roadmap](./documentation/roadmap.md)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Technology Stack
+- [Vite](https://vitejs.dev/) - Next generation frontend tooling
+- [React 19](https://react.dev/) - Modern React with latest features
+- [TypeScript 5](https://www.typescriptlang.org/) - Type safety and IDE support
+- [Tailwind CSS v4](https://tailwindcss.com/) - Utility-first CSS framework
+- [shadcn/ui](https://ui.shadcn.com/) - Re-usable component library
+- [Radix UI](https://www.radix-ui.com/) - Unstyled, accessible components
+- [BiomeJS](https://biomejs.dev/) - Fast linter and formatter
 
-### Code Splitting
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+MIT License - see LICENSE file for details.
