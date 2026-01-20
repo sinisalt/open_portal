@@ -26,16 +26,20 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - [x] Widget taxonomy v1 (10-15 core widgets) - **Completed via ISSUE-001**
 - [x] Configuration schema draft (JSON Schema) - **Completed via ISSUE-002**
 - [x] Action catalog (10-20 standard actions) - **Completed via ISSUE-003**
-- [ ] Technical stack finalization
+- [x] Technical stack finalization - **Completed via ISSUE-004**
 - [ ] Development environment setup
 - [ ] Project repository structure
 
 ### Key Decisions
-- Actions gateway vs direct endpoints → **Recommendation: Gateway**
-- Realtime: WebSocket vs SSE → **Recommendation: WebSocket**
-- Caching policy (ETag, TTL defaults)
-- State management library (Redux, Zustand, or Context)
-- UI component library (Material-UI, Ant Design, custom)
+- Actions gateway vs direct endpoints → **✅ Gateway**
+- Realtime: WebSocket vs SSE → **✅ WebSocket (Native API)**
+- Caching policy (ETag, TTL defaults) → **✅ ETag-based with Redis**
+- State management library → **✅ React Context API + Hooks**
+- UI component library → **✅ Custom Widget Library**
+- Build tool → **✅ Create React App 5.0.1**
+- Backend runtime → **✅ Node.js 18+ LTS (recommended)**
+- Database → **✅ PostgreSQL 14+ (recommended)**
+- Testing → **✅ Jest + React Testing Library + Playwright**
 
 ### Success Criteria
 - Team alignment on architecture
