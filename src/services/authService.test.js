@@ -170,4 +170,162 @@ describe('authService', () => {
       );
     });
   });
+
+  describe('initiateOAuth', () => {
+    beforeEach(() => {
+      // Mock crypto.getRandomValues
+      const mockCrypto = {
+        getRandomValues: jest.fn(arr => {
+          for (let i = 0; i < arr.length; i++) {
+            arr[i] = Math.floor(Math.random() * 256);
+          }
+          return arr;
+        }),
+      };
+      global.crypto = mockCrypto;
+    });
+
+    afterEach(() => {
+      delete global.crypto;
+    });
+
+    it('should generate and store state parameter', () => {
+      // Mock window.location.href setter
+      delete window.location;
+      window.location = { href: '', origin: 'http://localhost:3000' };
+
+      authService.initiateOAuth('google', '/dashboard');
+
+      // Should store state and redirect URL
+      expect(sessionStorage.getItem('oauthState')).toBeTruthy();
+      expect(sessionStorage.getItem('oauthState')).toHaveLength(32);
+      expect(sessionStorage.getItem('oauthRedirect')).toBe('/dashboard');
+
+      // Should redirect with state parameter
+      expect(window.location.href).toContain('/auth/oauth/google');
+      expect(window.location.href).toContain('redirect_uri=');
+      expect(window.location.href).toContain('state=');
+    });
+  });
+
+  describe('handleOAuthCallback', () => {
+    beforeEach(() => {
+      // Mock crypto.getRandomValues for state generation
+      Object.defineProperty(window, 'crypto', {
+        value: {
+          getRandomValues: jest.fn(arr => {
+            for (let i = 0; i < arr.length; i++) {
+              arr[i] = Math.floor(Math.random() * 256);
+            }
+            return arr;
+          }),
+        },
+        writable: true,
+      });
+    });
+
+    it('should exchange code for tokens successfully', async () => {
+      const mockState = 'test-state-12345678901234567890';
+      sessionStorage.setItem('oauthState', mockState);
+
+      const mockResponse = {
+        accessToken: 'oauth-access-token',
+        refreshToken: 'oauth-refresh-token',
+        expiresIn: 3600,
+        user: { id: '1', email: 'oauth@example.com', name: 'OAuth User' },
+      };
+
+      fetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockResponse,
+      });
+
+      const result = await authService.handleOAuthCallback('auth-code', mockState, false);
+
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining('/auth/oauth/callback'),
+        expect.objectContaining({
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: 'auth-code', state: mockState }),
+        })
+      );
+
+      expect(result).toEqual(mockResponse);
+      expect(sessionStorage.getItem('accessToken')).toBe('oauth-access-token');
+      expect(sessionStorage.getItem('refreshToken')).toBe('oauth-refresh-token');
+
+      // State should be removed after validation
+      expect(sessionStorage.getItem('oauthState')).toBeNull();
+    });
+
+    it('should store tokens in localStorage when rememberMe is true', async () => {
+      const mockState = 'test-state-12345678901234567890';
+      sessionStorage.setItem('oauthState', mockState);
+
+      const mockResponse = {
+        accessToken: 'oauth-access-token',
+        refreshToken: 'oauth-refresh-token',
+        expiresIn: 3600,
+        user: { id: '1', email: 'oauth@example.com' },
+      };
+
+      fetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockResponse,
+      });
+
+      await authService.handleOAuthCallback('auth-code', mockState, true);
+
+      expect(localStorage.getItem('accessToken')).toBe('oauth-access-token');
+      expect(localStorage.getItem('refreshToken')).toBe('oauth-refresh-token');
+    });
+
+    it('should throw error when state parameter is missing', async () => {
+      await expect(
+        authService.handleOAuthCallback('auth-code', 'wrong-state', false)
+      ).rejects.toThrow('Invalid state parameter. Possible CSRF attack.');
+    });
+
+    it('should throw error when state parameter does not match', async () => {
+      sessionStorage.setItem('oauthState', 'stored-state');
+
+      await expect(
+        authService.handleOAuthCallback('auth-code', 'wrong-state', false)
+      ).rejects.toThrow('Invalid state parameter. Possible CSRF attack.');
+    });
+
+    it('should throw error when token exchange fails', async () => {
+      const mockState = 'test-state-12345678901234567890';
+      sessionStorage.setItem('oauthState', mockState);
+
+      fetch.mockResolvedValueOnce({
+        ok: false,
+        json: async () => ({ message: 'Invalid authorization code' }),
+      });
+
+      await expect(
+        authService.handleOAuthCallback('invalid-code', mockState, false)
+      ).rejects.toThrow('Invalid authorization code');
+    });
+
+    it('should clear state even when token exchange fails', async () => {
+      const mockState = 'test-state-12345678901234567890';
+      sessionStorage.setItem('oauthState', mockState);
+
+      fetch.mockResolvedValueOnce({
+        ok: false,
+        json: async () => ({ message: 'Invalid authorization code' }),
+      });
+
+      try {
+        await authService.handleOAuthCallback('invalid-code', mockState, false);
+      } catch (err) {
+        // Expected to throw
+      }
+
+      // State should be cleared even on error
+      expect(sessionStorage.getItem('oauthState')).toBeNull();
+    });
+  });
 });
