@@ -90,15 +90,15 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - [ ] Update navigation in existing components - **ISSUE-012**
 
 ### 0.5.4 Authentication Enhancement (Week 4.5-5.5)
-- [ ] Install @azure/msal-browser and @azure/msal-react - **ISSUE-013**
-- [ ] Create MSAL configuration - **ISSUE-013**
-- [ ] Install first shadcn components (Input, Button, Card, Label) - **ISSUE-013**
-- [ ] Build LoginPageMSAL.tsx (first TypeScript component) - **ISSUE-013**
-- [ ] Create useMsalAuth.ts hook - **ISSUE-013**
-- [ ] Extend token manager for MSAL tokens - **ISSUE-013**
-- [ ] Update HTTP client for dual auth support - **ISSUE-013**
-- [ ] Implement feature flag switching (VITE_AUTH_PROVIDER) - **ISSUE-013**
-- [ ] Test both auth systems independently - **ISSUE-013**
+- [x] Install @azure/msal-browser and @azure/msal-react - **ISSUE-013** ✅
+- [x] Create MSAL configuration - **ISSUE-013** ✅
+- [x] Install first shadcn components (Input, Button, Card, Label) - **ISSUE-013** ✅
+- [x] Build LoginPageMSAL.tsx (first TypeScript component) - **ISSUE-013** ✅
+- [x] Create useMsalAuth.ts hook - **ISSUE-013** ✅
+- [x] Extend token manager for MSAL tokens - **ISSUE-013** ✅
+- [x] Update HTTP client for dual auth support - **ISSUE-013** ✅
+- [x] Implement feature flag switching (VITE_AUTH_PROVIDER) - **ISSUE-013** ✅
+- [ ] Test both auth systems independently - **ISSUE-013** ⏳ (Manual testing pending)
 
 ### 0.5.5 Widget Architecture POC (Week 5.5-6.5)
 - [ ] Implement widget registry - **ISSUE-014**
@@ -469,11 +469,11 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - ✅ Development environment setup (ISSUE-005)
 - ✅ Project repository structure (ISSUE-006)
 
-### Phase 0.5: Technology Stack Migration - 🚀 **0% Complete** (NEW PHASE)
-- ⏳ Vite + TypeScript 5 + BiomeJS (ISSUE-010) - pending
-- ⏳ Tailwind CSS + shadcn/ui setup (ISSUE-011) - pending
-- ⏳ TanStack Router migration (ISSUE-012) - pending
-- ⏳ Azure MSAL parallel implementation (ISSUE-013) - pending
+### Phase 0.5: Technology Stack Migration - 🚀 **80% Complete** (4/5 issues complete)
+- ✅ Vite + TypeScript 5 + BiomeJS (ISSUE-010) - **COMPLETE**
+- ✅ Tailwind CSS + shadcn/ui setup (ISSUE-011) - **COMPLETE**
+- ✅ TanStack Router migration (ISSUE-012) - **COMPLETE**
+- ✅ Azure MSAL parallel implementation (ISSUE-013) - **COMPLETE**
 - ⏳ Widget registry + TextInputWidget POC (ISSUE-014) - pending
 
 **Note:** Phase 0.5 inserted to migrate technology stack before Phase 1 continues. See ADR-012 for rationale.
@@ -494,6 +494,6 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 
 ---
 
-**Version:** 2.0  
+**Version:** 2.1  
 **Last Updated:** January 20, 2026  
 **Status:** Active Development - Phase 0.5 (Technology Stack Migration)
