@@ -176,11 +176,12 @@ export function isValidTokenFormat(token) {
   const parts = token.split('.');
   if (parts.length !== 3) return false;
 
-  // Check that each part is base64 encoded
+  // Check that each part is base64url encoded (allows base64url characters)
+  // Base64url alphabet: A-Z, a-z, 0-9, -, _ (and optionally = for padding)
   try {
     parts.forEach(part => {
-      if (!/^[A-Za-z0-9_-]+$/.test(part)) {
-        throw new Error('Invalid base64');
+      if (!/^[A-Za-z0-9_-]+(=){0,2}$/.test(part)) {
+        throw new Error('Invalid base64url');
       }
     });
     return true;
@@ -199,7 +200,9 @@ export function decodeToken(token) {
 
   try {
     const payload = token.split('.')[1];
-    const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+    // Add padding if needed for base64 decoding
+    const paddedPayload = payload + '='.repeat((4 - (payload.length % 4)) % 4);
+    const decoded = atob(paddedPayload.replace(/-/g, '+').replace(/_/g, '/'));
     return JSON.parse(decoded);
   } catch {
     return null;

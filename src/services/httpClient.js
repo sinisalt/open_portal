@@ -88,7 +88,10 @@ export async function httpClient(url, options = {}) {
       accessToken = await refreshTokenAndRetry();
     } catch (error) {
       // If refresh fails, continue with existing token (might still work)
-      console.warn('Proactive token refresh failed:', error);
+      // Only log in development
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Proactive token refresh failed:', error.message);
+      }
     }
   }
 
