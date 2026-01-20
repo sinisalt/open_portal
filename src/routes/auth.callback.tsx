@@ -11,11 +11,14 @@ type OAuthCallbackSearch = {
 export const Route = createFileRoute('/auth/callback')({
   component: OAuthCallback,
   validateSearch: (search: Record<string, unknown>): OAuthCallbackSearch => {
+    const safeString = (value: unknown): string | undefined =>
+      typeof value === 'string' ? value : undefined;
+
     return {
-      code: search.code as string,
-      state: search.state as string,
-      error: search.error as string,
-      error_description: search.error_description as string,
+      code: safeString(search.code),
+      state: safeString(search.state),
+      error: safeString(search.error),
+      error_description: safeString(search.error_description),
     };
   },
 });
