@@ -6,7 +6,7 @@ export const msalConfig: Configuration = {
     clientId: import.meta.env.VITE_AZURE_CLIENT_ID || '',
     authority: import.meta.env.VITE_AZURE_AUTHORITY || 'https://login.microsoftonline.com/common',
     redirectUri:
-      import.meta.env.VITE_AZURE_REDIRECT_URI || window.location.origin + '/auth/callback',
+      import.meta.env.VITE_AZURE_REDIRECT_URI || `${window.location.origin}/auth/callback`,
   },
   cache: {
     cacheLocation: 'localStorage', // or 'sessionStorage'

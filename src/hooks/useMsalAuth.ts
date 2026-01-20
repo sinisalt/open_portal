@@ -3,10 +3,16 @@ import { useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { useEffect, useState } from 'react';
 import { loginRequest } from '@/config/msalConfig';
 
+interface MsalUser {
+  id: string;
+  name: string | undefined;
+  email: string;
+}
+
 export interface MsalAuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
-  user: any | null;
+  user: MsalUser | null;
   error: Error | null;
 }
 
@@ -19,7 +25,7 @@ export function useMsalAuth(): MsalAuthState & {
   const isAuthenticated = useIsAuthenticated();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [user, setUser] = useState<any | null>(null);
+  const [user, setUser] = useState<MsalUser | null>(null);
 
   useEffect(() => {
     if (isAuthenticated && accounts.length > 0) {

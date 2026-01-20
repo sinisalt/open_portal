@@ -7,7 +7,7 @@ import { useMsalAuth } from '@/hooks/useMsalAuth';
 export function LoginPageMSAL() {
   const navigate = useNavigate();
   const search = useSearch({ from: '/login' });
-  const redirectTo = (search as any)?.redirect || '/';
+  const redirectTo = (search as { redirect?: string })?.redirect || '/';
   const { login, isLoading } = useMsalAuth();
   const [error, setError] = useState<string | null>(null);
 
