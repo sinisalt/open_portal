@@ -8,6 +8,19 @@
 
 This document outlines all technology choices for the OpenPortal platform, including rationale, alternatives considered, and risk mitigation strategies. All major decisions are documented as Architecture Decision Records (ADRs) in the `/documentation/adr/` directory.
 
+### Project Scope
+
+**OpenPortal is a frontend-only project** focused on building a configuration-driven UI rendering engine. The frontend is **backend-agnostic** and can work with any backend technology stack that implements the required API contracts.
+
+The backend stack documented in this file is **for demonstration and testing purposes only**. It provides a minimalist reference implementation in Node.js to showcase all frontend features during development.
+
+**Backend SDKs/Libraries** will be created as **separate sub-projects** for different backend technologies:
+- **.NET SDK** - For ASP.NET Core / .NET applications
+- **PHP SDK** - For Laravel and PHP applications
+- **Additional SDKs** - Can be added for other backend technologies as needed
+
+Each SDK will implement the OpenPortal API specification, allowing backend developers to integrate with the frontend in their preferred technology stack.
+
 ## Technology Stack Summary
 
 ### Frontend Stack
@@ -29,12 +42,14 @@ This document outlines all technology choices for the OpenPortal platform, inclu
 | **Formatting** | Prettier | 2.x | Code consistency, automated formatting |
 | **CSS Approach** | CSS Modules | Built-in | Component-scoped styles, no global conflicts, built-in support |
 
-### Backend Stack (Recommendations)
+### Test Backend Stack (For Development/Demo Only)
+
+**Note:** This is a **minimalist test backend** for demonstrating frontend features during development. OpenPortal is backend-agnostic and can work with any backend that implements the API contracts. Production backends should be implemented using the appropriate SDK for your technology stack (see Backend SDKs section below).
 
 | Category | Technology | Rationale |
 |----------|-----------|-----------|
-| **Runtime** | Node.js 18+ LTS | JavaScript/TypeScript consistency, mature ecosystem |
-| **Framework** | Express.js | Lightweight, flexible, well-understood |
+| **Runtime** | Node.js 18+ LTS | Simplicity for test backend, JavaScript/TypeScript consistency |
+| **Framework** | Express.js | Lightweight, flexible, minimal setup |
 | **Database** | PostgreSQL 14+ | Robust, JSONB support for configurations, excellent performance |
 | **ORM** | Prisma | Type-safe, excellent DX, migration support |
 | **Caching** | Redis 7+ | Fast, versatile, session storage, config caching |
@@ -44,6 +59,32 @@ This document outlines all technology choices for the OpenPortal platform, inclu
 | **Validation** | Zod | TypeScript-first, excellent DX, shared with frontend |
 | **Testing** | Jest | Consistency with frontend, excellent ecosystem |
 | **Logging** | Pino | High performance, structured logging, JSON output |
+
+### Backend SDKs (Separate Sub-Projects)
+
+OpenPortal backend SDKs will be developed as **separate repositories/packages** to enable integration with various backend technologies:
+
+| SDK | Technology | Repository | Status |
+|-----|-----------|------------|--------|
+| **.NET SDK** | ASP.NET Core / .NET | `openportal-dotnet-sdk` | 📋 Planned |
+| **PHP SDK** | Laravel / PHP | `openportal-php-sdk` | 📋 Planned |
+| **Node.js SDK** | Express / NestJS | `openportal-node-sdk` | 📋 Planned |
+| **Java SDK** | Spring Boot | `openportal-java-sdk` | 🔄 Future |
+| **Python SDK** | FastAPI / Django | `openportal-python-sdk` | 🔄 Future |
+
+Each SDK will provide:
+- Implementation of OpenPortal API specification
+- Configuration management and storage
+- Authentication and authorization helpers
+- WebSocket event handling
+- Validation utilities
+- Documentation and examples
+
+**Development Priority:**
+1. **.NET SDK** - High priority for enterprise applications
+2. **PHP/Laravel SDK** - High priority for web applications
+3. **Node.js SDK** - Extract from test backend as reference implementation
+4. Additional SDKs based on demand
 
 ### Infrastructure
 
@@ -466,27 +507,37 @@ document.documentElement.style.setProperty('--primary-color', theme.primaryColor
 
 **ADR:** See [ADR-012: Code Quality Tools](./adr/ADR-012-code-quality.md)
 
-## Backend Technology Decisions
+## Test Backend Technology Decisions
 
-### 1. Runtime: Node.js 18+ LTS
+**Important:** These decisions are for the **minimalist test backend** used during development and demonstration. OpenPortal is a **frontend-only project** that is **backend-agnostic**. Production implementations should use the appropriate backend SDK for your technology stack (.NET, PHP/Laravel, etc.).
 
-**Decision:** Use Node.js 18 or later (LTS versions)
+The test backend serves these purposes:
+- Demonstrate all frontend features during development
+- Provide reference implementation of the API specification
+- Enable local development and testing without external dependencies
+- Serve as basis for the Node.js SDK
+
+### 1. Runtime: Node.js 18+ LTS (Test Backend Only)
+
+**Decision:** Use Node.js 18 or later (LTS versions) for the test backend
 
 **Rationale:**
-- **JavaScript consistency**: Same language as frontend
-- **TypeScript support**: Share types between frontend and backend
-- **Mature ecosystem**: npm packages for everything
-- **Performance**: V8 engine, excellent for API servers
+- **Simplicity**: Quick to set up for demonstration purposes
+- **JavaScript consistency**: Same language as frontend for this project
+- **TypeScript support**: Share types between frontend and test backend
 - **JSON native**: Perfect for JSON configuration handling
+- **Development speed**: Fast to implement test API endpoints
+
+**Note:** For production backends, use the appropriate SDK for your technology stack (.NET, PHP/Laravel, Java, Python, etc.).
 
 **Alternatives Considered:**
-- **Python + FastAPI**: Good for ML/AI, but less consistency with frontend
-- **Java + Spring Boot**: Enterprise-grade, but heavier and slower development
-- **Go**: Excellent performance, but different language paradigm
+- **Python + FastAPI**: Good choice, but Node.js simpler for test backend
+- **Go**: Excellent performance, but more complex for simple test backend
+- **.NET or PHP**: Could use, but Node.js faster to set up for this project
 
 **ADR:** See [ADR-013: Backend Runtime](./adr/ADR-013-backend-runtime.md)
 
-### 2. Framework: Express.js
+### 2. Framework: Express.js (Test Backend Only)
 
 **Decision:** Use Express.js as the backend framework
 
@@ -512,9 +563,9 @@ app.get('/ui/branding', authMiddleware, brandingController);
 
 **ADR:** See [ADR-014: Backend Framework](./adr/ADR-014-backend-framework.md)
 
-### 3. Database: PostgreSQL 14+
+### 3. Database: PostgreSQL 14+ (Test Backend Only)
 
-**Decision:** Use PostgreSQL 14 or later
+**Decision:** Use PostgreSQL 14 or later for the test backend
 
 **Rationale:**
 - **Robust and mature**: Industry-standard, battle-tested
@@ -557,9 +608,9 @@ CREATE TABLE tenant_branding (
 
 **ADR:** See [ADR-015: Database Selection](./adr/ADR-015-database.md)
 
-### 4. ORM: Prisma
+### 4. ORM: Prisma (Test Backend Only)
 
-**Decision:** Use Prisma as the ORM
+**Decision:** Use Prisma as the ORM for the test backend
 
 **Rationale:**
 - **TypeScript-first**: Auto-generated types from schema
@@ -629,9 +680,9 @@ redis.publish('ui-updates', JSON.stringify({ pageId, action: 'refresh' }));
 
 **ADR:** See [ADR-017: Caching Solution](./adr/ADR-017-caching.md)
 
-### 6. WebSocket Server: ws (WebSocket library for Node.js)
+### 6. WebSocket Server: ws (Test Backend Only)
 
-**Decision:** Use `ws` library for WebSocket server
+**Decision:** Use `ws` library for WebSocket server in the test backend
 
 **Rationale:**
 - **Lightweight**: Minimal overhead, standards-compliant
@@ -671,9 +722,9 @@ function sendToUser(userId, message) {
 
 **ADR:** See [ADR-018: WebSocket Server](./adr/ADR-018-websocket-server.md)
 
-### 7. Authentication: JWT + Refresh Tokens
+### 7. Authentication: JWT + Refresh Tokens (Test Backend Only)
 
-**Decision:** Use JWT (JSON Web Tokens) with refresh token rotation
+**Decision:** Use JWT (JSON Web Tokens) with refresh token rotation in the test backend
 
 **Rationale:**
 - **Stateless**: No server-side session storage (except refresh tokens)
@@ -720,6 +771,8 @@ Response: { accessToken, expiresIn }
 ### 8. API Documentation: OpenAPI 3.0 (Swagger)
 
 **Decision:** Use OpenAPI 3.0 specification with Swagger UI
+
+**Note:** The OpenAPI specification defines the API contracts that all backend SDKs must implement. This ensures consistency across different backend technologies (.NET, PHP/Laravel, Node.js, etc.).
 
 **Rationale:**
 - **Standard specification**: Industry standard for REST APIs
@@ -795,9 +848,9 @@ type PageConfig = z.infer<typeof PageConfigSchema>;
 
 **ADR:** See [ADR-021: Validation Library](./adr/ADR-021-validation.md)
 
-### 10. Testing: Jest
+### 10. Testing: Jest (Test Backend Only)
 
-**Decision:** Use Jest for backend testing (consistency with frontend)
+**Decision:** Use Jest for test backend testing (consistency with frontend)
 
 **Rationale:**
 - **Consistency**: Same testing framework as frontend
@@ -813,9 +866,9 @@ type PageConfig = z.infer<typeof PageConfigSchema>;
 
 **ADR:** See [ADR-022: Backend Testing](./adr/ADR-022-backend-testing.md)
 
-### 11. Logging: Pino
+### 11. Logging: Pino (Test Backend Only)
 
-**Decision:** Use Pino for structured logging
+**Decision:** Use Pino for structured logging in the test backend
 
 **Rationale:**
 - **High performance**: Fastest Node.js logger
@@ -1018,7 +1071,9 @@ services:
 }
 ```
 
-### Backend Dependencies (Recommended)
+### Test Backend Dependencies (For Development/Demo)
+
+**Note:** These dependencies are for the minimalist test backend only. Production backends should use the appropriate SDK for their technology stack.
 
 ```json
 {
@@ -1195,34 +1250,43 @@ All selected technologies are under permissive open-source licenses:
 ### Summary
 
 All major technical decisions have been finalized and documented:
-- ✅ **Frontend Stack**: React 19, Context API, Custom Widgets, React Hook Form, CSS Modules
-- ✅ **Backend Stack**: Node.js, Express, PostgreSQL, Prisma, Redis
+- ✅ **Frontend Stack** (Core Project): React 19, Context API, Custom Widgets, React Hook Form, CSS Modules
+- ✅ **Test Backend Stack** (For Development/Demo): Node.js, Express, PostgreSQL, Prisma, Redis
+- ✅ **Backend SDKs** (Separate Sub-Projects): .NET SDK, PHP/Laravel SDK, Node.js SDK planned
 - ✅ **Infrastructure**: Docker, Docker Compose, GitHub Actions
 - ✅ **Testing**: Jest, React Testing Library, Playwright
 - ✅ **Type Safety**: TypeScript strict mode, Zod validation
 
+**Important:** OpenPortal is a **frontend-only project** that is **backend-agnostic**. The Node.js test backend is for demonstration and development only. Production implementations should use the appropriate backend SDK (.NET, PHP/Laravel, etc.).
+
 ### Next Steps
 
-1. **Update package.json** with selected dependencies
+1. **Update package.json** with selected frontend dependencies
 2. **Create ADR documents** for all major decisions
-3. **Set up development environment** with Docker Compose
+3. **Set up development environment** for frontend development
 4. **Configure TypeScript** with strict mode
 5. **Configure ESLint and Prettier**
 6. **Begin Phase 1 implementation** starting with authentication and widget registry
+7. **Develop backend SDKs** as separate sub-projects (.NET, PHP/Laravel prioritized)
 
 ### Dependencies to Install
 
-**Frontend:**
+**Frontend (This Project):**
 ```bash
 npm install react-router-dom react-hook-form zod
 npm install -D @playwright/test prettier
 ```
 
-**Backend (Recommendation):**
+**Test Backend (For Development/Demo - Optional):**
 ```bash
 npm install express @prisma/client jsonwebtoken bcrypt redis ws zod pino pino-http helmet cors
 npm install -D prisma jest supertest @types/node @types/express typescript
 ```
+
+**Backend SDKs (Separate Repositories):**
+- `.NET SDK`: To be created as `openportal-dotnet-sdk` repository
+- `PHP/Laravel SDK`: To be created as `openportal-php-sdk` repository
+- `Node.js SDK`: To be created as `openportal-node-sdk` repository (extracted from test backend)
 
 ---
 
