@@ -56,11 +56,11 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 ### Frontend Work
 
 #### 1.1 Authentication & Bootstrap (Week 3-4)
-- [ ] Login page implementation
-- [ ] OAuth integration
-- [ ] Token management (storage, refresh)
+- [x] Login page implementation - **Completed via ISSUE-007**
+- [ ] OAuth integration (callback handler)
+- [x] Token management (storage, refresh) - **Completed via ISSUE-007**
 - [ ] Bootstrap API integration (including branding reference)
-- [ ] User context management
+- [x] User context management - **Completed via ISSUE-007**
 - [ ] Tenant identification and context
 - [ ] Basic branding loading (logos, colors)
 - [ ] Default branding configuration
