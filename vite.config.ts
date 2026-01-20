@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     react(),
     TanStackRouterVite({
-      // Configure the plugin to handle routes properly
+      // Specifies the output path for the auto-generated route tree type definitions used by TanStack Router
       generatedRouteTree: './src/routeTree.gen.ts',
     }),
   ],
