@@ -8,8 +8,8 @@
  * - Redirects to intended destination
  */
 
-import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearch } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
 import * as authService from '../services/authService';
 import './OAuthCallback.css';
 
@@ -79,9 +79,9 @@ function OAuthCallback() {
       <div className="oauth-callback-card">
         {status === 'processing' && (
           <>
-            <div className="oauth-callback-spinner" role="status" aria-live="polite">
+            <output className="oauth-callback-spinner" aria-live="polite">
               <div className="spinner"></div>
-            </div>
+            </output>
             <h2>Completing sign in...</h2>
             <p>Please wait while we complete your authentication.</p>
           </>
@@ -89,7 +89,7 @@ function OAuthCallback() {
 
         {status === 'success' && (
           <>
-            <div className="oauth-callback-success" role="status" aria-live="polite">
+            <output className="oauth-callback-success" aria-live="polite">
               <svg
                 width="64"
                 height="64"
@@ -107,7 +107,7 @@ function OAuthCallback() {
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
+            </output>
             <h2>Sign in successful!</h2>
             <p>Redirecting you to your destination...</p>
           </>

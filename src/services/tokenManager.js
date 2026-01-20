@@ -90,7 +90,7 @@ export function getCurrentUser() {
 
   try {
     return JSON.parse(userStr);
-  } catch (e) {
+  } catch (_e) {
     return null;
   }
 }

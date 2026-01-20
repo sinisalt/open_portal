@@ -25,10 +25,9 @@ function HomePage() {
     <div className="container mx-auto p-8">
       <h1 className="text-4xl font-bold mb-4">Welcome to OpenPortal</h1>
       <p className="text-muted-foreground mb-4">Hello, {userName}!</p>
-      <p className="text-muted-foreground mb-8">
-        Configuration-driven business UI platform
-      </p>
+      <p className="text-muted-foreground mb-8">Configuration-driven business UI platform</p>
       <button
+        type="button"
         onClick={handleLogout}
         className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
       >
