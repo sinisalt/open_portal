@@ -9,19 +9,24 @@
  */
 
 import { render, screen, waitFor } from '@testing-library/react';
-import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
 import * as authService from '../services/authService';
-import OAuthCallback from './OAuthCallback';
+import OAuthCallback from './OAuthCallback.jsx';
 
 // Mock the auth service
 jest.mock('../services/authService');
 
-// Mock useNavigate
+// Mock TanStack Router
 const mockNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
+const mockSearch = {
+  code: null,
+  state: null,
+  error: null,
+  error_description: null,
+};
+
+jest.mock('@tanstack/react-router', () => ({
   useNavigate: () => mockNavigate,
+  useSearch: () => mockSearch,
 }));
 
 describe('OAuthCallback', () => {

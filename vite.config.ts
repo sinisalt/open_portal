@@ -1,22 +1,17 @@
+import path from 'node:path';
+import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
 import react from '@vitejs/plugin-react';
-import path from 'path';
 import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  esbuild: {
-    loader: 'jsx',
-    include: /src\/.*\.(jsx?|tsx?)$/,
-    exclude: [],
-  },
-  optimizeDeps: {
-    esbuildOptions: {
-      loader: {
-        '.js': 'jsx',
-      },
-    },
-  },
+  plugins: [
+    react(),
+    TanStackRouterVite({
+      // Specifies the output path for the auto-generated route tree type definitions used by TanStack Router
+      generatedRouteTree: './src/routeTree.gen.ts',
+    }),
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

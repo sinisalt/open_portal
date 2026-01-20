@@ -329,7 +329,7 @@ describe('authService', () => {
 
       try {
         await authService.handleOAuthCallback('invalid-code', mockState, false);
-      } catch (err) {
+      } catch (_err) {
         // Expected to throw
       }
 

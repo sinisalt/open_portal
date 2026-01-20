@@ -9,15 +9,15 @@
  * - Deep link preservation
  */
 
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearch } from '@tanstack/react-router';
+import { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import * as authService from '../services/authService';
 import './LoginPage.css';
 
 function LoginPage() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const search = useSearch({ from: '/login' });
   const { login, isAuthenticated } = useAuth();
 
   // Form state
@@ -35,13 +35,18 @@ function LoginPage() {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
+  /**
+   * Get redirect URL from search params or default to home
+   */
+  const getRedirectUrl = useCallback(() => search?.redirect || '/', [search]);
+
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      const from = location.state?.from || '/';
-      navigate(from, { replace: true });
+      const redirectTo = getRedirectUrl();
+      navigate({ to: redirectTo, replace: true });
     }
-  }, [isAuthenticated, navigate, location]);
+  }, [isAuthenticated, navigate, getRedirectUrl]);
 
   // Load OAuth providers
   useEffect(() => {
@@ -107,9 +112,9 @@ function LoginPage() {
     try {
       await login(email, password, rememberMe);
 
-      // Get redirect URL from location state or default to home
-      const from = location.state?.from || '/';
-      navigate(from, { replace: true });
+      // Navigate to redirect URL after successful login
+      const redirectTo = getRedirectUrl();
+      navigate({ to: redirectTo, replace: true });
     } catch (err) {
       setError(err.message || 'Login failed. Please check your credentials.');
     } finally {
@@ -121,7 +126,7 @@ function LoginPage() {
    * Handle OAuth provider click
    */
   const handleOAuthLogin = providerId => {
-    const redirectUrl = location.state?.from || '/';
+    const redirectUrl = getRedirectUrl();
     authService.initiateOAuth(providerId, redirectUrl);
   };
 
@@ -140,7 +145,7 @@ function LoginPage() {
     <div className="login-page">
       <div className="login-container">
         <div className="login-header">
-          <div className="login-logo" aria-label="Company Logo">
+          <div className="login-logo" role="img" aria-label="Company Logo">
             {/* Logo placeholder - will be replaced with branding */}
             <svg
               width="48"
@@ -148,7 +153,9 @@ function LoginPage() {
               viewBox="0 0 48 48"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              aria-label="OpenPortal Logo"
             >
+              <title>OpenPortal Logo</title>
               <rect width="48" height="48" rx="8" fill="#4F46E5" />
               <path d="M24 12L36 20V36L24 44L12 36V20L24 12Z" fill="white" />
             </svg>
@@ -159,7 +166,14 @@ function LoginPage() {
 
         {error && (
           <div className="login-error" role="alert">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-label="Error icon"
+            >
+              <title>Error</title>
               <path
                 fillRule="evenodd"
                 d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
@@ -229,7 +243,14 @@ function LoginPage() {
                 disabled={isLoading}
               >
                 {showPassword ? (
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-label="Hide password"
+                  >
+                    <title>Hide password</title>
                     <path
                       fillRule="evenodd"
                       d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z"
@@ -238,7 +259,14 @@ function LoginPage() {
                     <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z" />
                   </svg>
                 ) : (
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-label="Show password"
+                  >
+                    <title>Show password</title>
                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                     <path
                       fillRule="evenodd"
