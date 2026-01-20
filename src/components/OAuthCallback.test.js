@@ -17,14 +17,6 @@ import * as authService from '../services/authService';
 // Mock the auth service
 jest.mock('../services/authService');
 
-// Mock the useAuth hook
-jest.mock('../hooks/useAuth', () => ({
-  useAuth: () => ({
-    login: jest.fn(),
-    isAuthenticated: false,
-  }),
-}));
-
 // Mock useNavigate
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
@@ -36,6 +28,9 @@ describe('OAuthCallback', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     sessionStorage.clear();
+    // Mock window.location.href
+    delete window.location;
+    window.location = { href: '' };
   });
 
   describe('successful authentication', () => {
@@ -73,10 +68,10 @@ describe('OAuthCallback', () => {
         false
       );
 
-      // Should redirect to stored destination
+      // Should redirect to stored destination via window.location.href
       await waitFor(
         () => {
-          expect(mockNavigate).toHaveBeenCalledWith('/dashboard', { replace: true });
+          expect(window.location.href).toBe('/dashboard');
         },
         { timeout: 2000 }
       );
@@ -106,7 +101,7 @@ describe('OAuthCallback', () => {
 
       await waitFor(
         () => {
-          expect(mockNavigate).toHaveBeenCalledWith('/', { replace: true });
+          expect(window.location.href).toBe('/');
         },
         { timeout: 2000 }
       );

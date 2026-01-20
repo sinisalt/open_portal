@@ -144,32 +144,34 @@ export async function handleOAuthCallback(code, state, rememberMe = false) {
     throw new Error('Invalid state parameter. Possible CSRF attack.');
   }
 
-  // Clear state from storage
-  sessionStorage.removeItem('oauthState');
+  try {
+    // Exchange authorization code for tokens
+    const response = await fetch(`${API_BASE_URL}/auth/oauth/callback`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ code, state }),
+    });
 
-  // Exchange authorization code for tokens
-  const response = await fetch(`${API_BASE_URL}/auth/oauth/callback`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ code, state }),
-  });
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ message: 'OAuth authentication failed' }));
+      throw new Error(error.message || 'OAuth authentication failed');
+    }
 
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: 'OAuth authentication failed' }));
-    throw new Error(error.message || 'OAuth authentication failed');
+    const data = await response.json();
+
+    // Store tokens based on rememberMe preference
+    const storage = rememberMe ? localStorage : sessionStorage;
+    storage.setItem('accessToken', data.accessToken);
+    storage.setItem('refreshToken', data.refreshToken);
+    storage.setItem('user', JSON.stringify(data.user));
+
+    return data;
+  } finally {
+    // Always clear state from storage to prevent reuse
+    sessionStorage.removeItem('oauthState');
   }
-
-  const data = await response.json();
-
-  // Store tokens based on rememberMe preference
-  const storage = rememberMe ? localStorage : sessionStorage;
-  storage.setItem('accessToken', data.accessToken);
-  storage.setItem('refreshToken', data.refreshToken);
-  storage.setItem('user', JSON.stringify(data.user));
-
-  return data;
 }
 
 /**

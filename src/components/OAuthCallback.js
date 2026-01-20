@@ -10,14 +10,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
 import * as authService from '../services/authService';
 import './OAuthCallback.css';
 
 function OAuthCallback() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { login: setAuthUser } = useAuth();
 
   const [status, setStatus] = useState('processing'); // processing, success, error
   const [error, setError] = useState(null);
@@ -47,23 +45,20 @@ function OAuthCallback() {
         }
 
         // Exchange code for tokens
-        const authData = await authService.handleOAuthCallback(code, state, false);
+        await authService.handleOAuthCallback(code, state, false);
 
-        // Set authenticated user in context
-        if (setAuthUser && authData.user) {
-          // The handleOAuthCallback already stored the tokens, we just need to update the auth context
-          // In a real implementation, we'd call a method to update the auth context
-          setStatus('success');
+        // handleOAuthCallback already stored the tokens in storage
+        // Use window.location for full page reload to update auth context
+        setStatus('success');
 
-          // Redirect to intended destination
-          const redirectUrl = sessionStorage.getItem('oauthRedirect') || '/';
-          sessionStorage.removeItem('oauthRedirect');
+        // Redirect to intended destination
+        const redirectUrl = sessionStorage.getItem('oauthRedirect') || '/';
+        sessionStorage.removeItem('oauthRedirect');
 
-          // Small delay to show success message
-          setTimeout(() => {
-            navigate(redirectUrl, { replace: true });
-          }, 1000);
-        }
+        // Small delay to show success message
+        setTimeout(() => {
+          window.location.href = redirectUrl;
+        }, 1000);
       } catch (err) {
         console.error('OAuth callback error:', err);
         setStatus('error');
@@ -80,7 +75,7 @@ function OAuthCallback() {
     };
 
     handleCallback();
-  }, [searchParams, navigate, setAuthUser]);
+  }, [searchParams, navigate]);
 
   return (
     <div className="oauth-callback-container">
