@@ -8,6 +8,8 @@
  * - Logout
  */
 
+import * as tokenManager from './tokenManager';
+
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/v1';
 
 /**
@@ -33,11 +35,14 @@ export async function login(email, password, rememberMe = false) {
 
   const data = await response.json();
 
-  // Store tokens based on rememberMe preference
-  const storage = rememberMe ? localStorage : sessionStorage;
-  storage.setItem('accessToken', data.accessToken);
-  storage.setItem('refreshToken', data.refreshToken);
-  storage.setItem('user', JSON.stringify(data.user));
+  // Use token manager to store tokens
+  tokenManager.storeTokens(
+    data.accessToken,
+    data.refreshToken,
+    data.expiresIn,
+    data.user,
+    rememberMe
+  );
 
   return data;
 }
@@ -62,9 +67,8 @@ export async function refreshAccessToken(refreshToken) {
 
   const data = await response.json();
 
-  // Update access token in storage
-  const storage = localStorage.getItem('accessToken') ? localStorage : sessionStorage;
-  storage.setItem('accessToken', data.accessToken);
+  // Use token manager to update access token
+  tokenManager.updateAccessToken(data.accessToken, data.expiresIn);
 
   return data;
 }
@@ -84,13 +88,8 @@ export async function logout(refreshToken) {
       body: JSON.stringify({ refreshToken }),
     });
   } finally {
-    // Always clear local storage regardless of API response
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('refreshToken');
-    sessionStorage.removeItem('user');
+    // Always clear tokens using token manager
+    tokenManager.clearTokens();
   }
 }
 
@@ -161,11 +160,14 @@ export async function handleOAuthCallback(code, state, rememberMe = false) {
 
     const data = await response.json();
 
-    // Store tokens based on rememberMe preference
-    const storage = rememberMe ? localStorage : sessionStorage;
-    storage.setItem('accessToken', data.accessToken);
-    storage.setItem('refreshToken', data.refreshToken);
-    storage.setItem('user', JSON.stringify(data.user));
+    // Use token manager to store tokens
+    tokenManager.storeTokens(
+      data.accessToken,
+      data.refreshToken,
+      data.expiresIn,
+      data.user,
+      rememberMe
+    );
 
     return data;
   } finally {
@@ -197,7 +199,7 @@ function generateRandomString(length) {
  * @returns {string|null}
  */
 export function getAccessToken() {
-  return localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
+  return tokenManager.getAccessToken();
 }
 
 /**
@@ -205,7 +207,7 @@ export function getAccessToken() {
  * @returns {string|null}
  */
 export function getRefreshToken() {
-  return localStorage.getItem('refreshToken') || sessionStorage.getItem('refreshToken');
+  return tokenManager.getRefreshToken();
 }
 
 /**
@@ -213,14 +215,7 @@ export function getRefreshToken() {
  * @returns {object|null}
  */
 export function getCurrentUser() {
-  const userStr = localStorage.getItem('user') || sessionStorage.getItem('user');
-  if (!userStr) return null;
-
-  try {
-    return JSON.parse(userStr);
-  } catch (e) {
-    return null;
-  }
+  return tokenManager.getCurrentUser();
 }
 
 /**
@@ -228,5 +223,5 @@ export function getCurrentUser() {
  * @returns {boolean}
  */
 export function isAuthenticated() {
-  return !!getAccessToken();
+  return tokenManager.isAuthenticated();
 }

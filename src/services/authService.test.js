@@ -111,12 +111,21 @@ describe('authService', () => {
   });
 
   describe('isAuthenticated', () => {
-    it('should return true when access token exists', () => {
+    it('should return true when access token exists and is not expired', () => {
+      const futureExpiry = Date.now() + 3600000; // 1 hour from now
       localStorage.setItem('accessToken', 'token');
+      localStorage.setItem('tokenExpiry', futureExpiry.toString());
       expect(authService.isAuthenticated()).toBe(true);
     });
 
     it('should return false when no access token exists', () => {
+      expect(authService.isAuthenticated()).toBe(false);
+    });
+
+    it('should return false when token is expired', () => {
+      const pastExpiry = Date.now() - 1000; // 1 second ago
+      localStorage.setItem('accessToken', 'token');
+      localStorage.setItem('tokenExpiry', pastExpiry.toString());
       expect(authService.isAuthenticated()).toBe(false);
     });
   });
