@@ -5,6 +5,7 @@ This directory contains **utility functions and helper modules** used throughout
 ## Purpose
 
 Utilities provide:
+
 - **Common Functions**: Reusable helper functions
 - **Data Transformation**: Format, parse, transform data
 - **Validation**: Input validation, schema validation
@@ -15,38 +16,46 @@ Utilities provide:
 ## Utility Categories
 
 ### Validation
+
 - `validators.js` - Input validation functions
 - `schemaValidator.js` - JSON schema validation
 - `formValidators.js` - Form-specific validations
 
 ### Data Transformation
+
 - `formatters.js` - Data formatting (currency, numbers, dates)
 - `parsers.js` - Data parsing (JSON, CSV)
 - `transformers.js` - Data structure transformation
 
 ### String Utilities
+
 - `stringUtils.js` - String manipulation
 - `sanitize.js` - HTML/input sanitization
 - `slugify.js` - Create URL-friendly slugs
 
 ### Date/Time Utilities
+
 - `dateUtils.js` - Date formatting and calculations
 - `timezone.js` - Timezone conversions
 
 ### Object/Array Utilities
+
 - `objectUtils.js` - Object manipulation (deep merge, clone)
 - `arrayUtils.js` - Array operations (chunk, unique, group)
 
 ### URL/Path Utilities
+
 - `urlUtils.js` - URL parsing and building
 - `pathUtils.js` - Path resolution and normalization
 
 ### Browser Utilities
+
 - `localStorage.js` - localStorage wrapper with error handling
 - `sessionStorage.js` - sessionStorage wrapper
 - `cookies.js` - Cookie management
 
 ### Performance Utilities
+
 - `debounce.js` - Debounce function calls
 - `throttle.js` - Throttle function calls
 - `memoize.js` - Memoization helper
@@ -73,7 +82,7 @@ Utilities provide:
 export function formatCurrency(amount, currency = 'USD') {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency
+    currency,
   }).format(amount);
 }
 
@@ -93,6 +102,7 @@ export function formatDate(date, format = 'MM/DD/YYYY') {
 ## Common Utilities
 
 ### Validation
+
 ```javascript
 // validators.js
 export function isEmail(email) {
@@ -111,6 +121,7 @@ export function isURL(url) {
 ```
 
 ### Data Transformation
+
 ```javascript
 // transformers.js
 export function camelToSnake(str) {
@@ -123,6 +134,7 @@ export function snakeToCamel(str) {
 ```
 
 ### Array Operations
+
 ```javascript
 // arrayUtils.js
 export function chunk(array, size) {
@@ -177,6 +189,7 @@ utils/
 ## Testing
 
 Utility tests should:
+
 - Test all edge cases
 - Test error handling
 - Test with various input types
@@ -184,6 +197,7 @@ Utility tests should:
 - Be fast and deterministic
 
 Example test:
+
 ```javascript
 import { formatCurrency } from './formatters';
 

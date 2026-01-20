@@ -5,6 +5,7 @@ This directory contains **API service layers** that handle communication with ba
 ## Purpose
 
 Services provide:
+
 - **API Communication**: HTTP requests to backend endpoints
 - **Data Fetching**: Retrieve configurations, data, and resources
 - **Error Handling**: Consistent error handling and retry logic
@@ -14,23 +15,30 @@ Services provide:
 ## Service Types
 
 ### Configuration Services
+
 Load and cache page and widget configurations from backend:
+
 - `configService.js` - Fetch page configurations
 - `bootstrapService.js` - Initial app bootstrap data
 - `schemaService.js` - JSON schema validation
 
 ### Data Services
+
 Fetch application data:
+
 - `dataService.js` - Generic data fetching
 - `userService.js` - User data and profile
 - `contentService.js` - CMS content
 
 ### Authentication Services
+
 Handle user authentication and authorization:
+
 - `authService.js` - Login, logout, token management
 - `oauthService.js` - OAuth provider integration
 
 ### Utility Services
+
 - `cacheService.js` - Client-side caching layer
 - `apiClient.js` - Base HTTP client with interceptors
 
@@ -68,6 +76,7 @@ export default new ConfigService();
 ## API Client
 
 All services use a shared API client with:
+
 - Base URL configuration
 - Request/response interceptors
 - Error handling
@@ -77,6 +86,7 @@ All services use a shared API client with:
 ## Error Handling
 
 Services should:
+
 1. Catch and transform API errors
 2. Provide meaningful error messages
 3. Support error recovery
@@ -124,6 +134,7 @@ services/
 ## Testing
 
 Service tests should:
+
 - Mock API responses
 - Test error handling
 - Verify caching behavior
@@ -132,6 +143,7 @@ Service tests should:
 ## Environment Configuration
 
 Services use environment variables for configuration:
+
 - `REACT_APP_API_URL` - Backend API base URL
 - `REACT_APP_AUTH_URL` - Authentication service URL
 - `REACT_APP_CACHE_TTL` - Cache time-to-live

@@ -5,6 +5,7 @@ This directory contains **runtime configuration** for the application.
 ## Purpose
 
 The config directory provides:
+
 - **Environment Configuration**: Environment-specific settings
 - **Feature Flags**: Toggle features on/off
 - **Constants**: Application-wide constants
@@ -13,7 +14,9 @@ The config directory provides:
 ## Configuration Files
 
 ### `constants.js`
+
 Application-wide constants:
+
 ```javascript
 export const APP_NAME = 'OpenPortal';
 export const VERSION = '0.1.0';
@@ -42,7 +45,9 @@ export const EVENT_TYPES = {
 ```
 
 ### `defaults.js`
+
 Default configurations for widgets and components:
+
 ```javascript
 export const DEFAULT_WIDGET_CONFIG = {
   visible: true,
@@ -67,7 +72,9 @@ export const DEFAULT_FORM_CONFIG = {
 ```
 
 ### `environment.js`
+
 Environment-specific configuration:
+
 ```javascript
 const ENV = process.env.REACT_APP_ENV || 'development';
 
@@ -96,7 +103,9 @@ export default config[ENV];
 ```
 
 ### `featureFlags.js`
+
 Feature toggle configuration:
+
 ```javascript
 export const FEATURES = {
   DARK_MODE: true,
@@ -112,7 +121,9 @@ export function isFeatureEnabled(feature) {
 ```
 
 ### `theme.js`
+
 Theme configuration (colors, spacing, typography):
+
 ```javascript
 export const theme = {
   colors: {
@@ -235,17 +246,12 @@ config/
 ```javascript
 // validateConfig.js
 export function validateConfig() {
-  const required = [
-    'REACT_APP_API_URL',
-    'REACT_APP_AUTH_URL',
-  ];
+  const required = ['REACT_APP_API_URL', 'REACT_APP_AUTH_URL'];
 
   const missing = required.filter(key => !process.env[key]);
 
   if (missing.length > 0) {
-    throw new Error(
-      `Missing required environment variables: ${missing.join(', ')}`
-    );
+    throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
   }
 }
 
@@ -257,6 +263,7 @@ validateConfig();
 ## Dynamic Configuration
 
 For configuration that changes at runtime, consider using:
+
 - React Context for theme/preferences
 - Redux/state management for feature flags
 - API calls for remote configuration

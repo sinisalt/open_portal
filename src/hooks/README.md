@@ -5,6 +5,7 @@ This directory contains **custom React hooks** for shared logic and state manage
 ## Purpose
 
 Custom hooks provide reusable logic for:
+
 - **Configuration Loading**: Fetch and cache page configurations
 - **Data Fetching**: Load data from APIs with loading/error states
 - **Authentication**: Manage user session and permissions
@@ -14,31 +15,37 @@ Custom hooks provide reusable logic for:
 ## Hook Categories
 
 ### Configuration Hooks
+
 - `usePageConfig` - Load page configuration
 - `useWidgetConfig` - Load widget configuration
 - `useBootstrap` - Initial app bootstrap data
 
 ### Data Hooks
+
 - `useData` - Generic data fetching with loading/error states
 - `useQuery` - Query data with caching
 - `useMutation` - Mutate data with optimistic updates
 
 ### Authentication Hooks
+
 - `useAuth` - Current user and authentication state
 - `usePermissions` - User permissions and policies
 - `useSession` - Session management
 
 ### Form Hooks
+
 - `useForm` - Form state management (uses react-hook-form)
 - `useValidation` - Validation logic
 - `useFieldArray` - Dynamic form fields
 
 ### UI Hooks
+
 - `useModal` - Modal state management
 - `useToast` - Toast notifications
 - `useDrawer` - Drawer/sidebar state
 
 ### Utility Hooks
+
 - `useDebounce` - Debounce values
 - `useLocalStorage` - Persist state to localStorage
 - `usePrevious` - Track previous value
@@ -64,7 +71,7 @@ function usePageConfig(pageId) {
       try {
         setLoading(true);
         const data = await configService.getPageConfig(pageId);
-        
+
         if (isMounted) {
           setConfig(data);
           setError(null);
@@ -109,11 +116,11 @@ Most data-fetching hooks follow this pattern:
 
 ```javascript
 return {
-  data,           // The fetched data (null if loading or error)
-  loading,        // Boolean indicating loading state
-  error,          // Error message (null if no error)
-  refetch,        // Function to refetch data
-  isValidating    // Boolean indicating revalidation
+  data, // The fetched data (null if loading or error)
+  loading, // Boolean indicating loading state
+  error, // Error message (null if no error)
+  refetch, // Function to refetch data
+  isValidating, // Boolean indicating revalidation
 };
 ```
 
@@ -151,6 +158,7 @@ hooks/
 ## Testing
 
 Hook tests should:
+
 - Use `@testing-library/react-hooks` (or React Testing Library)
 - Test all return values
 - Test loading and error states
@@ -158,6 +166,7 @@ Hook tests should:
 - Mock service calls
 
 Example test:
+
 ```javascript
 import { renderHook, waitFor } from '@testing-library/react';
 import usePageConfig from './usePageConfig';

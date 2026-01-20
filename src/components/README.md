@@ -5,6 +5,7 @@ This directory contains reusable React components that are **not** widgets. Thes
 ## Purpose
 
 Components here are:
+
 - **Generic**: Not configuration-driven, not part of the widget catalog
 - **Reusable**: Used across multiple pages or features
 - **Composable**: Can be combined to build more complex UIs

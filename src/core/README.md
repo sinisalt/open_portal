@@ -5,6 +5,7 @@ This directory contains the **core rendering engine** and foundational logic for
 ## Purpose
 
 The core directory houses the essential infrastructure that:
+
 - **Parses** JSON configurations from backend APIs
 - **Renders** widgets dynamically based on configurations
 - **Manages** the widget registry
@@ -15,9 +16,11 @@ The core directory houses the essential infrastructure that:
 ## Subdirectories
 
 ### `engine/`
+
 The configuration rendering engine that interprets JSON configs and renders widgets.
 
 **Key responsibilities:**
+
 - Parse page configurations
 - Resolve widget types and props
 - Handle nested widget rendering
@@ -26,21 +29,25 @@ The configuration rendering engine that interprets JSON configs and renders widg
 - Validate configurations against schemas
 
 **Example files:**
+
 - `ConfigEngine.js` - Main configuration engine
 - `ActionEngine.js` - Action execution engine
 - `ValidationEngine.js` - Configuration validation
 - `PolicyEngine.js` - Policy enforcement
 
 ### `registry/`
+
 The widget registry that maps widget types to React components.
 
 **Key responsibilities:**
+
 - Register available widgets
 - Provide widget lookup by type
 - Validate widget contracts
 - Support dynamic widget loading
 
 **Example files:**
+
 - `widgetRegistry.js` - Widget type mappings
 - `datasourceRegistry.js` - Datasource type mappings
 - `actionRegistry.js` - Action handler mappings
@@ -56,17 +63,21 @@ The widget registry that maps widget types to React components.
 ## Key Patterns
 
 ### Widget Registry Pattern
+
 Map widget types to React components:
+
 ```javascript
 const widgetRegistry = {
-  'TextInput': TextInputWidget,
-  'Button': ButtonWidget,
+  TextInput: TextInputWidget,
+  Button: ButtonWidget,
   // ...
 };
 ```
 
 ### Configuration Rendering
+
 Parse JSON config and render widgets dynamically:
+
 ```javascript
 function renderWidget(config) {
   const Component = widgetRegistry[config.type];
@@ -75,17 +86,21 @@ function renderWidget(config) {
 ```
 
 ### Action Engine
+
 Execute configured actions:
+
 ```javascript
 const actionHandlers = {
-  'executeAction': executeActionHandler,
-  'navigate': navigateHandler,
+  executeAction: executeActionHandler,
+  navigate: navigateHandler,
   // ...
 };
 ```
 
 ### Datasource Pattern
+
 Separate data fetching from rendering:
+
 ```javascript
 const datasources = {
   'user-data': { kind: 'http', url: '/api/users' },
@@ -165,6 +180,7 @@ core/
 ## Testing
 
 Core engine testing includes:
+
 - Configuration parsing tests
 - Widget rendering integration tests
 - Action execution tests

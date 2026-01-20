@@ -5,6 +5,7 @@ This directory contains **test utilities, mocks, and shared test fixtures** for 
 ## Purpose
 
 The tests directory provides:
+
 - **Test Utilities**: Helper functions for testing
 - **Mocks**: Mock data, services, and API responses
 - **Fixtures**: Reusable test data and configurations
@@ -32,19 +33,14 @@ tests/
 ## Test Utilities
 
 ### `renderWithProviders.js`
+
 Render component with necessary providers:
 
 ```javascript
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
-export function renderWithProviders(
-  ui,
-  {
-    initialState = {},
-    ...renderOptions
-  } = {}
-) {
+export function renderWithProviders(ui, { initialState = {}, ...renderOptions } = {}) {
   function Wrapper({ children }) {
     return (
       <BrowserRouter>
@@ -59,6 +55,7 @@ export function renderWithProviders(
 ```
 
 ### `mockData.js`
+
 Generate mock data for tests:
 
 ```javascript
@@ -95,6 +92,7 @@ export function createMockUser(overrides = {}) {
 ```
 
 ### `testHelpers.js`
+
 Common test helper functions:
 
 ```javascript
@@ -194,9 +192,7 @@ export const mockAuthService = {
     })
   ),
   logout: jest.fn(),
-  getCurrentUser: jest.fn(() =>
-    Promise.resolve({ id: '1', name: 'Test User' })
-  ),
+  getCurrentUser: jest.fn(() => Promise.resolve({ id: '1', name: 'Test User' })),
 };
 ```
 
@@ -330,7 +326,7 @@ import TextInput from './widgets/TextInput';
 
 test('renders text input with label', () => {
   renderWithProviders(<TextInput config={textInputConfig} />);
-  
+
   expect(screen.getByLabelText('Username')).toBeInTheDocument();
 });
 ```
@@ -388,6 +384,7 @@ npm test TextInput.test.js
 - **Lines**: > 80%
 
 Focus on testing:
+
 - User interactions
 - Edge cases and error handling
 - Accessibility features

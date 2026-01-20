@@ -5,6 +5,7 @@ This directory contains **global styles and CSS modules** for the application.
 ## Purpose
 
 The styles directory provides:
+
 - **Global Styles**: Base styles, resets, and global CSS
 - **Theme Definitions**: CSS variables and theme tokens
 - **Utility Classes**: Reusable CSS utility classes
@@ -14,7 +15,9 @@ The styles directory provides:
 ## Style Files
 
 ### `global.css`
+
 Global base styles and CSS resets:
+
 ```css
 /* global.css */
 *,
@@ -26,8 +29,8 @@ Global base styles and CSS resets:
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: #333;
@@ -44,7 +47,9 @@ body,
 ```
 
 ### `variables.css`
+
 CSS custom properties (variables):
+
 ```css
 /* variables.css */
 :root {
@@ -102,57 +107,117 @@ CSS custom properties (variables):
 ```
 
 ### `utilities.css`
+
 Utility classes for common styles:
+
 ```css
 /* utilities.css */
 
 /* Spacing utilities */
-.m-0 { margin: 0; }
-.m-1 { margin: var(--spacing-xs); }
-.m-2 { margin: var(--spacing-sm); }
-.m-3 { margin: var(--spacing-md); }
-.m-4 { margin: var(--spacing-lg); }
-.m-5 { margin: var(--spacing-xl); }
+.m-0 {
+  margin: 0;
+}
+.m-1 {
+  margin: var(--spacing-xs);
+}
+.m-2 {
+  margin: var(--spacing-sm);
+}
+.m-3 {
+  margin: var(--spacing-md);
+}
+.m-4 {
+  margin: var(--spacing-lg);
+}
+.m-5 {
+  margin: var(--spacing-xl);
+}
 
-.mt-0 { margin-top: 0; }
-.mt-1 { margin-top: var(--spacing-xs); }
+.mt-0 {
+  margin-top: 0;
+}
+.mt-1 {
+  margin-top: var(--spacing-xs);
+}
 /* ... other spacing utilities */
 
-.p-0 { padding: 0; }
-.p-1 { padding: var(--spacing-xs); }
+.p-0 {
+  padding: 0;
+}
+.p-1 {
+  padding: var(--spacing-xs);
+}
 /* ... other padding utilities */
 
 /* Display utilities */
-.d-none { display: none; }
-.d-block { display: block; }
-.d-flex { display: flex; }
-.d-grid { display: grid; }
+.d-none {
+  display: none;
+}
+.d-block {
+  display: block;
+}
+.d-flex {
+  display: flex;
+}
+.d-grid {
+  display: grid;
+}
 
 /* Flexbox utilities */
-.flex-row { flex-direction: row; }
-.flex-column { flex-direction: column; }
-.justify-start { justify-content: flex-start; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
-.align-start { align-items: flex-start; }
-.align-center { align-items: center; }
+.flex-row {
+  flex-direction: row;
+}
+.flex-column {
+  flex-direction: column;
+}
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.align-start {
+  align-items: flex-start;
+}
+.align-center {
+  align-items: center;
+}
 
 /* Text utilities */
-.text-left { text-align: left; }
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-.text-primary { color: var(--color-primary); }
-.text-danger { color: var(--color-danger); }
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-primary {
+  color: var(--color-primary);
+}
+.text-danger {
+  color: var(--color-danger);
+}
 
 /* Responsive utilities */
 @media (max-width: 768px) {
-  .d-mobile-none { display: none; }
-  .d-mobile-block { display: block; }
+  .d-mobile-none {
+    display: none;
+  }
+  .d-mobile-block {
+    display: block;
+  }
 }
 ```
 
 ### `breakpoints.css`
+
 Responsive breakpoint definitions:
+
 ```css
 /* breakpoints.css */
 
@@ -225,15 +290,13 @@ Component-specific styles should use CSS modules:
 ```
 
 Usage in component:
+
 ```javascript
 import styles from './Button.module.css';
 
 function Button({ variant = 'primary', children, ...props }) {
   return (
-    <button 
-      className={`${styles.button} ${styles[`button--${variant}`]}`}
-      {...props}
-    >
+    <button className={`${styles.button} ${styles[`button--${variant}`]}`} {...props}>
       {children}
     </button>
   );
@@ -293,6 +356,7 @@ body {
 ```
 
 Toggle theme in JavaScript:
+
 ```javascript
 document.documentElement.setAttribute('data-theme', 'dark');
 ```
@@ -310,6 +374,7 @@ document.documentElement.setAttribute('data-theme', 'dark');
 ## Accessibility
 
 Ensure accessible styles:
+
 ```css
 /* Focus states */
 *:focus {

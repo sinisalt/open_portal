@@ -5,6 +5,7 @@ This directory contains **TypeScript type definitions and interfaces** used thro
 ## Purpose
 
 The types directory provides:
+
 - **Type Safety**: Centralized type definitions for TypeScript
 - **Documentation**: Self-documenting code through types
 - **Autocomplete**: Better IDE support and IntelliSense
@@ -13,25 +14,30 @@ The types directory provides:
 ## Type Categories
 
 ### Widget Types
+
 - `widget.types.ts` - Widget configuration interfaces
 - `widgetProps.types.ts` - Widget component prop interfaces
 
 ### Configuration Types
+
 - `config.types.ts` - Page and widget configuration schemas
 - `datasource.types.ts` - Datasource configuration types
 - `action.types.ts` - Action and event types
 - `policy.types.ts` - Policy and validation types
 
 ### API Types
+
 - `api.types.ts` - API request/response types
 - `user.types.ts` - User and authentication types
 - `content.types.ts` - Content and CMS types
 
 ### Component Types
+
 - `component.types.ts` - Generic component prop types
 - `form.types.ts` - Form and input types
 
 ### Utility Types
+
 - `common.types.ts` - Common utility types
 - `helpers.types.ts` - Type helper utilities
 
@@ -46,22 +52,22 @@ The types directory provides:
 export interface WidgetConfig {
   /** Unique widget identifier */
   id: string;
-  
+
   /** Widget type (e.g., 'TextInput', 'Button') */
   type: string;
-  
+
   /** Widget-specific properties */
   props: Record<string, any>;
-  
+
   /** Data bindings */
   bindings?: WidgetBindings;
-  
+
   /** Event handlers */
   events?: WidgetEvents;
-  
+
   /** Visibility and permission policies */
   policies?: WidgetPolicies;
-  
+
   /** Child widgets (for containers) */
   children?: WidgetConfig[];
 }
@@ -72,10 +78,10 @@ export interface WidgetConfig {
 export interface WidgetBindings {
   /** Datasource ID */
   datasource: string;
-  
+
   /** Field to bind to */
   field?: string;
-  
+
   /** Transform function */
   transform?: string;
 }
@@ -94,7 +100,7 @@ export interface WidgetEvents {
 export interface ActionConfig {
   /** Action type */
   type: 'api' | 'navigate' | 'validate' | 'custom';
-  
+
   /** Action-specific parameters */
   params: Record<string, any>;
 }
@@ -112,6 +118,7 @@ export interface ActionConfig {
 ## Common Type Patterns
 
 ### Generic Types
+
 ```typescript
 // common.types.ts
 
@@ -140,6 +147,7 @@ export interface LoadingState<T> {
 ```
 
 ### Discriminated Unions
+
 ```typescript
 // action.types.ts
 
@@ -151,6 +159,7 @@ export type Action =
 ```
 
 ### Utility Types
+
 ```typescript
 // helpers.types.ts
 
@@ -199,6 +208,7 @@ export * from './api.types';
 ```
 
 This allows importing from a single location:
+
 ```typescript
 import { WidgetConfig, ApiResponse } from '@/types';
 ```
@@ -240,12 +250,7 @@ function renderWidget(config) {
 ```typescript
 // Type guard example
 export function isWidgetConfig(value: unknown): value is WidgetConfig {
-  return (
-    typeof value === 'object' &&
-    value !== null &&
-    'id' in value &&
-    'type' in value
-  );
+  return typeof value === 'object' && value !== null && 'id' in value && 'type' in value;
 }
 ```
 
