@@ -90,7 +90,10 @@ export async function httpClient(url, options = {}) {
       // If refresh fails, continue with existing token (might still work)
       // Only log in development
       if (process.env.NODE_ENV !== 'production') {
-        console.warn('Proactive token refresh failed:', error.message);
+        console.warn(
+          `Proactive token refresh failed before request to ${fullUrl}. Continuing with existing access token.`,
+          error
+        );
       }
     }
   }
