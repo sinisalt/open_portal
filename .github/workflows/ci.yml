@@ -56,7 +56,7 @@ jobs:
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: Run ESLint
-        run: npx eslint src/ --ext .js,.jsx,.ts,.tsx --max-warnings 0
+        run: npx eslint 'src/**/*.{js,jsx,ts,tsx}' --max-warnings 0
 
   # Code formatting check
   format:
