@@ -4,38 +4,34 @@
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import { BrowserRouter, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import * as authService from '../services/authService';
-import LoginPage from './LoginPage';
+import LoginPage from './LoginPage.jsx';
 
-// Mock dependencies
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
+// Mock TanStack Router
+jest.mock('@tanstack/react-router', () => ({
   useNavigate: jest.fn(),
-  useLocation: jest.fn(),
+  useSearch: jest.fn(),
 }));
 
 jest.mock('../hooks/useAuth');
 jest.mock('../services/authService');
 
 const mockNavigate = jest.fn();
-const mockLocation = { state: null, pathname: '/login' };
+const mockSearch = { redirect: undefined };
+
+const { useNavigate, useSearch } = require('@tanstack/react-router');
 
 describe('LoginPage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     useNavigate.mockReturnValue(mockNavigate);
-    useLocation.mockReturnValue(mockLocation);
+    useSearch.mockReturnValue(mockSearch);
     authService.getOAuthProviders.mockResolvedValue([]);
   });
 
   const renderLoginPage = () => {
-    return render(
-      <BrowserRouter>
-        <LoginPage />
-      </BrowserRouter>
-    );
+    return render(<LoginPage />);
   };
 
   describe('rendering', () => {
