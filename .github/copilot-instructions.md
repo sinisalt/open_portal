@@ -44,8 +44,10 @@ All development work follows an **issue-driven approach**:
    - Any relevant notes or decisions
 
 4. **Roadmap Updates**: After completing an issue, **always update** `/documentation/roadmap.md`:
-   - Mark completed tasks with `[x]` checkboxes
-   - Update phase progress
+   - Mark completed tasks with `[x]` checkboxes in the relevant phase section
+   - Update the "Overall Progress Summary" section at the end of the roadmap
+   - Update phase completion percentages
+   - Update the "Version" and "Last Updated" metadata at the bottom
    - Document any deviations or learnings
 
 ### Development Process
@@ -53,14 +55,45 @@ All development work follows an **issue-driven approach**:
 1. Read the issue file thoroughly
 2. Follow the defined steps in order
 3. Test each deliverable
-4. Create completion documentation
-5. Update the roadmap with completed tasks
+4. Create completion documentation (ISSUE-XXX-COMPLETION.md)
+5. **Update the roadmap with completed tasks** (both specific tasks AND overall progress summary)
 6. Commit changes with reference to issue number
+
+**CRITICAL**: Before finalizing any PR, verify that:
+- The specific task checkboxes `[ ]` → `[x]` are updated in the roadmap
+- The "Overall Progress Summary" section reflects the current state
+- Phase completion percentages are accurate
+- The "Last Updated" date is current
 
 **Example:**
 - Issue file: `ISSUE-002-CONFIGURATION-SCHEMA.md`
 - Completion file: `ISSUE-002-COMPLETION.md`
-- Roadmap update: Mark "Configuration schema draft" as `[x]` in Phase 0
+- Roadmap update: 
+  1. Mark "Configuration schema draft" as `[x]` in Phase 0
+  2. Update "Overall Progress Summary" section to reflect Phase 0 completion percentage
+  3. Update "Last Updated" date
+
+### Roadmap Maintenance
+
+The roadmap (`/documentation/roadmap.md`) serves as the single source of truth for project progress. It must be kept up-to-date on every PR that completes work:
+
+**Two-Level Update Required:**
+1. **Specific Task Level**: Update checkboxes in the detailed phase sections (e.g., Phase 1.1)
+2. **Overall Progress Level**: Update the "Overall Progress Summary" section at the end with:
+   - Phase completion percentages (e.g., "Phase 1.1 - 75% Complete")
+   - Completed issue references (e.g., "ISSUE-007")
+   - Status indicators (✅ Complete, 🚀 In Progress, ⏳ Pending)
+
+**Metadata Updates:**
+- Update "Version" (increment minor version for each update)
+- Update "Last Updated" date to current date
+- Update "Status" if phase changes (e.g., "Planning Phase" → "Active Development - Phase 1")
+
+**Why This Matters:**
+- Provides accurate project status at a glance
+- Helps stakeholders track progress
+- Prevents confusion about what's been completed
+- Makes it easy to resume work or onboard new contributors
 
 ## Coding Standards
 
@@ -250,13 +283,23 @@ const datasources = {
 
 ## Project Status
 
-- **Current Phase**: Planning & Specification ✅
-- **Next Phase**: Phase 0 - Discovery & Foundation
+- **Current Phase**: Phase 1 - Core Platform (MVP Renderer) 🚀
+- **Completed Phases**: 
+  - ✅ Phase 0 - Discovery & Foundation (100%)
+  - 🚀 Authentication & Token Management (Phase 1.1 - 75%)
 - **Architecture**: Fully documented in `/documentation/`
 - **Widget Specifications**: 
   - 12 core MVP widgets defined in `/documentation/widget-taxonomy.md`
   - 30+ widgets in full catalog in `/documentation/widget-catalog.md`
-- **Implementation**: Basic Create React App scaffold in place, widget implementation pending
+- **Implementation**: Authentication flow complete (Issues #007-#009), widget implementation next
+
+**Recent Completions:**
+- ✅ ISSUE-004: Technical Stack Finalization
+- ✅ ISSUE-005: Development Environment Setup
+- ✅ ISSUE-006: Project Repository Structure
+- ✅ ISSUE-007: Login Page Implementation
+- ✅ ISSUE-008: OAuth Integration
+- ✅ ISSUE-009: Token Management System
 
 ## Code Review Checklist
 
@@ -270,7 +313,9 @@ Before submitting changes:
 - [ ] No business logic in frontend components
 - [ ] Performance optimized (lazy loading, memoization)
 - [ ] Issue completion file created (if applicable)
-- [ ] Roadmap updated with completed tasks
+- [ ] **Roadmap updated with completed tasks (specific checkboxes AND overall progress summary)**
+- [ ] **Roadmap "Last Updated" date is current**
+- [ ] **Phase completion percentages are accurate**
 
 ## Common Pitfalls to Avoid
 
