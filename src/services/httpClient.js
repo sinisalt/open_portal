@@ -5,16 +5,66 @@
  * - Automatic token injection
  * - Automatic token refresh on 401
  * - Request queuing during refresh
+ * - Support for both custom OAuth and MSAL authentication
  */
 
-import * as tokenManager from './tokenManager';
+import { env } from '../config/env';
 import * as authService from './authService';
+import * as tokenManager from './tokenManager';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/v1';
+const API_BASE_URL = env.VITE_API_URL || 'http://localhost:3001/v1';
 
 // Queue for requests waiting for token refresh
 let isRefreshing = false;
 let refreshQueue = [];
+
+// Lazy import of MSAL instance to avoid circular dependencies
+let msalInstance = null;
+let loginRequest = null;
+
+/**
+ * Get MSAL instance and login request dynamically
+ */
+async function getMsalConfig() {
+  if (!msalInstance) {
+    try {
+      const msalConfig = await import('../config/msalConfig');
+      msalInstance = msalConfig.msalInstance;
+      loginRequest = msalConfig.loginRequest;
+    } catch (error) {
+      console.error('Failed to load MSAL config:', error);
+    }
+  }
+  return { msalInstance, loginRequest };
+}
+
+/**
+ * Get MSAL token
+ * @returns {Promise<string|null>}
+ */
+async function getMsalToken() {
+  const { msalInstance: msal, loginRequest: request } = await getMsalConfig();
+
+  if (!msal || !request) {
+    return null;
+  }
+
+  const accounts = msal.getAllAccounts();
+  if (accounts.length === 0) {
+    return null;
+  }
+
+  try {
+    const response = await msal.acquireTokenSilent({
+      ...request,
+      account: accounts[0],
+    });
+    return response.accessToken;
+  } catch (error) {
+    console.error('MSAL token acquisition failed:', error);
+    return null;
+  }
+}
 
 /**
  * Process queued requests after token refresh
@@ -79,21 +129,30 @@ export async function httpClient(url, options = {}) {
   // Resolve relative URLs
   const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
 
-  // Get current access token
-  let accessToken = tokenManager.getAccessToken();
+  // Get current access token based on auth provider
+  let accessToken;
+  const authProvider = env.VITE_AUTH_PROVIDER || 'custom';
 
-  // Check if token needs refresh before making request
-  if (accessToken && tokenManager.shouldRefreshToken()) {
-    try {
-      accessToken = await refreshTokenAndRetry();
-    } catch (error) {
-      // If refresh fails, continue with existing token (might still work)
-      // Only log in development
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn(
-          `Proactive token refresh failed before request to ${fullUrl}. Continuing with existing access token.`,
-          error
-        );
+  if (authProvider === 'msal') {
+    // Get MSAL token
+    accessToken = await getMsalToken();
+  } else {
+    // Get custom OAuth token
+    accessToken = tokenManager.getAccessToken();
+
+    // Check if token needs refresh before making request
+    if (accessToken && tokenManager.shouldRefreshToken()) {
+      try {
+        accessToken = await refreshTokenAndRetry();
+      } catch (error) {
+        // If refresh fails, continue with existing token (might still work)
+        // Only log in development
+        if (env.MODE !== 'production') {
+          console.warn(
+            `Proactive token refresh failed before request to ${fullUrl}. Continuing with existing access token.`,
+            error
+          );
+        }
       }
     }
   }
@@ -105,7 +164,7 @@ export async function httpClient(url, options = {}) {
   };
 
   if (accessToken && !options.skipAuth) {
-    headers['Authorization'] = `Bearer ${accessToken}`;
+    headers.Authorization = `Bearer ${accessToken}`;
   }
 
   // Make the request
@@ -117,8 +176,15 @@ export async function httpClient(url, options = {}) {
   // Handle 401 Unauthorized - token might be expired
   if (response.status === 401 && !options.skipAuth) {
     try {
-      // Refresh token and retry
-      const newToken = await refreshTokenAndRetry();
+      let newToken;
+
+      if (authProvider === 'msal') {
+        // For MSAL, we can't refresh easily here, so just fail
+        throw new Error('MSAL authentication failed. Please login again.');
+      } else {
+        // Refresh token and retry
+        newToken = await refreshTokenAndRetry();
+      }
 
       // Retry the original request with new token
       response = await fetch(fullUrl, {
@@ -128,7 +194,7 @@ export async function httpClient(url, options = {}) {
           Authorization: `Bearer ${newToken}`,
         },
       });
-    } catch (error) {
+    } catch (_error) {
       // Refresh failed, throw original 401 error
       throw new Error('Authentication failed. Please login again.');
     }

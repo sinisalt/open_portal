@@ -14,18 +14,82 @@ OpenPortal is an **API-driven Business UI Platform** where the frontend is a gen
 
 ## Technology Stack
 
-- **Frontend**: React 19.2.3 (Create React App)
-- **Testing**: Jest with React Testing Library
-- **Build Tool**: react-scripts
+### Current Stack (Phase 0.5 Migration in Progress)
+
+**⚠️ MIGRATION NOTICE:** The project is undergoing a technology stack migration (Phase 0.5). See ADR-012 for rationale.
+
+**Target Stack (Phase 0.5+):**
+- **Frontend**: React 19.2.3
+- **Build Tool**: Vite 6 ✅ (ISSUE-010 Complete)
+- **Language**: TypeScript 5 (strict mode for new files, JavaScript for existing) ✅ (ISSUE-010 Complete)
+- **Routing**: TanStack Router v1.132 (file-based routing) - Pending ISSUE-012
+- **Data Fetching**: TanStack Query v5.90
+- **State Management**: TanStack Store v0.8 + React Context
+- **UI Components**: shadcn/ui + Radix UI primitives - Pending ISSUE-011
+- **Styling**: Tailwind CSS v4.1 - Pending ISSUE-011
+- **Authentication**: Azure MSAL + Custom OAuth (dual, feature-flag switched) - Pending ISSUE-013
+- **Forms**: React Hook Form + Zod validation
+- **Testing**: Jest + Playwright (Vitest migration in later phase)
+- **Code Quality**: BiomeJS ✅ (ISSUE-010 Complete)
 - **Configuration**: JSON-based API contracts
-- **Architecture**: Widget registry pattern with configuration engine
+- **Architecture**: Widget registry pattern with 3-layer widget architecture - Pending ISSUE-014
+
+**Legacy Stack (Phase 0-1.1, now replaced):**
+- **Build Tool**: Create React App 5.0.1 ✅ (Removed in ISSUE-010)
+- **Routing**: React Router v6 (Keeping for now, replacing with TanStack Router in ISSUE-012)
+- **UI Components**: Custom widgets (Replacing with shadcn/ui in ISSUE-011)
+- **Testing**: Jest + React Testing Library ✅ (Configured for Vite in ISSUE-010)
+- **Code Quality**: ESLint + Prettier ✅ (Replaced with BiomeJS in ISSUE-010)
+
+### Widget Architecture (3 Layers)
+
+```
+Layer 1: Radix UI Primitives (headless, accessible)
+   ↓
+Layer 2: shadcn/ui Components (styled, Tailwind-based)
+   ↓
+Layer 3: OpenPortal Widgets (configuration contracts)
+   ↓
+Layer 4: Widget Registry (dynamic rendering)
+```
+
+See `/documentation/WIDGET-ARCHITECTURE.md` for details.
 
 ## Development Commands
 
+### Current Commands (After ISSUE-010)
 ```bash
-npm start          # Development server (http://localhost:3000)
-npm test          # Run tests in watch mode
-npm run build     # Production build
+# Development
+npm run dev        # Vite dev server (http://localhost:3000)
+npm run build      # Vite production build
+npm run preview    # Preview production build
+
+# Code Quality
+npm run lint       # BiomeJS linting
+npm run lint:fix   # BiomeJS auto-fix
+npm run format     # BiomeJS formatting
+
+# Testing
+npm test           # Jest tests (existing tests)
+npm run test:watch # Jest tests in watch mode
+npm run test:coverage  # Jest tests with coverage
+npm run test:e2e   # Playwright E2E tests
+```
+
+### Legacy Commands (Removed in ISSUE-010)
+```bash
+# These no longer work after migration:
+npm start          # ❌ Replaced by npm run dev
+npm run eject      # ❌ No longer applicable
+```
+
+### shadcn Component Installation
+```bash
+# Install components as needed (after ISSUE-011)
+npx shadcn@latest add <component-name>
+
+# Example:
+npx shadcn@latest add input button card
 ```
 
 ## Development Workflow
@@ -100,13 +164,49 @@ The roadmap (`/documentation/roadmap.md`) serves as the single source of truth f
 ### React Components
 
 1. **Functional Components**: Use React functional components with hooks
-2. **Widget Pattern**: Each widget must have a stable contract with:
-   - Props interface (TypeScript or PropTypes)
+2. **TypeScript for New Code**: All new components should be TypeScript (.tsx)
+3. **Widget Pattern**: Each widget must have a stable contract with:
+   - Config interface (TypeScript)
    - Bindings for data connections
    - Event handlers for user interactions
    - Policy support for visibility/permissions
 
-3. **Component Structure**:
+4. **Widget Component Structure** (Post-Phase 0.5):
+   ```typescript
+   // OpenPortal widget wrapping shadcn component
+   import { Input } from '@/components/ui/input'
+   import { Label } from '@/components/ui/label'
+   import { WidgetProps } from '@/types/widget'
+   
+   interface TextInputWidgetConfig extends WidgetConfig {
+     type: 'TextInput'
+     label: string
+     placeholder?: string
+     required?: boolean
+   }
+   
+   export function TextInputWidget({ config, bindings, events }: WidgetProps<TextInputWidgetConfig>) {
+     const { id, label, placeholder, required } = config
+     const value = bindings?.value ?? ''
+     
+     return (
+       <div className="space-y-2">
+         <Label htmlFor={id}>
+           {label}
+           {required && <span className="text-destructive ml-1">*</span>}
+         </Label>
+         <Input
+           id={id}
+           value={value}
+           placeholder={placeholder}
+           onChange={(e) => events?.onChange?.(e.target.value)}
+         />
+       </div>
+     )
+   }
+   ```
+
+5. **Legacy Component Structure** (Pre-Phase 0.5):
    ```javascript
    // Widget components should follow this pattern:
    function WidgetName({ config, data, onEvent }) {
@@ -121,23 +221,137 @@ The roadmap (`/documentation/roadmap.md`) serves as the single source of truth f
 3. **Action Engine**: User interactions trigger configured actions, not inline handlers
 4. **Validation**: Validation rules come from configuration, not component code
 
+### New Stack Patterns (Phase 0.5+)
+
+#### TypeScript Usage
+- **Strict Mode**: Enabled for all new TypeScript files
+- **Existing JavaScript**: Keep working, convert incrementally
+- **Type Definitions**: Define interfaces for all widget configs
+- **Path Aliases**: Use `@/` for imports (e.g., `@/components/ui/button`)
+
+#### Tailwind CSS Patterns
+```typescript
+// Use cn() utility for conditional classes
+import { cn } from '@/lib/utils'
+
+<div className={cn(
+  "base-classes",
+  error && "error-classes",
+  disabled && "disabled-classes"
+)} />
+```
+
+#### TanStack Router Patterns
+```typescript
+// File-based routing in src/routes/
+// Example: src/routes/login.tsx
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/login')({
+  component: LoginPage,
+  beforeLoad: async ({ location }) => {
+    // Auth checks, redirects, etc.
+  },
+})
+```
+
+#### Widget Registry Pattern
+```typescript
+// Register widgets at app startup
+import { widgetRegistry } from '@/core/registry/WidgetRegistry'
+import { TextInputWidget } from '@/widgets/TextInputWidget'
+
+widgetRegistry.register('TextInput', TextInputWidget)
+
+// Render dynamically from configuration
+<WidgetRenderer
+  config={{ type: 'TextInput', id: 'email', label: 'Email' }}
+  bindings={{ value: email }}
+  events={{ onChange: setEmail }}
+/>
+```
+
+#### Azure MSAL Authentication Pattern
+```typescript
+// Feature flag switching between auth providers
+const authProvider = import.meta.env.VITE_AUTH_PROVIDER || 'custom'
+
+// Custom OAuth (existing)
+if (authProvider === 'custom') {
+  return <LoginPage />
+}
+
+// Azure MSAL (new)
+if (authProvider === 'msal') {
+  return <LoginPageMSAL />
+}
+```
+
 ### Widget Development Guidelines
 
-When creating or modifying widgets:
+When creating or modifying widgets (Phase 0.5+):
 
-1. **Stable Contracts**: Define clear TypeScript interfaces for all widget props
-2. **Accessibility**: Support WCAG 2.1 Level AA standards
-   - Proper ARIA labels and roles
-   - Keyboard navigation
-   - Screen reader support
-   - Focus management
-3. **Responsive Design**: Mobile-first approach, adapt to all screen sizes
-4. **Composability**: Widgets should be nestable and reusable
-5. **Performance**: Lazy loading support, optimized rendering
+1. **Use shadcn/ui as Foundation**:
+   - Check `/documentation/WIDGET-COMPONENT-MAPPING.md` for component mapping
+   - Install required shadcn components first: `npx shadcn@latest add <component>`
+   - Wrap shadcn components with OpenPortal widget contract
+
+2. **3-Layer Architecture**:
+   - Layer 1: Radix UI (accessibility, interactions)
+   - Layer 2: shadcn/ui (styling, design system)
+   - Layer 3: OpenPortal Widget (configuration contract)
+   - Layer 4: Widget Registry (dynamic rendering)
+
+3. **Widget Development Workflow**:
+   ```bash
+   # 1. Install shadcn components
+   npx shadcn@latest add input label
+   
+   # 2. Create widget config type
+   # src/widgets/TextInputWidget/types.ts
+   
+   # 3. Implement widget component
+   # src/widgets/TextInputWidget/TextInputWidget.tsx
+   
+   # 4. Write tests
+   # src/widgets/TextInputWidget/TextInputWidget.test.tsx
+   
+   # 5. Register widget
+   # Add to src/widgets/index.ts
+   ```
+
+4. **Stable Contracts**: Define clear TypeScript interfaces for all widget configs
+   ```typescript
+   interface TextInputWidgetConfig extends WidgetConfig {
+     type: 'TextInput'
+     label: string
+     placeholder?: string
+     required?: boolean
+     // ... other props
+   }
+   ```
+
+5. **Accessibility**: Radix UI handles WCAG 2.1 Level AA compliance automatically
+   - ARIA attributes managed by Radix
+   - Keyboard navigation built-in
+   - Screen reader support included
+   - Focus management automatic
+
+6. **Responsive Design**: Use Tailwind responsive classes
+   ```typescript
+   <div className="w-full md:w-1/2 lg:w-1/3">
+     {/* Responsive widget */}
+   </div>
+   ```
+
+7. **Performance**:
+   - Widgets lazy-loadable via dynamic imports
+   - shadcn components are tree-shakeable
+   - Minimal bundle size (1-5KB per component)
 
 ### Widget Categories
 
-The platform has a comprehensive widget catalog (see `/documentation/widget-catalog.md`) with 30+ widgets, but the **MVP focuses on 12 core widgets** (see `/documentation/widget-taxonomy.md`):
+The platform has a comprehensive widget catalog (see `/documentation/widget-catalog.md`) with 30+ widgets, but the **MVP focuses on 12 core widgets** (see `/documentation/widget-taxonomy.md` and `/documentation/WIDGET-COMPONENT-MAPPING.md`):
 
 **MVP Core Widgets (12):**
 - **Layout & Structure** (4 widgets): Page, Section, Grid, Card
@@ -145,42 +359,115 @@ The platform has a comprehensive widget catalog (see `/documentation/widget-cata
 - **Data Display** (2 widgets): Table, KPI
 - **Dialogs & Feedback** (2 widgets): Modal, Toast
 
-**Extended Widget Catalog** includes additional widgets like Tabs, Toolbar, Textarea, MultiSelect, DateRangePicker, RadioGroup, Switch, FileUpload, ImagePicker, Chart, Timeline, Badge, Breadcrumbs, Pagination, Drawer, ConfirmDialog, Alert, Spinner, and ProgressBar.
+**Implementation Status:**
+- Phase 0.5: TextInputWidget (POC) - ISSUE-014
+- Phase 1.3: Remaining 11 widgets
+
+**Extended Widget Catalog** includes additional widgets like Tabs, Toolbar, Textarea, MultiSelect, DateRangePicker, RadioGroup, Switch, FileUpload, ImagePicker, Chart, Timeline, Badge, Breadcrumbs, Pagination, Drawer, ConfirmDialog, Alert, Spinner, and ProgressBar (implemented in later phases).
 
 ## File Organization
 
+### Current Structure (Legacy CRA)
 ```
-/src                    # Source code (Create React App structure)
+/src                    # Source code (Create React App structure - Phase 0-1.1)
   App.js               # Main application component
   App.test.js          # App tests
   index.js             # Application entry point
   setupTests.js        # Test configuration
+  /components          # React components (LoginPage, OAuthCallback)
+  /services            # Services (authService, tokenManager, httpClient)
+  /hooks               # Custom hooks (useAuth)
 /documentation         # Comprehensive project docs
   architecture.md      # System architecture
   widget-catalog.md    # Complete widget specifications (30+ widgets)
   widget-taxonomy.md   # MVP core widgets (12 widgets)
+  WIDGET-ARCHITECTURE.md          # NEW: 3-layer widget architecture
+  WIDGET-COMPONENT-MAPPING.md     # NEW: MVP widgets → shadcn mapping
   api-specification.md # Backend API contracts
   json-schemas.md      # Configuration schemas
   getting-started.md   # Project introduction
   roadmap.md          # Implementation roadmap with progress tracking
+  /adr                 # Architecture Decision Records
+    ADR-001-build-tool.md
+    ADR-003-ui-component-library.md
+    ADR-012-technology-stack-revision.md  # NEW
 /public               # Static assets
 /.github              # GitHub configurations
   copilot-instructions.md  # This file
-/ISSUE-*.md           # Active issue definitions (development tasks)
+  /issues             # Issue definitions
+    010-migration-vite-typescript.md      # NEW
+    011-migration-shadcn-setup.md         # NEW
+    012-migration-tanstack-router.md      # NEW
+    013-migration-azure-msal.md           # NEW
+    014-migration-widget-registry.md      # NEW
+/ISSUE-*.md           # Active issue definitions (root - being deprecated)
 /ISSUE-*-COMPLETION.md     # Completed issue documentation
 ```
 
-**Future structure** (as implementation progresses):
+### Target Structure (Post-Phase 0.5)
 ```
-/src/widgets          # Widget library components
-/src/core             # Core rendering engine
-/src/state            # State management
+/src
+  main.tsx            # Application entry point (Vite + TypeScript)
+  App.tsx             # Main application component
+  /routes             # TanStack Router file-based routes
+    __root.tsx        # Root layout
+    index.tsx         # Home page
+    login.tsx         # Login page
+    oauth-callback.tsx # OAuth callback
+  /components
+    /ui               # shadcn/ui components (managed by CLI)
+      input.tsx
+      button.tsx
+      card.tsx
+      label.tsx
+    LoginPage.js      # Legacy (preserved)
+    LoginPageMSAL.tsx # NEW: Azure MSAL login
+    OAuthCallback.js  # Legacy (preserved)
+    AuthProvider.tsx  # NEW: Auth provider wrapper
+  /widgets            # OpenPortal widgets (Layer 3)
+    index.ts          # Widget registration
+    /TextInputWidget
+      TextInputWidget.tsx
+      TextInputWidget.test.tsx
+      types.ts
+      index.ts
+  /core
+    /registry
+      WidgetRegistry.ts         # Widget registry (Layer 4)
+      WidgetRegistry.test.ts
+    /renderer
+      WidgetRenderer.tsx        # Dynamic widget renderer
+  /services           # Services (preserved)
+    authService.js
+    tokenManager.js
+    httpClient.js
+  /hooks              # Custom hooks
+    useAuth.js        # Legacy (preserved)
+    useMsalAuth.ts    # NEW: MSAL auth hook
+  /config
+    msalConfig.ts     # NEW: Azure MSAL config
+  /lib
+    utils.ts          # NEW: cn() and other utilities
+  /types
+    widget.ts         # NEW: Widget type definitions
+/documentation
+  # (same as above, with new files added)
+index.html            # Root HTML (moved from /public)
+vite.config.ts        # NEW: Vite configuration
+tsconfig.json         # NEW: TypeScript configuration
+tsconfig.node.json    # NEW: TypeScript config for Vite
+biome.json            # NEW: BiomeJS configuration
+tailwind.config.js    # NEW: Tailwind CSS configuration
+postcss.config.js     # NEW: PostCSS configuration
+components.json       # NEW: shadcn/ui CLI configuration
 ```
 
 ## Documentation
 
 **Always reference documentation** before making changes:
 - `/documentation/architecture.md` - System design and component architecture
+- `/documentation/WIDGET-ARCHITECTURE.md` - **NEW: 3-layer widget architecture**
+- `/documentation/WIDGET-COMPONENT-MAPPING.md` - **NEW: MVP widgets → shadcn components**
 - `/documentation/widget-catalog.md` - All widget specifications
 - `/documentation/api-specification.md` - Backend API contracts
 - `/documentation/json-schemas.md` - Configuration formats
@@ -188,13 +475,55 @@ The platform has a comprehensive widget catalog (see `/documentation/widget-cata
 
 ## Testing Guidelines
 
-1. **Component Testing**: Use React Testing Library
+### Current Testing (After ISSUE-010)
+1. **Framework**: Jest + React Testing Library
+2. **Configuration**: Jest configured with Babel for Vite compatibility
+3. **Environment Variables**: Use `src/config/env.js` helper for test compatibility
+4. **Coverage**: >80% for authentication code (101/104 tests passing)
+5. **Files**: `*.test.js` files alongside components
+
+### Future Testing (Post-Phase 0.5)
+1. **Framework**: Vitest + React Testing Library (for new TypeScript code)
 2. **Test Widget Contracts**: Verify props, events, and rendering
-3. **Accessibility Testing**: Include a11y checks in widget tests
+3. **Accessibility Testing**: Radix UI handles most a11y, verify integration
 4. **Integration Testing**: Test widget interactions with config engine
 5. **No Hardcoded Test Data**: Use mock configurations that match JSON schemas
 
-### Test Structure
+### Test Structure (TypeScript/Vitest)
+```typescript
+import { describe, it, expect, vi } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { TextInputWidget } from './TextInputWidget'
+import { TextInputWidgetConfig } from './types'
+
+describe('TextInputWidget', () => {
+  const config: TextInputWidgetConfig = {
+    id: 'email',
+    type: 'TextInput',
+    label: 'Email Address',
+  }
+
+  it('renders label and input', () => {
+    render(<TextInputWidget config={config} />)
+    expect(screen.getByLabelText('Email Address')).toBeInTheDocument()
+  })
+
+  it('calls onChange event', async () => {
+    const onChange = vi.fn()
+    const user = userEvent.setup()
+    
+    render(<TextInputWidget config={config} events={{ onChange }} />)
+    
+    const input = screen.getByLabelText('Email Address')
+    await user.type(input, 'test@example.com')
+    
+    expect(onChange).toHaveBeenCalledWith('test@example.com')
+  })
+})
+```
+
+### Test Structure (Legacy JavaScript/Jest)
 ```javascript
 import { render, screen } from '@testing-library/react';
 import WidgetName from './WidgetName';
@@ -283,23 +612,39 @@ const datasources = {
 
 ## Project Status
 
-- **Current Phase**: Phase 1 - Core Platform (MVP Renderer) 🚀
+- **Current Phase**: Phase 0.5 - Technology Stack Migration 🚀
 - **Completed Phases**: 
   - ✅ Phase 0 - Discovery & Foundation (100%)
-  - 🚀 Authentication & Token Management (Phase 1.1 - 75%)
+  - 🚀 Phase 1.1 - Authentication & Token Management (75% - paused for migration)
 - **Architecture**: Fully documented in `/documentation/`
+- **Technology Stack**: Migrating to Vite + TypeScript 5 + shadcn/ui + TanStack ecosystem
+  - See ADR-012 for rationale
+  - See Phase 0.5 issues (ISSUE-010 through ISSUE-014) for implementation
 - **Widget Specifications**: 
   - 12 core MVP widgets defined in `/documentation/widget-taxonomy.md`
+  - Widget architecture documented in `/documentation/WIDGET-ARCHITECTURE.md`
+  - Component mapping in `/documentation/WIDGET-COMPONENT-MAPPING.md`
   - 30+ widgets in full catalog in `/documentation/widget-catalog.md`
-- **Implementation**: Authentication flow complete (Issues #007-#009), widget implementation next
+- **Implementation**: 
+  - Authentication flow complete (Issues #007-#009) ✅
+  - Technology stack migration (Phase 0.5) - in progress
+  - Widget implementation (Phase 1.3) - pending after migration
 
 **Recent Completions:**
-- ✅ ISSUE-004: Technical Stack Finalization
-- ✅ ISSUE-005: Development Environment Setup
-- ✅ ISSUE-006: Project Repository Structure
-- ✅ ISSUE-007: Login Page Implementation
-- ✅ ISSUE-008: OAuth Integration
-- ✅ ISSUE-009: Token Management System
+- ✅ ISSUE-010: Vite + TypeScript 5 + BiomeJS - **COMPLETE** (Jan 2026)
+- ✅ ISSUE-001 through ISSUE-009: Phase 0 and partial Phase 1.1
+- 🚀 Phase 0.5 Planning: Issues #010-#014 created, ADR-012 written
+
+**Migration Issues (Phase 0.5):**
+- ✅ ISSUE-010: Vite + TypeScript 5 + BiomeJS - **COMPLETE**
+  - Dev server: 251ms startup (vs 10-30s with CRA)
+  - Production build: 1.29s
+  - Tests: 101/104 passing (97%)
+  - BiomeJS linting and formatting operational
+- ⏳ ISSUE-011: Tailwind CSS + shadcn/ui setup - pending
+- ⏳ ISSUE-012: TanStack Router migration - pending
+- ⏳ ISSUE-013: Azure MSAL parallel implementation - pending
+- ⏳ ISSUE-014: Widget registry + TextInputWidget POC - pending
 
 ## Code Review Checklist
 

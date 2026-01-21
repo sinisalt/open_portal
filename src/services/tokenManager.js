@@ -90,7 +90,7 @@ export function getCurrentUser() {
 
   try {
     return JSON.parse(userStr);
-  } catch (e) {
+  } catch (_e) {
     return null;
   }
 }
@@ -220,4 +220,46 @@ export function getTokenExpiryFromJWT(token) {
 
   // JWT exp is in seconds, convert to milliseconds
   return payload.exp * 1000;
+}
+
+/**
+ * Store MSAL tokens (MSAL handles token storage internally, but we can store metadata)
+ * @param {object} account - MSAL account object
+ */
+export function storeMsalAccount(account) {
+  if (!account) return;
+
+  localStorage.setItem('auth_provider', 'msal');
+  localStorage.setItem('msal_account', JSON.stringify(account));
+}
+
+/**
+ * Get stored MSAL account
+ * @returns {object|null}
+ */
+export function getMsalAccount() {
+  const accountStr = localStorage.getItem('msal_account');
+  if (!accountStr) return null;
+
+  try {
+    return JSON.parse(accountStr);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Clear MSAL account data
+ */
+export function clearMsalAccount() {
+  localStorage.removeItem('auth_provider');
+  localStorage.removeItem('msal_account');
+}
+
+/**
+ * Get current auth provider
+ * @returns {string} 'custom' or 'msal'
+ */
+export function getAuthProvider() {
+  return localStorage.getItem('auth_provider') || 'custom';
 }
