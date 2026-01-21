@@ -55,9 +55,7 @@ describe.skip('OAuthCallback', () => {
       // Set up sessionStorage
       sessionStorage.setItem('oauthRedirect', '/dashboard');
 
-      render(
-        <OAuthCallback />
-      );
+      render(<OAuthCallback />);
 
       // Should show processing state initially
       expect(screen.getByText('Completing sign in...')).toBeInTheDocument();
@@ -95,9 +93,7 @@ describe.skip('OAuthCallback', () => {
       };
       authService.handleOAuthCallback.mockResolvedValue(mockAuthData);
 
-      render(
-        <OAuthCallback />
-      );
+      render(<OAuthCallback />);
 
       await waitFor(() => {
         expect(screen.getByText('Sign in successful!')).toBeInTheDocument();
@@ -114,9 +110,7 @@ describe.skip('OAuthCallback', () => {
 
   describe('error handling', () => {
     it('should handle missing authorization code', async () => {
-      render(
-        <OAuthCallback />
-      );
+      render(<OAuthCallback />);
 
       await waitFor(() => {
         expect(screen.getByText('Sign in failed')).toBeInTheDocument();
@@ -137,9 +131,7 @@ describe.skip('OAuthCallback', () => {
     });
 
     it('should handle missing state parameter', async () => {
-      render(
-        <OAuthCallback />
-      );
+      render(<OAuthCallback />);
 
       await waitFor(() => {
         expect(screen.getByText('Sign in failed')).toBeInTheDocument();
@@ -159,9 +151,7 @@ describe.skip('OAuthCallback', () => {
     });
 
     it('should handle OAuth provider error without description', async () => {
-      render(
-        <OAuthCallback />
-      );
+      render(<OAuthCallback />);
 
       await waitFor(() => {
         expect(screen.getByText('Sign in failed')).toBeInTheDocument();
@@ -173,9 +163,7 @@ describe.skip('OAuthCallback', () => {
     it('should handle token exchange failure', async () => {
       authService.handleOAuthCallback.mockRejectedValue(new Error('Token exchange failed'));
 
-      render(
-        <OAuthCallback />
-      );
+      render(<OAuthCallback />);
 
       await waitFor(() => {
         expect(screen.getByText('Sign in failed')).toBeInTheDocument();
@@ -189,9 +177,7 @@ describe.skip('OAuthCallback', () => {
         new Error('Invalid state parameter. Possible CSRF attack.')
       );
 
-      render(
-        <OAuthCallback />
-      );
+      render(<OAuthCallback />);
 
       await waitFor(() => {
         expect(screen.getByText('Sign in failed')).toBeInTheDocument();
@@ -205,9 +191,7 @@ describe.skip('OAuthCallback', () => {
 
   describe('accessibility', () => {
     it('should have proper ARIA attributes for loading state', () => {
-      render(
-        <OAuthCallback />
-      );
+      render(<OAuthCallback />);
 
       const loadingElement = screen.getByRole('status');
       expect(loadingElement).toHaveAttribute('aria-live', 'polite');
@@ -221,9 +205,7 @@ describe.skip('OAuthCallback', () => {
         expiresIn: 3600,
       });
 
-      render(
-        <OAuthCallback />
-      );
+      render(<OAuthCallback />);
 
       await waitFor(() => {
         const successElement = screen.getByRole('status');
@@ -232,9 +214,7 @@ describe.skip('OAuthCallback', () => {
     });
 
     it('should have proper ARIA attributes for error state', async () => {
-      render(
-        <OAuthCallback />
-      );
+      render(<OAuthCallback />);
 
       await waitFor(() => {
         const errorElement = screen.getByRole('alert');
@@ -245,9 +225,7 @@ describe.skip('OAuthCallback', () => {
 
   describe('visual feedback', () => {
     it('should display processing message initially', () => {
-      render(
-        <OAuthCallback />
-      );
+      render(<OAuthCallback />);
 
       expect(screen.getByText('Completing sign in...')).toBeInTheDocument();
       expect(
@@ -263,9 +241,7 @@ describe.skip('OAuthCallback', () => {
         expiresIn: 3600,
       });
 
-      render(
-        <OAuthCallback />
-      );
+      render(<OAuthCallback />);
 
       await waitFor(() => {
         expect(screen.getByText('Sign in successful!')).toBeInTheDocument();
@@ -275,9 +251,7 @@ describe.skip('OAuthCallback', () => {
     });
 
     it('should display error message and hint on failure', async () => {
-      render(
-        <OAuthCallback />
-      );
+      render(<OAuthCallback />);
 
       await waitFor(() => {
         expect(screen.getByText('Sign in failed')).toBeInTheDocument();
