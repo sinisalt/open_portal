@@ -17,6 +17,13 @@ jobs:
   setup:
     name: Setup Dependencies
     runs-on: ubuntu-latest
+    # Only run CI if:
+    # - It's a push to main/develop, OR
+    # - The PR is labeled with 'ci-ready' or 'ready-for-ci'
+    if: |
+      github.event_name == 'push' ||
+      github.event.label.name == 'ci-ready' ||
+      github.event.label.name == 'ready-for-ci'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
