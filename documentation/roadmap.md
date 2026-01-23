@@ -142,7 +142,7 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - [x] Route resolver implementation - **Completed via ISSUE-013-route-resolver** ✅
 - [ ] Page configuration loader
 - [ ] Cache management (ETag support)
-- [ ] Deep linking support (✅ TanStack Router built-in)
+- [ ] Deep linking support (TanStack Router built-in)
 - [x] Route guards and redirects - **Completed via ISSUE-013-route-resolver** ✅
 
 #### 1.3 Widget Registry & Core Widgets (Week 5-7)
