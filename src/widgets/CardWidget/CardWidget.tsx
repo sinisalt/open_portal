@@ -45,6 +45,14 @@ export function CardWidget({ config, bindings, events, children }: WidgetProps<C
     lg: 'p-8',
   };
 
+  // Map padding to content/footer classes (with top padding removed)
+  const contentFooterPaddingClasses = {
+    none: 'p-0',
+    sm: 'p-3 pt-0',
+    md: 'p-6 pt-0',
+    lg: 'p-8 pt-0',
+  };
+
   // Card container classes
   const cardClasses = cn(
     elevationClasses[elevation],
@@ -52,24 +60,10 @@ export function CardWidget({ config, bindings, events, children }: WidgetProps<C
     bindings?.className as string
   );
 
-  // Header padding classes
+  // Header, content, and footer padding classes
   const headerPadding = padding === 'none' ? 'p-0' : paddingClasses[padding];
-  const contentPadding =
-    padding === 'none'
-      ? 'p-0'
-      : padding === 'sm'
-        ? 'p-3 pt-0'
-        : padding === 'md'
-          ? 'p-6 pt-0'
-          : 'p-8 pt-0';
-  const footerPadding =
-    padding === 'none'
-      ? 'p-0'
-      : padding === 'sm'
-        ? 'p-3 pt-0'
-        : padding === 'md'
-          ? 'p-6 pt-0'
-          : 'p-8 pt-0';
+  const contentPadding = contentFooterPaddingClasses[padding];
+  const footerPadding = contentFooterPaddingClasses[padding];
 
   const handleActionClick = (actionId: string) => {
     if (events?.onActionClick) {

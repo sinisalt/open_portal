@@ -39,21 +39,19 @@ export function GridWidget({ config, bindings, children }: WidgetProps<GridWidge
     return `${breakpoint}:grid-cols-12`;
   };
 
-  // Base column class (mobile-first)
-  const baseColumnClass = `grid-cols-${responsive?.xs || 1}`;
-
   // Build responsive classes
-  const responsiveClasses = [
-    responsive?.sm && getColumnClass('sm', responsive.sm),
-    responsive?.md && getColumnClass('md', responsive.md),
-    responsive?.lg && getColumnClass('lg', responsive.lg),
-    responsive?.xl && getColumnClass('xl', responsive.xl),
-  ].filter(Boolean);
+  const responsiveClasses = responsive
+    ? [
+        getColumnClass('', responsive.xs || 1), // Base column class (mobile-first)
+        responsive.sm && getColumnClass('sm', responsive.sm),
+        responsive.md && getColumnClass('md', responsive.md),
+        responsive.lg && getColumnClass('lg', responsive.lg),
+        responsive.xl && getColumnClass('xl', responsive.xl),
+      ].filter(Boolean)
+    : [getColumnClass('', columns)];
 
-  // If no responsive config, use default columns
-  const columnClass = responsive
-    ? [baseColumnClass, ...responsiveClasses].join(' ')
-    : getColumnClass('', columns);
+  // Join all column classes
+  const columnClass = responsiveClasses.join(' ');
 
   return (
     <div className={cn('grid', columnClass, gapClasses[gap], bindings?.className as string)}>
