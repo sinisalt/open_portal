@@ -6,18 +6,52 @@ This directory contains automated CI/CD workflows for the OpenPortal project.
 
 ### `ci.yml` - Continuous Integration
 
+**⚠️ IMPORTANT: CI does NOT run automatically on every commit to PRs!**
+
+The CI workflow uses a **label-based triggering system** to optimize CI resources and speed up development. CI only runs when explicitly requested.
+
 **Triggers:**
-- Pull requests to `main` or `develop` branches
-- Pushes to `main` or `develop` branches
+- Pull requests to `main` or `develop` branches **WITH** `ci-ready` or `ready-for-ci` label
+- Pushes directly to `main` or `develop` branches (label not required)
+- PR events: `labeled`, `opened`, `reopened`, `synchronize`
+
+**How to Trigger CI:**
+
+1. Test locally first:
+   ```bash
+   npm run lint      # BiomeJS linting
+   npm test          # Jest tests
+   npm run build     # Production build
+   ```
+
+2. Add label to PR:
+   ```bash
+   # Using GitHub CLI
+   gh pr edit <PR_NUMBER> --add-label "ci-ready"
+   
+   # Or via GitHub web interface
+   # Add 'ci-ready' or 'ready-for-ci' label to the PR
+   ```
+
+3. CI will run automatically when label is added
+
+**When CI Runs:**
+- ✅ When `ci-ready` or `ready-for-ci` label is added to a PR
+- ✅ On direct pushes to `main` or `develop` branches
+- ✅ When PR is re-labeled after fixes
+
+**When CI Does NOT Run:**
+- ❌ On every commit to a PR without the label
+- ❌ During iterative development and fixes
+- ❌ On draft PRs without the label
 
 **Jobs:**
-1. **setup** - Install and cache dependencies
-2. **lint** - Run ESLint validation (zero warnings policy)
-3. **format** - Check code formatting with Prettier
-4. **test** - Run unit tests with coverage reporting
-5. **build** - Build production bundle and upload artifacts
-6. **security** - Run npm audit and dependency scanning
-7. **ci-success** - Summary job that checks all previous jobs
+1. **setup** - Install and cache dependencies (conditional: runs only with label or on push to main/develop)
+2. **lint** - Run BiomeJS validation
+3. **test** - Run unit tests with coverage reporting
+4. **build** - Build production bundle and upload artifacts
+5. **security** - Run npm audit and dependency scanning
+6. **ci-success** - Summary job that checks all previous jobs
 
 **Artifacts:**
 - Build folder (retained for 7 days)
@@ -26,6 +60,7 @@ This directory contains automated CI/CD workflows for the OpenPortal project.
 **Performance:**
 - Total runtime: ~2-3 minutes with caching
 - Parallel execution for faster feedback
+- Reduced CI runs with label-based triggering
 
 ### `deploy-staging.yml` - Staging Deployment
 
@@ -54,18 +89,38 @@ This directory contains automated CI/CD workflows for the OpenPortal project.
 
 ### Test CI Workflow Locally
 
+Always test locally before triggering CI with the `ci-ready` label:
+
 ```bash
+# Run linting (BiomeJS)
+npm run lint
+
+# Auto-fix linting issues
+npm run lint:fix
+
 # Run tests as CI does
-CI=true npm test -- --coverage --watchAll=false
-
-# Check formatting
-npm run format:check
-
-# Run linting
-npx eslint src/ --ext .js,.jsx,.ts,.tsx --max-warnings 0
+npm test -- --coverage --watchAll=false
 
 # Build production bundle
 npm run build
+```
+
+### Triggering CI After Local Tests Pass
+
+```bash
+# 1. Ensure all local tests pass
+npm run lint && npm test -- --watchAll=false && npm run build
+
+# 2. Commit and push your changes
+git add .
+git commit -m "feat: implement feature"
+git push
+
+# 3. Add label to trigger CI
+gh pr edit <PR_NUMBER> --add-label "ci-ready"
+
+# 4. Monitor CI run at:
+# https://github.com/sinisalt/open_portal/actions
 ```
 
 ### Simulate Pre-commit Hooks
@@ -90,10 +145,70 @@ npx lint-staged
 
 1. **Use caching** - Cache node_modules for faster runs
 2. **Parallel jobs** - Run independent jobs in parallel
-3. **Fail fast** - Use `max-warnings: 0` for strict checking
-4. **Artifacts** - Upload important build outputs
-5. **Security** - Use secrets for sensitive data
-6. **Documentation** - Keep this README updated
+3. **Label-based triggering** - Only trigger CI when work is complete and tested locally
+4. **Test locally first** - Always run lint, test, and build before adding `ci-ready` label
+5. **Artifacts** - Upload important build outputs
+6. **Security** - Use secrets for sensitive data
+7. **Documentation** - Keep this README updated
+
+## Development Workflow with CI
+
+**Recommended workflow for contributors:**
+
+1. **Create feature branch**
+   ```bash
+   git checkout -b feature/my-feature
+   ```
+
+2. **Make changes and test locally**
+   ```bash
+   # During development, test frequently
+   npm run dev          # Run dev server
+   npm run lint         # Check for linting issues
+   npm test             # Run tests
+   ```
+
+3. **Commit changes** (CI will NOT run yet)
+   ```bash
+   git add .
+   git commit -m "feat: my feature"
+   git push origin feature/my-feature
+   ```
+
+4. **Create PR** (CI will NOT run automatically)
+   ```bash
+   gh pr create --title "Add my feature" --body "Description"
+   ```
+
+5. **Continue iterating** (CI still won't run)
+   - Make more commits
+   - Fix issues found during development
+   - Test locally
+
+6. **When ready for final validation**
+   ```bash
+   # Run full test suite locally
+   npm run lint && npm test -- --watchAll=false && npm run build
+   
+   # If all pass, trigger CI
+   gh pr edit <PR_NUMBER> --add-label "ci-ready"
+   ```
+
+7. **If CI fails**
+   ```bash
+   # Optional: Remove label to prevent CI on every commit
+   gh pr edit <PR_NUMBER> --remove-label "ci-ready"
+   
+   # Fix issues
+   npm run lint:fix
+   # ... make fixes ...
+   
+   # Test locally again
+   npm run lint && npm test -- --watchAll=false && npm run build
+   
+   # Re-trigger CI
+   gh pr edit <PR_NUMBER> --add-label "ci-ready"
+   ```
 
 ## Monitoring Workflows
 

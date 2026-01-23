@@ -5,6 +5,11 @@ on:
     branches:
       - main
       - develop
+    types:
+      - labeled
+      - opened
+      - reopened
+      - synchronize
   push:
     branches:
       - main
@@ -15,6 +20,14 @@ jobs:
   setup:
     name: Setup Dependencies
     runs-on: ubuntu-latest
+    # Skip CI if:
+    # - It's a PR event (not a push to main/develop)
+    # - AND the PR is not labeled with 'ci-ready'
+    # - AND the PR is not labeled with 'ready-for-ci'
+    if: |
+      github.event_name == 'push' ||
+      contains(github.event.pull_request.labels.*.name, 'ci-ready') ||
+      contains(github.event.pull_request.labels.*.name, 'ready-for-ci')
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -216,7 +229,8 @@ jobs:
         run: |
           if [[ "${{ needs.lint.result }}" == "success" && \
                 "${{ needs.test.result }}" == "success" && \
-                "${{ needs.build.result }}" == "success" ]]; then
+                "${{ needs.build.result }}" == "success" && \
+                "${{ needs.security.result }}" == "success" ]]; then
             echo "✅ All CI checks passed!"
             exit 0
           else
