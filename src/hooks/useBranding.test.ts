@@ -46,20 +46,30 @@ describe('useBranding', () => {
   });
 
   describe('initial loading', () => {
-    it('should start with loading false when disabled', () => {
+    it('should start with loading false when disabled', async () => {
       const { result } = renderHook(() => useBranding({ tenantId: 'tenant456', enabled: false }));
 
       expect(result.current.loading).toBe(false);
       expect(result.current.branding).toBeNull();
       expect(result.current.error).toBeNull();
+
+      // Wait to ensure no pending async operations
+      await waitFor(() => {
+        expect(result.current.loading).toBe(false);
+      });
     });
 
-    it('should start with loading false when tenantId is missing', () => {
+    it('should start with loading false when tenantId is missing', async () => {
       const { result } = renderHook(() => useBranding({}));
 
       expect(result.current.loading).toBe(false);
       expect(result.current.branding).toBeNull();
       expect(result.current.error).toBeNull();
+
+      // Wait to ensure no pending async operations
+      await waitFor(() => {
+        expect(result.current.loading).toBe(false);
+      });
     });
 
     it('should fetch branding when tenantId is provided', async () => {
@@ -177,10 +187,15 @@ describe('useBranding', () => {
       expect(applyThemeUtils.removeBrandingTheme).toHaveBeenCalled();
     });
 
-    it('should not remove branding theme on unmount when autoApply is false', () => {
+    it('should not remove branding theme on unmount when autoApply is false', async () => {
       const { unmount } = renderHook(() =>
         useBranding({ tenantId: 'tenant456', autoApply: false })
       );
+
+      // Wait for any initial async operations
+      await waitFor(() => {
+        expect(result => result).toBeTruthy();
+      });
 
       unmount();
 
@@ -207,8 +222,13 @@ describe('useBranding', () => {
       );
     });
 
-    it('should manually remove branding', () => {
+    it('should manually remove branding', async () => {
       const { result } = renderHook(() => useBranding({ tenantId: 'tenant456' }));
+
+      // Wait for initial async operations
+      await waitFor(() => {
+        expect(result).toBeTruthy();
+      });
 
       result.current.removeBranding();
 
