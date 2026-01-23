@@ -4,11 +4,8 @@
  * Service for fetching and managing bootstrap data from the /ui/bootstrap API endpoint
  */
 
-import type {
-  BootstrapError,
-  BootstrapErrorType,
-  BootstrapResponse,
-} from '@/types/bootstrap.types';
+import type { BootstrapError, BootstrapResponse } from '@/types/bootstrap.types';
+import { BootstrapErrorType } from '@/types/bootstrap.types';
 import { get } from './httpClient';
 
 /**
@@ -185,7 +182,7 @@ export async function fetchBootstrap(useCache = true): Promise<BootstrapResponse
       if (!validateBootstrapResponse(response)) {
         throw createBootstrapError(
           'Invalid bootstrap response structure',
-          'INVALID_RESPONSE' as BootstrapErrorType
+          BootstrapErrorType.INVALID_RESPONSE
         );
       }
 
@@ -200,7 +197,7 @@ export async function fetchBootstrap(useCache = true): Promise<BootstrapResponse
       if (error instanceof Error && error.message.includes('401')) {
         throw createBootstrapError(
           'Authentication failed. Please log in again.',
-          'AUTH_ERROR' as BootstrapErrorType,
+          BootstrapErrorType.AUTH_ERROR,
           error
         );
       }
@@ -209,7 +206,7 @@ export async function fetchBootstrap(useCache = true): Promise<BootstrapResponse
       if (
         error instanceof Error &&
         error.name === 'BootstrapError' &&
-        (error as BootstrapError).type === ('INVALID_RESPONSE' as BootstrapErrorType)
+        (error as BootstrapError).type === BootstrapErrorType.INVALID_RESPONSE
       ) {
         throw error;
       }
@@ -227,7 +224,7 @@ export async function fetchBootstrap(useCache = true): Promise<BootstrapResponse
     `Failed to fetch bootstrap data after ${BOOTSTRAP_CONFIG.maxRetries} attempts: ${
       lastError?.message || 'Unknown error'
     }`,
-    'NETWORK_ERROR' as BootstrapErrorType,
+    BootstrapErrorType.NETWORK_ERROR,
     lastError || undefined
   );
 }
