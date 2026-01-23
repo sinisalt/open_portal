@@ -132,7 +132,7 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - [x] Login page implementation - **Completed via ISSUE-007**
 - [x] OAuth integration (callback handler) - **Completed via ISSUE-008**
 - [x] Token management (storage, refresh) - **Completed via ISSUE-009**
-- [ ] Bootstrap API integration (including branding reference)
+- [x] Bootstrap API integration (including branding reference) - **Completed via ISSUE-010-bootstrap-api**
 - [x] User context management - **Completed via ISSUE-007**
 - [ ] Tenant identification and context
 - [ ] Basic branding loading (logos, colors)
@@ -193,7 +193,7 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 
 #### 1.1 Core APIs (Week 3-5)
 - [ ] Authentication endpoints
-- [ ] `/ui/bootstrap` implementation (with tenant and branding info)
+- [x] `/ui/bootstrap` implementation (with tenant and branding info) - **Frontend completed via ISSUE-010-bootstrap-api** ⚠️ Backend pending
 - [ ] `/ui/branding` endpoint implementation
 - [ ] `/ui/routes/resolve` implementation
 - [ ] `/ui/pages/:pageId` implementation
@@ -478,11 +478,11 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 
 **Note:** Phase 0.5 inserted to migrate technology stack before Phase 1 continues. See ADR-012 for rationale.
 
-### Phase 1.1: Authentication & Bootstrap - 🚀 **75% Complete**
+### Phase 1.1: Authentication & Bootstrap - 🚀 **85% Complete**
 - ✅ Login page implementation (ISSUE-007)
 - ✅ OAuth integration (ISSUE-008)
 - ✅ Token management (ISSUE-009)
-- ⏳ Bootstrap API integration (pending - deferred until after Phase 0.5)
+- ✅ Bootstrap API integration - Frontend (ISSUE-010-bootstrap-api) ⚠️ Backend pending
 - ⏳ Tenant identification (pending - deferred until after Phase 0.5)
 - ⏳ Branding system (pending - deferred until after Phase 0.5)
 
@@ -494,6 +494,6 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 
 ---
 
-**Version:** 2.1  
-**Last Updated:** January 20, 2026  
-**Status:** Active Development - Phase 0.5 (Technology Stack Migration)
+**Version:** 2.2  
+**Last Updated:** January 21, 2026  
+**Status:** Active Development - Phase 0.5 (Technology Stack Migration) & Phase 1.1 (Authentication & Bootstrap)
