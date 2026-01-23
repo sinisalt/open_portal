@@ -3,7 +3,7 @@
  */
 
 import { render, renderHook, screen } from '@testing-library/react';
-import React, { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import * as bootstrapService from '@/services/bootstrapService';
 import * as tokenManager from '@/services/tokenManager';
 import type { BootstrapResponse } from '@/types/bootstrap.types';

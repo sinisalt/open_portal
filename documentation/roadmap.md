@@ -135,8 +135,8 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - [x] Bootstrap API integration (including branding reference) - **Completed via ISSUE-010-bootstrap-api**
 - [x] User context management - **Completed via ISSUE-011**
 - [x] Tenant identification and context - **Completed via ISSUE-011**
-- [ ] Basic branding loading (logos, colors)
-- [ ] Default branding configuration
+- [x] Basic branding loading (logos, colors) - **Completed via ISSUE-012** ✅
+- [x] Default branding configuration - **Completed via ISSUE-012** ✅
 
 #### 1.2 Routing & Page Loading (Week 4-5)
 - [ ] Route resolver implementation
@@ -194,7 +194,7 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 #### 1.1 Core APIs (Week 3-5)
 - [ ] Authentication endpoints
 - [x] `/ui/bootstrap` implementation (with tenant and branding info) - **Frontend completed via ISSUE-010-bootstrap-api** ⚠️ Backend pending
-- [ ] `/ui/branding` endpoint implementation
+- [ ] `/ui/branding` endpoint implementation ⚠️ **Frontend completed via ISSUE-012, backend pending**
 - [ ] `/ui/routes/resolve` implementation
 - [ ] `/ui/pages/:pageId` implementation
 - [ ] Config storage schema
@@ -476,25 +476,30 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - ✅ Azure MSAL parallel implementation (ISSUE-013) - **COMPLETE**
 - ⏳ Widget registry + TextInputWidget POC (ISSUE-014) - pending
 
-**Note:** Phase 0.5 inserted to migrate technology stack before Phase 1 continues. See ADR-012 for rationale.
-
-### Phase 1.1: Authentication & Bootstrap - 🚀 **92% Complete**
+### Phase 1.1: Authentication & Bootstrap - ✅ **100% Complete** (8/8 tasks complete)
 - ✅ Login page implementation (ISSUE-007)
 - ✅ OAuth integration (ISSUE-008)
 - ✅ Token management (ISSUE-009)
-- ✅ Bootstrap API integration - Frontend (ISSUE-010-bootstrap-api) ⚠️ Backend pending
-- ✅ User context management (ISSUE-011) - **COMPLETE**
-- ✅ Tenant identification (ISSUE-011) - **COMPLETE**
-- ⏳ Branding system (pending - deferred until after Phase 0.5)
+- ✅ Bootstrap API integration (ISSUE-010-bootstrap-api)
+- ✅ User context management (ISSUE-011)
+- ✅ Tenant identification (ISSUE-011)
+- ✅ Branding service implementation (ISSUE-012) - **COMPLETE**
+- ✅ Default branding support (ISSUE-012) - **COMPLETE**
 
-### Phase 1.2: Routing & Page Loading - ⏳ **0% Complete**
-- Pending (resumes after Phase 0.5)
+### Phase 1.2: Routing & Page Loading - ⏳ **0% Complete** (0/5 tasks)
+- ⏳ Route resolver implementation - pending
+- ⏳ Page configuration loader - pending
+- ⏳ Cache management - pending
+- ⏳ Deep linking support - pending
+- ⏳ Route guards - pending
+
+**Note:** Phase 0.5 inserted to migrate technology stack before Phase 1 continues. See ADR-012 for rationale.
 
 ### Phase 1.3: Widget Registry & Core Widgets - ⏳ **0% Complete**
 - Pending (resumes after Phase 0.5)
 
 ---
 
-**Version:** 2.3  
+**Version:** 2.4  
 **Last Updated:** January 23, 2026  
-**Status:** Active Development - Phase 0.5 (Technology Stack Migration) & Phase 1.1 (Authentication & Bootstrap - 92% Complete)
+**Status:** Active Development - Phase 0.5 (Technology Stack Migration - 80% Complete) & Phase 1.1 (Authentication & Bootstrap - ✅ 100% Complete)

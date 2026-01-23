@@ -116,7 +116,7 @@ function getCachedBootstrap(): BootstrapResponse | null {
     }
 
     return null;
-  } catch (error) {
+  } catch (_error) {
     // If cache retrieval fails, just return null
     return null;
   }
