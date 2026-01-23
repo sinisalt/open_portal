@@ -663,6 +663,54 @@ Before submitting changes:
 - [ ] **Phase completion percentages are accurate**
 - [ ] **CI workflow triggered (see CI Workflow section below)**
 
+## Completing Work and Triggering CI
+
+**CRITICAL: When you have completed all work on an issue and the PR is no longer WIP (Work In Progress), you MUST:**
+
+1. **Verify all local checks pass:**
+   ```bash
+   npm run lint
+   npm test
+   npm run build
+   ```
+
+2. **Add the `ci-ready` label to trigger CI workflow:**
+   ```bash
+   # Get the PR number first
+   PR_NUMBER=$(gh pr view --json number --jq .number)
+   
+   # Add the label
+   gh pr edit $PR_NUMBER --add-label "ci-ready"
+   ```
+
+3. **Update PR status:**
+   - If PR is in draft mode, convert it to ready for review
+   - Update PR title to remove any `[WIP]` or `[Draft]` prefixes
+   - Ensure PR description reflects all completed work
+
+**Automation Script:**
+When finalizing your work, use this complete workflow:
+
+```bash
+# 1. Run all checks locally
+npm run lint && npm test && npm run build
+
+# 2. If all checks pass, get PR number and add ci-ready label
+if [ $? -eq 0 ]; then
+  PR_NUMBER=$(gh pr view --json number --jq .number)
+  gh pr edit $PR_NUMBER --add-label "ci-ready"
+  echo "✅ ci-ready label added to PR #$PR_NUMBER"
+else
+  echo "❌ Local checks failed. Fix issues before adding ci-ready label."
+fi
+```
+
+**What happens after adding the label:**
+- GitHub Actions CI workflow starts automatically
+- Runs linting, tests, build, and security checks
+- Results appear in the PR checks section
+- If CI fails, fix issues, test locally, and push changes (CI will re-run with existing label)
+
 ## CI Workflow - Automatic Triggering
 
 The CI workflow is designed to run only when you've completed your work and marked the PR as ready for review, not on every intermediate commit. This saves CI resources and provides faster feedback loops during development.
