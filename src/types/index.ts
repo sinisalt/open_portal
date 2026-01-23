@@ -6,6 +6,7 @@
 
 // Bootstrap types
 export * from './bootstrap.types';
-
+// Page configuration types
+export * from './page.types';
 // Route types
 export * from './route.types';
