@@ -13,8 +13,9 @@ export const Route = createFileRoute('/admin')({
       });
     }
 
-    // Note: Permission checking is done in the component for now
-    // In a future enhancement, we can check permissions here using bootstrap data
+    // Note: Permission checking is currently handled in the component as a temporary guard.
+    // TODO: Move permission checks into beforeLoad (using bootstrap/route-guard data),
+    //       aligned with the route guard TODO in useRouteGuard.ts.
   },
 });
 
