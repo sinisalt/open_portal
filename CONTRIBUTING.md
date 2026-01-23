@@ -65,7 +65,7 @@ We expect all contributors to adhere to professional and respectful communicatio
 5. **Start the development server**
 
    ```bash
-   npm start
+   npm run dev
    ```
 
    Open [http://localhost:3000](http://localhost:3000) to view the app.
@@ -91,7 +91,7 @@ We expect all contributors to adhere to professional and respectful communicatio
 3. **Start development server**
 
    ```bash
-   npm start
+   npm run dev
    ```
 
    The application will automatically reload when you make changes.
@@ -144,28 +144,26 @@ Follow the [Coding Standards](#coding-standards) and [Project Architecture](/doc
 ### 3. Test Your Changes
 
 ```bash
+# Run linting
+npm run lint
+
+# Auto-fix linting issues
+npm run lint:fix
+
 # Run unit tests
 npm test
 
 # Run with coverage
-npm test -- --coverage
+npm test -- --coverage --watchAll=false
 
-# Run linting
-npx eslint 'src/**/*.{js,jsx,ts,tsx}'
-
-# Check formatting
-npm run format:check
-
-# Auto-format code
-npm run format
+# Run build
+npm run build
 ```
 
 ### 4. Commit Changes
 
 We use Husky for pre-commit hooks that automatically:
-- Format code with Prettier
-- Lint code with ESLint
-- Run tests (if configured)
+- Lint and format code with BiomeJS
 
 ```bash
 git add .
@@ -197,10 +195,10 @@ Then create a pull request on GitHub with:
 
 ### JavaScript/TypeScript
 
-- **Style**: Follow the Prettier configuration (`.prettierrc`)
-- **Linting**: Follow ESLint rules (extends `react-app`)
+- **Style**: Follow BiomeJS configuration (`biome.json`)
+- **Linting**: Follow BiomeJS rules
 - **Naming**:
-  - Components: PascalCase (e.g., `TextInputWidget.js`)
+  - Components: PascalCase (e.g., `TextInputWidget.tsx`)
   - Functions/variables: camelCase (e.g., `handleSubmit`)
   - Constants: UPPER_SNAKE_CASE (e.g., `API_BASE_URL`)
   - Files: camelCase for utilities, PascalCase for components
@@ -293,19 +291,67 @@ npx playwright test --ui
 
 ## Submitting Changes
 
+### CI Workflow Triggering
+
+**⚠️ IMPORTANT: CI does NOT run automatically on every commit!**
+
+To optimize CI resources and speed up development, our CI workflow only runs when you explicitly mark your PR as ready. This prevents unnecessary CI runs during iterative development.
+
+#### How to Trigger CI
+
+**When you've completed your work and all local tests pass:**
+
+1. **Test locally first** (required before triggering CI):
+   ```bash
+   npm run lint      # BiomeJS linting
+   npm test          # Jest tests
+   npm run build     # Production build
+   ```
+
+2. **Add the `ci-ready` label to your PR**:
+   
+   Using GitHub CLI:
+   ```bash
+   gh pr edit <PR_NUMBER> --add-label "ci-ready"
+   ```
+   
+   Or via GitHub web interface:
+   - Go to your PR
+   - Add the `ci-ready` or `ready-for-ci` label
+   - CI will start automatically
+
+3. **If CI fails:**
+   - Optionally remove the label to prevent CI on every commit: `gh pr edit <PR_NUMBER> --remove-label "ci-ready"`
+   - Fix the issues locally
+   - Test again locally
+   - Re-add the label when ready: `gh pr edit <PR_NUMBER> --add-label "ci-ready"`
+
+#### When CI Runs
+
+- ✅ When `ci-ready` or `ready-for-ci` label is added to a PR
+- ✅ On direct pushes to `main` or `develop` branches
+- ✅ When PR is re-labeled after fixes
+
+#### When CI Does NOT Run
+
+- ❌ On every commit to a PR without the label
+- ❌ During iterative development and fixes
+- ❌ On draft PRs without the label
+
 ### Pull Request Checklist
 
 Before submitting a pull request, ensure:
 
 - [ ] Code follows project coding standards
-- [ ] All tests pass (`npm test`)
-- [ ] Linting passes (`npx eslint src/`)
-- [ ] Code is formatted (`npm run format`)
+- [ ] All tests pass locally (`npm test`)
+- [ ] Linting passes locally (`npm run lint`)
+- [ ] Build succeeds locally (`npm run build`)
 - [ ] New code has appropriate tests
 - [ ] Documentation is updated (if needed)
 - [ ] Commit messages follow convention
 - [ ] PR description is clear and complete
 - [ ] Screenshots included for UI changes
+- [ ] **`ci-ready` label added to trigger CI workflow**
 
 ### Pull Request Process
 
@@ -369,15 +415,12 @@ npm audit fix
 
 ```bash
 # Lint code
-npx eslint 'src/**/*.{js,jsx,ts,tsx}'
+npm run lint
 
-# Fix linting issues
-npx eslint 'src/**/*.{js,jsx,ts,tsx}' --fix
+# Fix linting issues and format code
+npm run lint:fix
 
-# Check formatting
-npm run format:check
-
-# Auto-format code
+# Format code
 npm run format
 ```
 

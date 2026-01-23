@@ -661,6 +661,86 @@ Before submitting changes:
 - [ ] **Roadmap updated with completed tasks (specific checkboxes AND overall progress summary)**
 - [ ] **Roadmap "Last Updated" date is current**
 - [ ] **Phase completion percentages are accurate**
+- [ ] **CI workflow triggered (see CI Workflow section below)**
+
+## CI Workflow - Automatic Triggering
+
+The CI workflow is designed to run only when you've completed your work and marked the PR as ready for review, not on every intermediate commit. This saves CI resources and provides faster feedback loops during development.
+
+### How It Works
+
+1. **During Development**: CI will NOT run automatically on every commit to your PR
+2. **When Ready**: Once you've completed your work and all tests pass locally, trigger CI by adding a label
+3. **CI Execution**: GitHub Actions will run all checks (lint, test, build, security)
+
+### Triggering CI When Task Complete
+
+When you have finished your work and believe the PR is ready for review:
+
+**Option 1: Using GitHub Web Interface (Manual)**
+1. Go to your pull request on GitHub
+2. Add the label `ci-ready` or `ready-for-ci` to the PR
+3. CI workflow will start automatically
+
+**Option 2: Using GitHub CLI (Recommended for Agents)**
+```bash
+# Add label to trigger CI
+gh pr edit <PR_NUMBER> --add-label "ci-ready"
+```
+
+**Option 3: Instruct User (If Unable to Add Labels)**
+```markdown
+✅ Task completed! Please add the `ci-ready` label to this PR to trigger the CI workflow.
+```
+
+### When CI Runs
+
+The CI workflow will run automatically when:
+- You add the `ci-ready` or `ready-for-ci` label to a PR
+- Code is pushed directly to `main` or `develop` branches (bypass label requirement)
+- PR is re-labeled with `ci-ready` after fixes
+
+### When CI Does NOT Run
+
+CI will be skipped when:
+- You make intermediate commits without the `ci-ready` label
+- PR is in draft mode without the label
+- You're iterating on fixes and haven't re-added the label
+
+### Best Practices
+
+1. **Test Locally First**: Always run `npm run lint`, `npm test`, and `npm run build` before triggering CI
+2. **Fix Issues Before CI**: Resolve any local failures before adding the `ci-ready` label
+3. **Remove Label While Fixing**: If CI fails and you need to make fixes, you can remove the label to prevent CI from running on every commit during fixes
+4. **Re-add Label When Ready**: Once fixes are complete and tested locally, add the `ci-ready` label again
+
+### Example Workflow
+
+```bash
+# 1. Make your changes
+# ... edit files ...
+
+# 2. Test locally
+npm run lint
+npm test
+npm run build
+
+# 3. Commit changes (CI will NOT run)
+git add .
+git commit -m "Implement feature X"
+git push
+
+# 4. When ready for CI, add label
+gh pr edit $PR_NUMBER --add-label "ci-ready"
+
+# 5. If CI fails and you need to fix
+gh pr edit $PR_NUMBER --remove-label "ci-ready"  # Optional: prevent CI on every commit
+# ... make fixes ...
+npm run lint && npm test && npm run build  # Test locally
+
+# 6. Re-trigger CI
+gh pr edit $PR_NUMBER --add-label "ci-ready"
+```
 
 ## Common Pitfalls to Avoid
 
