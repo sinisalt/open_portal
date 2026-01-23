@@ -16,7 +16,7 @@ const BRANDING_CONFIG = {
   maxRetries: 3,
   retryDelay: 1000, // Initial retry delay in ms
   cacheKey: 'branding_data',
-  cacheDuration: 60 * 60 * 1000, // 1 hour in ms (longer than bootstrap's 15 minutes)
+  cacheDuration: 60 * 60 * 1000, // 1 hour in ms (longer than bootstrap's 5 minutes)
 };
 
 /**

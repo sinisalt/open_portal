@@ -495,18 +495,6 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 
 **Note:** Phase 0.5 inserted to migrate technology stack before Phase 1 continues. See ADR-012 for rationale.
 
-### Phase 1.1: Authentication & Bootstrap - 🚀 **92% Complete**
-- ✅ Login page implementation (ISSUE-007)
-- ✅ OAuth integration (ISSUE-008)
-- ✅ Token management (ISSUE-009)
-- ✅ Bootstrap API integration - Frontend (ISSUE-010-bootstrap-api) ⚠️ Backend pending
-- ✅ User context management (ISSUE-011) - **COMPLETE**
-- ✅ Tenant identification (ISSUE-011) - **COMPLETE**
-- ⏳ Branding system (pending - deferred until after Phase 0.5)
-
-### Phase 1.2: Routing & Page Loading - ⏳ **0% Complete**
-- Pending (resumes after Phase 0.5)
-
 ### Phase 1.3: Widget Registry & Core Widgets - ⏳ **0% Complete**
 - Pending (resumes after Phase 0.5)
 
