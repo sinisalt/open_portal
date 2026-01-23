@@ -99,11 +99,57 @@ Issues 15-22 were originally written assuming custom widget development from scr
 **Status:** ✅ Valid as-is  
 **Changes:** None required (form handling is independent of UI widgets, already references React Hook Form)
 
+### Phase 2-3 Widget Enhancement Issues (29-32)
+
+#### ISSUE-029: Advanced Form Features
+**Status:** ✅ Updated  
+**Changes:** 
+- Added references to shadcn components from Issue 017
+- Noted async lookups use shadcn Command + Popover
+- Referenced React Hook Form for complex validation
+- Updated technical notes to mention shadcn/Radix foundation
+
+**Effort Change:** No change (builds on existing shadcn foundation)
+
+#### ISSUE-030: Modal Workflows
+**Status:** ✅ Updated  
+**Changes:**
+- Added reference to shadcn Dialog from Issue 019
+- Noted Radix Dialog supports nested modals automatically
+- Suggested shadcn Tabs for wizard stepper
+- Updated dependencies to reference shadcn components
+
+**Effort Change:** No change (builds on existing shadcn Dialog)
+
+#### ISSUE-031: Advanced Table Features
+**Status:** ✅ Updated  
+**Changes:**
+- Added references to TanStack Table features (already in Issue 018)
+- Listed shadcn components for filters (Popover, Select, Command, Input, Calendar)
+- Noted TanStack Table provides pagination, sorting, filtering out of the box
+- Added technical notes about leveraging existing implementation
+
+**Effort Change:** No change (builds on existing TanStack Table from Issue 018)
+
+#### ISSUE-032: Chart Widgets
+**Status:** ✅ Updated  
+**Changes:**
+- Added recommended chart library: Tremor (Tailwind CSS-first)
+- Listed alternative options (Recharts, Victory Charts, Chart.js)
+- Added rationale for Tremor recommendation (Tailwind alignment)
+- Updated dependencies to include library recommendation
+- Added technical notes about theming and accessibility
+
+**Effort Change:** No change (library selection, not implementation scope change)
+
 ## Summary of Changes
 
 ### Issues Updated
-- **5 issues** (015-019) significantly updated for shadcn/ui approach
-- **3 issues** (020-022) remain valid as-is
+- **5 widget issues** (015-019) significantly updated for shadcn/ui approach
+- **4 enhancement issues** (029-032) updated with shadcn/ui references and clarifications
+- **3 action issues** (020-022) remain valid as-is
+
+**Total: 12 issues reviewed, 9 updated, 3 validated**
 
 ### Effort Impact
 
@@ -167,6 +213,10 @@ Updated `documentation/roadmap.md`:
 7. ⏳ Execute ISSUE-020 (Action Engine)
 8. ⏳ Execute ISSUE-021 (Core Actions)
 9. ⏳ Execute ISSUE-022 (Form Handling)
+10. ⏳ Execute ISSUE-029 (Advanced Form Features - builds on 017, 022)
+11. ⏳ Execute ISSUE-030 (Modal Workflows - builds on 019)
+12. ⏳ Execute ISSUE-031 (Advanced Table - builds on 018)
+13. ⏳ Execute ISSUE-032 (Chart Widgets - use Tremor library)
 
 ## References
 
@@ -188,12 +238,13 @@ All updates have been validated against:
 
 ## Conclusion
 
-Issues 15-22 have been successfully reviewed and updated to align with the shadcn/ui + Radix UI approach decided in ADR-012. 
+Issues 15-22 have been successfully reviewed and updated to align with the shadcn/ui + Radix UI approach decided in ADR-012. **Additionally, Phase 2-3 enhancement issues (29-32) have been updated** to reference the shadcn components and libraries selected in Phase 1.
 
 **Key Results:**
-- 5 widget issues updated with shadcn/ui implementation details
-- 3 action engine issues confirmed valid as-is
-- Effort reduced by 30-45% (7-11 days saved)
+- 5 widget issues updated with shadcn/ui implementation details (015-019)
+- 3 action engine issues confirmed valid as-is (020-022)
+- 4 enhancement issues updated with shadcn/ui references (029-032)
+- Effort reduced by 30-45% for Phase 1 widgets (7-11 days saved)
 - All documentation cross-references added
 - Roadmap updated to reflect changes
 
@@ -203,4 +254,5 @@ Issues 15-22 have been successfully reviewed and updated to align with the shadc
 
 **Author:** GitHub Copilot Agent  
 **Date:** January 23, 2026  
+**Updated:** January 23, 2026 (added issues 29-32)
 **Related PR:** Review roadmap and issues 15-22 for tech stack alignment
