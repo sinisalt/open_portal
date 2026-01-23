@@ -146,7 +146,7 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - [x] Route guards and redirects - **Completed via ISSUE-013-route-resolver** ✅
 
 #### 1.3 Widget Registry & Core Widgets (Week 5-7)
-- [ ] Widget registry system (2-3 days) - **Updated for shadcn/ui approach**
+- [x] Widget registry system (2-3 days) - **Completed via ISSUE-015** ✅
 - [ ] Layout widgets:
   - Page (custom Tailwind layout)
   - Section (optional shadcn Card)
@@ -167,6 +167,7 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 **Note:** Widget implementation now uses shadcn/ui + Radix UI (3-layer architecture per ADR-012). 
 **Effort reduced from 24 days to 13-17 days (30-45% reduction) due to pre-built components.**
 **Issues 015-019 updated January 23, 2026 to reflect shadcn/ui approach.**
+**Registry system completed January 23, 2026 with 61 passing tests.**
 
 #### 1.4 Action Engine (Week 7-8)
 - [ ] Action execution framework
@@ -499,14 +500,24 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 
 **Note:** Phase 0.5 inserted to migrate technology stack before Phase 1 continues. See ADR-012 for rationale.
 
-### Phase 1.3: Widget Registry & Core Widgets - ⏳ **0% Complete**
-- Pending (resumes after Phase 0.5)
+### Phase 1.3: Widget Registry & Core Widgets - 🚀 **10% Complete**
+- ✅ **ISSUE-015 Complete:** Widget Registry System (61/61 tests passing)
+  - Widget registry with type-safe registration
+  - Error boundaries for isolated error handling
+  - Dynamic widget renderer with visibility policies
+  - Comprehensive TypeScript types
+  - Full documentation
+- ⏳ Layout widgets implementation pending
+- ⏳ Form widgets implementation pending
+- ⏳ Data display widgets pending
+- ⏳ Dialog widgets pending
 
 ---
 
-**Version:** 2.6  
+**Version:** 2.7  
 **Last Updated:** January 23, 2026  
-**Status:** Active Development - Phase 1.2 (Routing & Page Loading - 60% Complete)
+**Status:** Active Development - Phase 1.3 (Widget Registry - 10% Complete)
 
 **Recent Updates:**
+- **January 23, 2026 (Evening):** Completed ISSUE-015 - Widget Registry System with 61/61 tests passing. Implemented core registry, error boundaries, dynamic renderer, and comprehensive TypeScript types. Created full documentation in widget-registry.md. Phase 1.3 now 10% complete.
 - **January 23, 2026:** Updated issues 015-019 (widget implementation) to align with shadcn/ui approach per ADR-012. Effort estimates reduced by 30-45% (from 24 days to 13-17 days) due to use of pre-built components. Phase 1.3 roadmap updated accordingly.
