@@ -93,7 +93,7 @@ describe('BootstrapContext', () => {
 
       // Test that the hook throws when used outside provider
       // We need to use a different approach since React hooks rules don't allow conditional usage
-      const caughtError: Error | null = null;
+      const _caughtError: Error | null = null;
 
       const TestComponent = () => {
         // This will throw during render

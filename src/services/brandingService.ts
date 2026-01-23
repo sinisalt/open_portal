@@ -109,7 +109,7 @@ function getCachedBranding(expectedVersion?: string): BrandingResponse | null {
     }
 
     return null;
-  } catch (error) {
+  } catch (_error) {
     // If cache retrieval fails, just return null
     return null;
   }
@@ -254,7 +254,7 @@ export function getCachedBrandingVersion(): string | null {
 
     const cachedData: CachedBranding = JSON.parse(cached);
     return cachedData.version;
-  } catch (error) {
+  } catch (_error) {
     return null;
   }
 }
