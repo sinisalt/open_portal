@@ -102,12 +102,22 @@ export function routeGuard(
       }
     }
 
-    // If specific permissions are required, check them
+    // If specific permissions are declared, note that this guard does not enforce them.
+    // -------------------------------------------------------------------------------
+    // IMPORTANT:
+    // - `routeGuard` is intentionally limited to authentication checks (`requireAuth`).
+    // - Permission enforcement is handled either by:
+    //     1) `createDynamicRouteGuard`, which uses bootstrap configuration +
+    //        `resolveRoute` to evaluate permissions, or
+    //     2) Component-level permission checks based on bootstrap/user data.
+    // - The `permissions` option here is currently a declarative contract for route
+    //   configuration and does not block navigation by itself.
+    //
+    // This design keeps this guard lightweight and avoids introducing additional
+    // bootstrap dependencies or circular imports in simple routes.
     if (permissions.length > 0) {
-      // Import bootstrap context dynamically to avoid circular dependencies
-      // In actual implementation, we would check permissions from bootstrap data
-      // For now, we'll just continue - the component can check permissions
-      // TODO: Implement actual permission check here
+      // No-op: see explanation above. Permission-aware routes should use
+      // `createDynamicRouteGuard` or perform checks in the rendered component.
     }
   };
 }
