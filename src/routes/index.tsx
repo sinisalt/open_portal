@@ -1,6 +1,6 @@
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
-import * as tokenManager from '@/services/tokenManager';
 import { useHasPermission, useTenant, useUser } from '@/contexts/UserContext';
+import * as tokenManager from '@/services/tokenManager';
 
 export const Route = createFileRoute('/')({
   component: HomePage,

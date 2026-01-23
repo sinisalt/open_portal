@@ -409,7 +409,7 @@ describe('UserContext', () => {
       function EditButton() {
         const canEdit = useHasPermission('users.edit');
         return (
-          <button data-testid="edit-button" disabled={!canEdit}>
+          <button type="button" data-testid="edit-button" disabled={!canEdit}>
             {canEdit ? 'Edit' : 'No permission'}
           </button>
         );
