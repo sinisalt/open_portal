@@ -20,45 +20,40 @@
  */
 
 import { widgetRegistry } from '@/core/registry/WidgetRegistry';
+import { CardWidget } from './CardWidget';
+import { GridWidget } from './GridWidget';
+// Layout & Structure widgets (4 widgets)
+import { PageWidget } from './PageWidget';
+import { SectionWidget } from './SectionWidget';
 
 /**
  * Register all widgets
  * Call this function during application initialization
  */
 export function registerWidgets(): void {
-  // TODO: Import and register widgets as they are implemented
+  widgetRegistry.register('Page', PageWidget, {
+    displayName: 'Page',
+    category: 'layout',
+    description: 'Top-level page container',
+  });
 
-  // Example registrations (commented out until widgets are implemented):
+  widgetRegistry.register('Section', SectionWidget, {
+    displayName: 'Section',
+    category: 'layout',
+    description: 'Page section organizer',
+  });
 
-  // Layout & Structure widgets (4 widgets)
-  // import { PageWidget } from './PageWidget';
-  // import { SectionWidget } from './SectionWidget';
-  // import { GridWidget } from './GridWidget';
-  // import { CardWidget } from './CardWidget';
-  //
-  // widgetRegistry.register('Page', PageWidget, {
-  //   displayName: 'Page',
-  //   category: 'layout',
-  //   description: 'Top-level page container',
-  // });
-  //
-  // widgetRegistry.register('Section', SectionWidget, {
-  //   displayName: 'Section',
-  //   category: 'layout',
-  //   description: 'Page section organizer',
-  // });
-  //
-  // widgetRegistry.register('Grid', GridWidget, {
-  //   displayName: 'Grid',
-  //   category: 'layout',
-  //   description: 'Responsive grid layout',
-  // });
-  //
-  // widgetRegistry.register('Card', CardWidget, {
-  //   displayName: 'Card',
-  //   category: 'layout',
-  //   description: 'Content card container',
-  // });
+  widgetRegistry.register('Grid', GridWidget, {
+    displayName: 'Grid',
+    category: 'layout',
+    description: 'Responsive grid layout',
+  });
+
+  widgetRegistry.register('Card', CardWidget, {
+    displayName: 'Card',
+    category: 'layout',
+    description: 'Content card container',
+  });
 
   // Form Input widgets (4 widgets)
   // import { TextInputWidget } from './TextInputWidget';
