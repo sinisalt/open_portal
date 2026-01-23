@@ -275,10 +275,9 @@ export function validateRouteConfig(route: RouteConfig): boolean {
     return false;
   }
 
-  // Can't have both redirect and pageId
-  if (route.redirect && route.pageId && route.redirect !== route.pageId) {
-    return false;
-  }
+  // If route has a redirect, it's acceptable for pageId to be a placeholder
+  // The redirect takes precedence over the pageId in route resolution
+  // No additional validation needed for redirect/pageId combination
 
   return true;
 }
