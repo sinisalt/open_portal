@@ -146,23 +146,27 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - [x] Route guards and redirects - **Completed via ISSUE-013-route-resolver** ✅
 
 #### 1.3 Widget Registry & Core Widgets (Week 5-7)
-- [ ] Widget registry system
+- [ ] Widget registry system (2-3 days) - **Updated for shadcn/ui approach**
 - [ ] Layout widgets:
-  - Page
-  - Section
-  - Grid
-  - Card
+  - Page (custom Tailwind layout)
+  - Section (optional shadcn Card)
+  - Grid (custom Tailwind grid)
+  - Card (shadcn Card wrapper) - **Component already installed**
 - [ ] Form widgets:
-  - TextInput
-  - Select
-  - DatePicker
-  - Checkbox
+  - TextInput (extend ISSUE-014 implementation)
+  - Select (shadcn Select/Command)
+  - DatePicker (shadcn Calendar + Popover)
+  - Checkbox (shadcn Checkbox)
 - [ ] Data display:
-  - Table (basic)
-  - KPI card
+  - Table (shadcn Table + TanStack Table)
+  - KPI card (shadcn Card wrapper)
 - [ ] Dialog widgets:
-  - Modal (basic)
-  - Toast/Notification
+  - Modal (shadcn Dialog)
+  - Toast/Notification (Sonner)
+
+**Note:** Widget implementation now uses shadcn/ui + Radix UI (3-layer architecture per ADR-012). 
+**Effort reduced from 24 days to 13-17 days (30-45% reduction) due to pre-built components.**
+**Issues 015-019 updated January 23, 2026 to reflect shadcn/ui approach.**
 
 #### 1.4 Action Engine (Week 7-8)
 - [ ] Action execution framework
@@ -500,6 +504,9 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 
 ---
 
-**Version:** 2.5  
+**Version:** 2.6  
 **Last Updated:** January 23, 2026  
 **Status:** Active Development - Phase 1.2 (Routing & Page Loading - 60% Complete)
+
+**Recent Updates:**
+- **January 23, 2026:** Updated issues 015-019 (widget implementation) to align with shadcn/ui approach per ADR-012. Effort estimates reduced by 30-45% (from 24 days to 13-17 days) due to use of pre-built components. Phase 1.3 roadmap updated accordingly.

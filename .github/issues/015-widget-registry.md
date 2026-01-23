@@ -3,12 +3,16 @@
 **Phase:** Phase 1 - Core Platform (MVP Renderer)  
 **Weeks:** 5-7  
 **Component:** Frontend  
-**Estimated Effort:** 4 days  
+**Estimated Effort:** 2-3 days  
 **Priority:** Critical  
 **Labels:** phase-1, frontend, widgets, foundation, architecture
 
+**Updated:** January 23, 2026 - Aligned with shadcn/ui approach (ADR-012)
+
 ## Description
 Implement the widget registry system that maps widget type strings to React components, manages widget lifecycle, and provides the foundation for the configuration-driven rendering engine.
+
+**Note:** This issue has been updated to align with the 3-layer widget architecture (Radix UI → shadcn/ui → OpenPortal Widgets → Widget Registry) as defined in ADR-012 and WIDGET-ARCHITECTURE.md. The registry will map to widgets that wrap shadcn/ui components, not custom-built components.
 
 ## Acceptance Criteria
 - [ ] Widget registry implementation
@@ -59,10 +63,15 @@ interface WidgetDefinition {
 - [ ] Performance monitoring hooks
 - [ ] Debug mode information
 
+**Note:** Widgets wrap shadcn/ui components which are built on Radix UI primitives. Accessibility (ARIA, keyboard nav, focus management) is handled by Radix UI automatically.
+
 ## Dependencies
 - Depends on: #001 (Widget taxonomy)
 - Depends on: #002 (Configuration schema)
 - Depends on: #006 (Repository structure)
+- Depends on: #014 (Widget Registry POC - validates architecture)
+- References: WIDGET-ARCHITECTURE.md (3-layer architecture)
+- References: WIDGET-COMPONENT-MAPPING.md (component mapping)
 
 ## Technical Notes
 - Use React.lazy for code splitting
@@ -74,13 +83,23 @@ interface WidgetDefinition {
 
 ## Widget Loading Strategy
 ```typescript
-// Static registration (bundled)
-registry.register('TextInput', TextInputWidget);
+// Static registration (bundled) - shadcn-based widgets
+import { TextInputWidget } from '@/widgets/TextInputWidget'
+import { SelectWidget } from '@/widgets/SelectWidget'
 
-// Lazy registration (code-split)
+registry.register('TextInput', TextInputWidget);
+registry.register('Select', SelectWidget);
+
+// Lazy registration (code-split) - for heavy widgets
 registry.register('Chart', React.lazy(() => import('./ChartWidget')), {
   lazy: true
 });
+```
+
+**Widget Architecture:**
+```
+Radix UI Primitive → shadcn Component → OpenPortal Widget → Registry
+Example: @radix-ui/react-label → Input → TextInputWidget → widgetRegistry.get('TextInput')
 ```
 
 ## Error Handling
@@ -114,9 +133,15 @@ registry.register('Chart', React.lazy(() => import('./ChartWidget')), {
 - [ ] Performance best practices
 
 ## Deliverables
-- Widget registry implementation
-- Widget wrapper component
-- Error boundaries
-- Tests
+- Widget registry implementation (extends ISSUE-014 POC)
+- Widget wrapper component with error boundaries
+- Widget renderer component (dynamic rendering from config)
+- Registry tests
 - Documentation
-- Example widgets
+- Example widgets (TextInputWidget already implemented in ISSUE-014)
+
+## References
+- **ISSUE-014:** TextInputWidget POC validates architecture
+- **WIDGET-ARCHITECTURE.md:** Complete 3-layer architecture documentation
+- **WIDGET-COMPONENT-MAPPING.md:** shadcn component mappings for all MVP widgets
+- **ADR-012:** Technology Stack Revision rationale
