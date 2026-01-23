@@ -129,27 +129,33 @@ describe('pageConfigLoader', () => {
     });
 
     it('should handle 304 Not Modified response', async () => {
-      // First load
+      // First load with ETag
       mockHttpClient.mockResolvedValueOnce(
         createMockResponse(samplePageConfig, 200, { ETag: '"v1.0.0"' })
       );
-      await loadPageConfig('test-page');
+      const firstResult = await loadPageConfig('test-page', { cacheTTL: 1 }); // 1 second TTL
+      expect(firstResult.fromCache).toBe(false);
 
-      // Clear cache to force refetch
-      await clearPageCache('test-page');
+      // Wait for cache to expire
+      await new Promise(resolve => setTimeout(resolve, 1100));
 
-      // Mock 304 response
+      // Mock 304 response (not modified)
       mockHttpClient.mockResolvedValueOnce(createMockResponse(null, 304));
 
-      // This should still work because we send the ETag
-      // But since cache is cleared, it will fail
-      const _result = await loadPageConfig('test-page', {
-        skipCache: false,
-        cacheTTL: 0,
-      });
+      // Second load should detect expired cache, send ETag, get 304, and return cached config
+      const result = await loadPageConfig('test-page');
 
-      // Should fetch fresh since cache was cleared
+      // Should return cached config
+      expect(result.config).toEqual(samplePageConfig);
+      expect(result.fromCache).toBe(true);
       expect(mockHttpClient).toHaveBeenCalledTimes(2);
+
+      // Verify ETag was sent in second request
+      expect(mockHttpClient).toHaveBeenNthCalledWith(2, '/ui/pages/test-page', {
+        method: 'GET',
+        headers: { 'If-None-Match': '"v1.0.0"' },
+        signal: undefined,
+      });
     });
 
     it('should handle 404 Not Found error', async () => {
