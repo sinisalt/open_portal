@@ -299,10 +299,7 @@ export async function loadPageConfig(
       }
 
       if (!config) {
-        throw new PageLoadError(
-          PageLoadErrorType.INVALID_CONFIG,
-          'Page configuration is missing'
-        );
+        throw new PageLoadError(PageLoadErrorType.INVALID_CONFIG, 'Page configuration is missing');
       }
 
       return {
