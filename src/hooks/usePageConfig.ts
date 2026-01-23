@@ -211,11 +211,12 @@ export function usePageConfig(
  * ```
  */
 export function usePreloadPageConfig(pageId: string, options: PageLoaderOptions = {}): void {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: options is intentionally excluded to avoid re-renders on inline object changes
   useEffect(() => {
     if (pageId) {
       void preloadPageConfig(pageId, options);
     }
-  }, [pageId, options]);
+  }, [pageId]);
 }
 
 /**
