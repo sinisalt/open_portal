@@ -10,3 +10,5 @@ export * from './bootstrap.types';
 export * from './page.types';
 // Route types
 export * from './route.types';
+// Widget types
+export * from './widget.types';
