@@ -34,7 +34,7 @@ describe('LoginPage', () => {
   };
 
   describe('rendering', () => {
-    it('should render login form', () => {
+    it('should render login form', async () => {
       useAuth.mockReturnValue({
         isAuthenticated: false,
         login: jest.fn(),
@@ -44,7 +44,11 @@ describe('LoginPage', () => {
 
       renderLoginPage();
 
-      expect(screen.getByText('Welcome Back')).toBeInTheDocument();
+      // Wait for async operations to complete
+      await waitFor(() => {
+        expect(screen.getByText('Welcome Back')).toBeInTheDocument();
+      });
+
       expect(screen.getByLabelText('Email Address')).toBeInTheDocument();
       expect(screen.getByLabelText('Password')).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument();

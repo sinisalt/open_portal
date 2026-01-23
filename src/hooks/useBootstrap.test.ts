@@ -48,7 +48,7 @@ describe('useBootstrap', () => {
     (tokenManager.isAuthenticated as jest.Mock).mockReturnValue(true);
   });
 
-  it('should initialize with default state', () => {
+  it('should initialize with default state', async () => {
     (tokenManager.isAuthenticated as jest.Mock).mockReturnValue(false);
     (bootstrapService.fetchBootstrap as jest.Mock).mockResolvedValue(mockBootstrapData);
 
@@ -58,6 +58,11 @@ describe('useBootstrap', () => {
     expect(result.current.loading).toBe(false);
     expect(result.current.error).toBeNull();
     expect(result.current.loaded).toBe(false);
+
+    // Wait a tick to ensure no pending async operations
+    await waitFor(() => {
+      expect(result.current.loaded).toBe(false);
+    });
   });
 
   it('should auto-fetch bootstrap data when authenticated', async () => {
@@ -74,13 +79,18 @@ describe('useBootstrap', () => {
     expect(result.current.error).toBeNull();
   });
 
-  it('should not auto-fetch when not authenticated', () => {
+  it('should not auto-fetch when not authenticated', async () => {
     (tokenManager.isAuthenticated as jest.Mock).mockReturnValue(false);
     (bootstrapService.fetchBootstrap as jest.Mock).mockResolvedValue(mockBootstrapData);
 
-    renderHook(() => useBootstrap());
+    const { result } = renderHook(() => useBootstrap());
 
     expect(bootstrapService.fetchBootstrap).not.toHaveBeenCalled();
+
+    // Wait to ensure no pending async operations
+    await waitFor(() => {
+      expect(result.current.loaded).toBe(false);
+    });
   });
 
   it('should set loading state during fetch', async () => {
@@ -209,7 +219,7 @@ describe('useBootstrap', () => {
     expect(result.current.loaded).toBe(false);
   });
 
-  it('should return empty arrays/objects when no data', () => {
+  it('should return empty arrays/objects when no data', async () => {
     (tokenManager.isAuthenticated as jest.Mock).mockReturnValue(false);
 
     const { result } = renderHook(() => useBootstrap());
@@ -220,6 +230,11 @@ describe('useBootstrap', () => {
     expect(result.current.menu).toEqual([]);
     expect(result.current.defaults).toBeNull();
     expect(result.current.featureFlags).toEqual({});
+
+    // Wait to ensure no pending async operations
+    await waitFor(() => {
+      expect(result.current.loaded).toBe(false);
+    });
   });
 
   it('should not fetch if not authenticated when reload is called', async () => {

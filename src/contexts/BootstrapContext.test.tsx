@@ -57,7 +57,7 @@ describe('BootstrapContext', () => {
   });
 
   describe('BootstrapProvider', () => {
-    it('should render children', () => {
+    it('should render children', async () => {
       render(
         <BootstrapProvider>
           <div>Test Content</div>
@@ -65,6 +65,11 @@ describe('BootstrapContext', () => {
       );
 
       expect(screen.getByText('Test Content')).toBeInTheDocument();
+
+      // Wait for bootstrap to complete to avoid act warnings
+      await waitFor(() => {
+        expect(bootstrapService.fetchBootstrap).toHaveBeenCalled();
+      });
     });
 
     it('should provide bootstrap context to children', async () => {

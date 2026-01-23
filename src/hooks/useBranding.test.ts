@@ -3,6 +3,7 @@
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
+import { act } from 'react';
 import * as brandingService from '@/services/brandingService';
 import type { BrandingResponse } from '@/types/branding.types';
 import * as applyThemeUtils from '@/utils/applyTheme';
@@ -45,20 +46,30 @@ describe('useBranding', () => {
   });
 
   describe('initial loading', () => {
-    it('should start with loading false when disabled', () => {
+    it('should start with loading false when disabled', async () => {
       const { result } = renderHook(() => useBranding({ tenantId: 'tenant456', enabled: false }));
 
       expect(result.current.loading).toBe(false);
       expect(result.current.branding).toBeNull();
       expect(result.current.error).toBeNull();
+
+      // Wait to ensure no pending async operations
+      await waitFor(() => {
+        expect(result.current.loading).toBe(false);
+      });
     });
 
-    it('should start with loading false when tenantId is missing', () => {
+    it('should start with loading false when tenantId is missing', async () => {
       const { result } = renderHook(() => useBranding({}));
 
       expect(result.current.loading).toBe(false);
       expect(result.current.branding).toBeNull();
       expect(result.current.error).toBeNull();
+
+      // Wait to ensure no pending async operations
+      await waitFor(() => {
+        expect(result.current.loading).toBe(false);
+      });
     });
 
     it('should fetch branding when tenantId is provided', async () => {
@@ -176,10 +187,15 @@ describe('useBranding', () => {
       expect(applyThemeUtils.removeBrandingTheme).toHaveBeenCalled();
     });
 
-    it('should not remove branding theme on unmount when autoApply is false', () => {
+    it('should not remove branding theme on unmount when autoApply is false', async () => {
       const { unmount } = renderHook(() =>
         useBranding({ tenantId: 'tenant456', autoApply: false })
       );
+
+      // Wait for any initial async operations
+      await waitFor(() => {
+        expect(result => result).toBeTruthy();
+      });
 
       unmount();
 
@@ -206,8 +222,13 @@ describe('useBranding', () => {
       );
     });
 
-    it('should manually remove branding', () => {
+    it('should manually remove branding', async () => {
       const { result } = renderHook(() => useBranding({ tenantId: 'tenant456' }));
+
+      // Wait for initial async operations
+      await waitFor(() => {
+        expect(result).toBeTruthy();
+      });
 
       result.current.removeBranding();
 
@@ -228,7 +249,9 @@ describe('useBranding', () => {
       jest.clearAllMocks();
 
       // Refresh
-      await result.current.refreshBranding();
+      await act(async () => {
+        await result.current.refreshBranding();
+      });
 
       expect(brandingService.fetchBranding).toHaveBeenCalledWith('tenant456', undefined, false);
       expect(result.current.branding).toEqual(mockBrandingResponse);
@@ -237,7 +260,9 @@ describe('useBranding', () => {
     it('should not refresh when tenantId is missing', async () => {
       const { result } = renderHook(() => useBranding({}));
 
-      await result.current.refreshBranding();
+      await act(async () => {
+        await result.current.refreshBranding();
+      });
 
       expect(brandingService.fetchBranding).not.toHaveBeenCalled();
     });
@@ -255,7 +280,9 @@ describe('useBranding', () => {
       });
 
       // Try to refresh (will fail)
-      await expect(result.current.refreshBranding()).rejects.toThrow('Refresh failed');
+      await act(async () => {
+        await expect(result.current.refreshBranding()).rejects.toThrow('Refresh failed');
+      });
 
       // Wait for state to update after refresh failure
       await waitFor(() => {
