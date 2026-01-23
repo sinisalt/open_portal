@@ -152,9 +152,123 @@ Authorization: Bearer <accessToken>
   "featureFlags": {
     "newDashboard": true,
     "betaFeatures": false
+  },
+  "routes": [
+    {
+      "pattern": "/dashboard",
+      "pageId": "dashboard-page",
+      "metadata": {
+        "title": "Dashboard",
+        "icon": "dashboard"
+      }
+    },
+    {
+      "pattern": "/user/:id",
+      "pageId": "user-profile",
+      "permissions": ["user.view"],
+      "metadata": {
+        "title": "User Profile"
+      }
+    },
+    {
+      "pattern": "/admin/:section",
+      "pageId": "admin-panel",
+      "permissions": ["admin.access"],
+      "priority": 10
+    }
+  ]
+}
+```
+
+**Note:** The `routes` array is optional. If not provided, the application falls back to static routing.
+
+## Route Resolution API
+
+### GET /ui/routes/resolve
+
+Resolve a URL path to page configuration using route patterns. This endpoint is optional and used when dynamic route resolution is needed server-side.
+
+**Query Parameters:**
+- `path` (required): The URL path to resolve (e.g., `/dashboard`, `/user/123`)
+
+**Headers:**
+```
+Authorization: Bearer <accessToken>
+```
+
+**Response (200 OK):**
+```json
+{
+  "pageId": "user-profile",
+  "params": {
+    "id": "123"
+  },
+  "metadata": {
+    "title": "User Profile",
+    "icon": "user"
+  },
+  "hasPermission": true,
+  "route": {
+    "pattern": "/user/:id",
+    "pageId": "user-profile",
+    "permissions": ["user.view"],
+    "metadata": {
+      "title": "User Profile",
+      "icon": "user"
+    }
   }
 }
 ```
+
+**Response (404 Not Found):**
+```json
+{
+  "error": "Route not found",
+  "message": "No route configuration matches path: /non-existent",
+  "path": "/non-existent"
+}
+```
+
+**Response (403 Forbidden):**
+```json
+{
+  "error": "Insufficient permissions",
+  "message": "User does not have required permissions for this route",
+  "path": "/admin/users",
+  "requiredPermissions": ["admin.access"],
+  "userPermissions": []
+}
+```
+
+**Route Configuration in Bootstrap:**
+
+The `routes` array in the bootstrap response provides client-side route configuration. Each route object supports:
+
+```typescript
+{
+  pattern: string;        // Route pattern (e.g., "/user/:id")
+  pageId: string;         // Page identifier to load
+  permissions?: string[]; // Required permissions (all must match)
+  redirect?: string;      // Redirect to another route
+  exact?: boolean;        // Exact match required
+  priority?: number;      // Matching priority (higher = first)
+  metadata?: {            // Route metadata
+    title?: string;
+    description?: string;
+    icon?: string;
+    [key: string]: unknown;
+  };
+}
+```
+
+**Supported Route Patterns:**
+- Static: `/dashboard`
+- Dynamic parameters: `/user/:id`
+- Optional parameters: `/search/:term?`
+- Wildcard: `/docs/*`
+- Nested: `/settings/profile`
+
+
 
 ## Branding API
 

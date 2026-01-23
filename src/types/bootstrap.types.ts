@@ -101,6 +101,9 @@ export interface BootstrapResponse {
 
   /** Feature flags */
   featureFlags: FeatureFlags;
+
+  /** Route configuration (optional - for dynamic routing) */
+  routes?: import('./route.types').RouteConfig[];
 }
 
 /**

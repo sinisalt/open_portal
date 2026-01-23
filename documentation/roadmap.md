@@ -139,11 +139,11 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - [x] Default branding configuration - **Completed via ISSUE-012** ✅
 
 #### 1.2 Routing & Page Loading (Week 4-5)
-- [ ] Route resolver implementation
+- [x] Route resolver implementation - **Completed via ISSUE-013-route-resolver** ✅
 - [ ] Page configuration loader
 - [ ] Cache management (ETag support)
-- [ ] Deep linking support
-- [ ] Route guards and redirects
+- [ ] Deep linking support (TanStack Router built-in)
+- [x] Route guards and redirects - **Completed via ISSUE-013-route-resolver** ✅
 
 #### 1.3 Widget Registry & Core Widgets (Week 5-7)
 - [ ] Widget registry system
@@ -195,7 +195,7 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - [ ] Authentication endpoints
 - [x] `/ui/bootstrap` implementation (with tenant and branding info) - **Frontend completed via ISSUE-010-bootstrap-api** ⚠️ Backend pending
 - [ ] `/ui/branding` endpoint implementation ⚠️ **Frontend completed via ISSUE-012, backend pending**
-- [ ] `/ui/routes/resolve` implementation
+- [ ] `/ui/routes/resolve` implementation ⚠️ **Frontend completed via ISSUE-013-route-resolver, backend optional**
 - [ ] `/ui/pages/:pageId` implementation
 - [ ] Config storage schema
 - [ ] Branding storage schema (tenant_branding table)
@@ -486,12 +486,12 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - ✅ Branding service implementation (ISSUE-012) - **COMPLETE**
 - ✅ Default branding support (ISSUE-012) - **COMPLETE**
 
-### Phase 1.2: Routing & Page Loading - ⏳ **0% Complete** (0/5 tasks)
-- ⏳ Route resolver implementation - pending
+### Phase 1.2: Routing & Page Loading - 🚀 **60% Complete** (3/5 tasks)
+- ✅ Route resolver implementation (ISSUE-013-route-resolver) - **COMPLETE**
 - ⏳ Page configuration loader - pending
 - ⏳ Cache management - pending
-- ⏳ Deep linking support - pending
-- ⏳ Route guards - pending
+- ✅ Deep linking support - **COMPLETE** (TanStack Router built-in)
+- ✅ Route guards (ISSUE-013-route-resolver) - **COMPLETE**
 
 **Note:** Phase 0.5 inserted to migrate technology stack before Phase 1 continues. See ADR-012 for rationale.
 
@@ -500,6 +500,6 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 
 ---
 
-**Version:** 2.4  
+**Version:** 2.5  
 **Last Updated:** January 23, 2026  
-**Status:** Active Development - Phase 0.5 (Technology Stack Migration - 80% Complete) & Phase 1.1 (Authentication & Bootstrap - ✅ 100% Complete)
+**Status:** Active Development - Phase 1.2 (Routing & Page Loading - 60% Complete)

@@ -159,3 +159,26 @@ export function useFeatureFlag(featureFlag: string): boolean {
   const { featureFlags } = useBootstrapContext();
   return featureFlags[featureFlag] === true;
 }
+
+/**
+ * Get bootstrap data outside of React context
+ *
+ * This is useful for route guards and other non-component code
+ * Note: This function will fetch fresh data, not use the context cache
+ *
+ * @returns Promise resolving to bootstrap data
+ */
+export async function getBootstrapData(): Promise<BootstrapResponse | null> {
+  try {
+    const { fetchBootstrap } = await import('@/services/bootstrapService');
+    return await fetchBootstrap(true); // Use cache
+  } catch (error) {
+    console.error('Failed to fetch bootstrap data:', error);
+    return null;
+  }
+}
+
+/**
+ * Re-export useBootstrap hook for convenience
+ */
+export { useBootstrap } from '@/hooks/useBootstrap';
