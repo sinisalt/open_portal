@@ -298,8 +298,15 @@ export async function loadPageConfig(
         });
       }
 
+      if (!config) {
+        throw new PageLoadError(
+          PageLoadErrorType.INVALID_CONFIG,
+          'Page configuration is missing'
+        );
+      }
+
       return {
-        config: config!,
+        config,
         fromCache: false,
         etag,
         loadedAt: now,
