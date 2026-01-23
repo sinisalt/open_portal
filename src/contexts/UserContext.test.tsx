@@ -2,7 +2,7 @@
  * User Context Tests
  */
 
-import { render, renderHook, screen } from '@testing-library/react';
+import { render, renderHook, screen, waitFor } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import * as bootstrapService from '@/services/bootstrapService';
 import * as tokenManager from '@/services/tokenManager';
@@ -121,43 +121,43 @@ describe('UserContext', () => {
       const { result } = renderHookWithProviders(() => useUserContext());
 
       // Wait for bootstrap to load
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current.user).toEqual(mockBootstrapData.user);
+      await waitFor(() => {
+        expect(result.current.user).toEqual(mockBootstrapData.user);
+      });
     });
 
     it('should return permissions array from bootstrap', async () => {
       const { result } = renderHookWithProviders(() => useUserContext());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current.permissions).toEqual(mockBootstrapData.permissions);
+      await waitFor(() => {
+        expect(result.current.permissions).toEqual(mockBootstrapData.permissions);
+      });
     });
 
     it('should return tenant information from bootstrap', async () => {
       const { result } = renderHookWithProviders(() => useUserContext());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current.tenant).toEqual(mockBootstrapData.tenant);
+      await waitFor(() => {
+        expect(result.current.tenant).toEqual(mockBootstrapData.tenant);
+      });
     });
 
     it('should indicate authenticated state', async () => {
       const { result } = renderHookWithProviders(() => useUserContext());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current.isAuthenticated).toBe(false); // useAuth returns false initially
+      await waitFor(() => {
+        expect(result.current.isAuthenticated).toBe(false); // useAuth returns false initially
+      });
     });
 
     it('should provide permission checking functions', async () => {
       const { result } = renderHookWithProviders(() => useUserContext());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(typeof result.current.hasPermission).toBe('function');
-      expect(typeof result.current.hasAnyPermission).toBe('function');
-      expect(typeof result.current.hasAllPermissions).toBe('function');
+      await waitFor(() => {
+        expect(typeof result.current.hasPermission).toBe('function');
+        expect(typeof result.current.hasAnyPermission).toBe('function');
+        expect(typeof result.current.hasAllPermissions).toBe('function');
+      });
     });
   });
 
@@ -165,9 +165,9 @@ describe('UserContext', () => {
     it('should return current user', async () => {
       const { result } = renderHookWithProviders(() => useUser());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toEqual(mockBootstrapData.user);
+      await waitFor(() => {
+        expect(result.current).toEqual(mockBootstrapData.user);
+      });
     });
 
     it('should return null when no user', async () => {
@@ -178,9 +178,9 @@ describe('UserContext', () => {
 
       const { result } = renderHookWithProviders(() => useUser());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toBeNull();
+      await waitFor(() => {
+        expect(result.current).toBeNull();
+      });
     });
   });
 
@@ -188,9 +188,9 @@ describe('UserContext', () => {
     it('should return permissions array', async () => {
       const { result } = renderHookWithProviders(() => usePermissions());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toEqual(mockBootstrapData.permissions);
+      await waitFor(() => {
+        expect(result.current).toEqual(mockBootstrapData.permissions);
+      });
     });
 
     it('should return empty array when no permissions', async () => {
@@ -201,9 +201,9 @@ describe('UserContext', () => {
 
       const { result } = renderHookWithProviders(() => usePermissions());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toEqual([]);
+      await waitFor(() => {
+        expect(result.current).toEqual([]);
+      });
     });
   });
 
@@ -211,9 +211,9 @@ describe('UserContext', () => {
     it('should return tenant information', async () => {
       const { result } = renderHookWithProviders(() => useTenant());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toEqual(mockBootstrapData.tenant);
+      await waitFor(() => {
+        expect(result.current).toEqual(mockBootstrapData.tenant);
+      });
     });
 
     it('should return null when no tenant', async () => {
@@ -224,9 +224,9 @@ describe('UserContext', () => {
 
       const { result } = renderHookWithProviders(() => useTenant());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toBeNull();
+      await waitFor(() => {
+        expect(result.current).toBeNull();
+      });
     });
   });
 
@@ -234,17 +234,17 @@ describe('UserContext', () => {
     it('should return true when user has permission', async () => {
       const { result } = renderHookWithProviders(() => useHasPermission('users.edit'));
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toBe(true);
+      await waitFor(() => {
+        expect(result.current).toBe(true);
+      });
     });
 
     it('should return false when user does not have permission', async () => {
       const { result } = renderHookWithProviders(() => useHasPermission('admin.delete'));
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toBe(false);
+      await waitFor(() => {
+        expect(result.current).toBe(false);
+      });
     });
 
     it('should return false when permissions array is empty', async () => {
@@ -255,9 +255,9 @@ describe('UserContext', () => {
 
       const { result } = renderHookWithProviders(() => useHasPermission('users.edit'));
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toBe(false);
+      await waitFor(() => {
+        expect(result.current).toBe(false);
+      });
     });
   });
 
@@ -267,9 +267,9 @@ describe('UserContext', () => {
         useHasAnyPermission(['users.edit', 'admin.full'])
       );
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toBe(true);
+      await waitFor(() => {
+        expect(result.current).toBe(true);
+      });
     });
 
     it('should return true when user has all permissions', async () => {
@@ -277,9 +277,9 @@ describe('UserContext', () => {
         useHasAnyPermission(['users.edit', 'reports.view'])
       );
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toBe(true);
+      await waitFor(() => {
+        expect(result.current).toBe(true);
+      });
     });
 
     it('should return false when user has none of the permissions', async () => {
@@ -287,17 +287,17 @@ describe('UserContext', () => {
         useHasAnyPermission(['admin.full', 'settings.write'])
       );
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toBe(false);
+      await waitFor(() => {
+        expect(result.current).toBe(false);
+      });
     });
 
     it('should return false for empty permissions array', async () => {
       const { result } = renderHookWithProviders(() => useHasAnyPermission([]));
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toBe(false);
+      await waitFor(() => {
+        expect(result.current).toBe(false);
+      });
     });
   });
 
@@ -307,9 +307,9 @@ describe('UserContext', () => {
         useHasAllPermissions(['users.edit', 'reports.view'])
       );
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toBe(true);
+      await waitFor(() => {
+        expect(result.current).toBe(true);
+      });
     });
 
     it('should return false when user is missing one permission', async () => {
@@ -317,9 +317,9 @@ describe('UserContext', () => {
         useHasAllPermissions(['users.edit', 'admin.full'])
       );
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toBe(false);
+      await waitFor(() => {
+        expect(result.current).toBe(false);
+      });
     });
 
     it('should return false when user has none of the permissions', async () => {
@@ -327,17 +327,17 @@ describe('UserContext', () => {
         useHasAllPermissions(['admin.full', 'settings.write'])
       );
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toBe(false);
+      await waitFor(() => {
+        expect(result.current).toBe(false);
+      });
     });
 
     it('should return true for empty permissions array', async () => {
       const { result } = renderHookWithProviders(() => useHasAllPermissions([]));
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current).toBe(true);
+      await waitFor(() => {
+        expect(result.current).toBe(true);
+      });
     });
   });
 
@@ -345,28 +345,28 @@ describe('UserContext', () => {
     it('should have hasPermission method that works correctly', async () => {
       const { result } = renderHookWithProviders(() => useUserContext());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current.hasPermission('users.edit')).toBe(true);
-      expect(result.current.hasPermission('admin.full')).toBe(false);
+      await waitFor(() => {
+        expect(result.current.hasPermission('users.edit')).toBe(true);
+        expect(result.current.hasPermission('admin.full')).toBe(false);
+      });
     });
 
     it('should have hasAnyPermission method that works correctly', async () => {
       const { result } = renderHookWithProviders(() => useUserContext());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current.hasAnyPermission(['users.edit', 'admin.full'])).toBe(true);
-      expect(result.current.hasAnyPermission(['admin.full', 'settings.write'])).toBe(false);
+      await waitFor(() => {
+        expect(result.current.hasAnyPermission(['users.edit', 'admin.full'])).toBe(true);
+        expect(result.current.hasAnyPermission(['admin.full', 'settings.write'])).toBe(false);
+      });
     });
 
     it('should have hasAllPermissions method that works correctly', async () => {
       const { result } = renderHookWithProviders(() => useUserContext());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(result.current.hasAllPermissions(['users.edit', 'reports.view'])).toBe(true);
-      expect(result.current.hasAllPermissions(['users.edit', 'admin.full'])).toBe(false);
+      await waitFor(() => {
+        expect(result.current.hasAllPermissions(['users.edit', 'reports.view'])).toBe(true);
+        expect(result.current.hasAllPermissions(['users.edit', 'admin.full'])).toBe(false);
+      });
     });
   });
 
@@ -377,18 +377,18 @@ describe('UserContext', () => {
       // Initially loading
       expect(result.current.isLoading).toBe(true);
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      // After bootstrap loads, should not be loading
-      expect(result.current.isLoading).toBe(false);
+      await waitFor(() => {
+        // After bootstrap loads, should not be loading
+        expect(result.current.isLoading).toBe(false);
+      });
     });
 
     it('should provide logout function from auth', async () => {
       const { result } = renderHookWithProviders(() => useUserContext());
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      expect(typeof result.current.logout).toBe('function');
+      await waitFor(() => {
+        expect(typeof result.current.logout).toBe('function');
+      });
     });
   });
 

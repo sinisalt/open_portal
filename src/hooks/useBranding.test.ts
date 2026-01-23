@@ -3,6 +3,7 @@
  */
 
 import { renderHook, waitFor } from '@testing-library/react';
+import { act } from 'react';
 import * as brandingService from '@/services/brandingService';
 import type { BrandingResponse } from '@/types/branding.types';
 import * as applyThemeUtils from '@/utils/applyTheme';
@@ -228,7 +229,9 @@ describe('useBranding', () => {
       jest.clearAllMocks();
 
       // Refresh
-      await result.current.refreshBranding();
+      await act(async () => {
+        await result.current.refreshBranding();
+      });
 
       expect(brandingService.fetchBranding).toHaveBeenCalledWith('tenant456', undefined, false);
       expect(result.current.branding).toEqual(mockBrandingResponse);
@@ -237,7 +240,9 @@ describe('useBranding', () => {
     it('should not refresh when tenantId is missing', async () => {
       const { result } = renderHook(() => useBranding({}));
 
-      await result.current.refreshBranding();
+      await act(async () => {
+        await result.current.refreshBranding();
+      });
 
       expect(brandingService.fetchBranding).not.toHaveBeenCalled();
     });
@@ -255,7 +260,9 @@ describe('useBranding', () => {
       });
 
       // Try to refresh (will fail)
-      await expect(result.current.refreshBranding()).rejects.toThrow('Refresh failed');
+      await act(async () => {
+        await expect(result.current.refreshBranding()).rejects.toThrow('Refresh failed');
+      });
 
       // Wait for state to update after refresh failure
       await waitFor(() => {
