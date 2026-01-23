@@ -3,12 +3,22 @@
 **Phase:** Phase 1 - Core Platform (MVP Renderer)  
 **Weeks:** 5-7  
 **Component:** Frontend  
-**Estimated Effort:** 5 days  
+**Estimated Effort:** 2-3 days  
 **Priority:** High  
 **Labels:** phase-1, frontend, widgets, layout
 
+**Updated:** January 23, 2026 - Aligned with shadcn/ui approach (ADR-012)
+
 ## Description
 Implement the core layout widgets (Page, Section, Grid, Card) that provide the structural foundation for all pages in the OpenPortal platform.
+
+**Implementation Approach:**
+- **CardWidget:** Uses shadcn `card` component (already installed)
+- **PageWidget:** Custom Tailwind layout (no shadcn component needed)
+- **SectionWidget:** Uses shadcn `card` optionally for bordered sections
+- **GridWidget:** Custom Tailwind grid (no shadcn component needed)
+
+See `WIDGET-COMPONENT-MAPPING.md` for detailed component mapping and installation commands.
 
 ## Acceptance Criteria
 
@@ -116,14 +126,30 @@ Implement the core layout widgets (Page, Section, Grid, Card) that provide the s
 ## Dependencies
 - Depends on: #015 (Widget registry must exist)
 - Depends on: #012 (Branding for theming)
+- Depends on: #014 (Widget architecture POC)
+- References: WIDGET-COMPONENT-MAPPING.md (shadcn component mapping)
+
+## shadcn Component Installation
+
+```bash
+# Card widget - already installed in ISSUE-013
+# npx shadcn@latest add card
+
+# Button component (for Card actions) - already installed
+# npx shadcn@latest add button
+
+# No additional shadcn components needed for Page, Section, Grid
+# These use custom Tailwind layouts
+```
 
 ## Technical Notes
-- Use CSS Grid for Grid widget
-- Use Flexbox for internal layouts
-- Support nested grids
-- Responsive breakpoints: 640px, 768px, 1024px, 1280px, 1536px
-- Use semantic HTML elements
-- Support CSS-in-JS from chosen UI library
+- **CardWidget:** Wraps shadcn `card`, `card-header`, `card-title`, `card-content`, `card-footer` components
+- **PageWidget:** Custom layout using Tailwind CSS (`min-h-screen`, `flex`, `flex-col`)
+- **SectionWidget:** Optional shadcn `card` for bordered sections, otherwise custom div with Tailwind
+- **GridWidget:** CSS Grid with Tailwind utilities (`grid`, `grid-cols-*`, `gap-*`)
+- Responsive breakpoints: 640px (sm), 768px (md), 1024px (lg), 1280px (xl), 1536px (2xl)
+- Use semantic HTML elements (`<main>`, `<section>`, `<article>`)
+- Accessibility handled by semantic HTML and Radix (via shadcn Card)
 
 ## Responsive Behavior
 - [ ] Mobile-first approach
@@ -132,12 +158,14 @@ Implement the core layout widgets (Page, Section, Grid, Card) that provide the s
 - [ ] Viewport-based sizing
 
 ## Accessibility Requirements
-- [ ] Proper semantic HTML
-- [ ] ARIA labels and roles
-- [ ] Keyboard navigation
-- [ ] Screen reader support
-- [ ] Focus management
-- [ ] Color contrast compliance
+- [ ] Proper semantic HTML (`<main>`, `<section>`, `<article>`, `<aside>`)
+- [ ] ARIA labels and roles where appropriate
+- [ ] Keyboard navigation (handled by shadcn Card for interactive elements)
+- [ ] Screen reader support (semantic HTML + ARIA)
+- [ ] Focus management (handled by Radix for Card actions)
+- [ ] Color contrast compliance (Tailwind theme ensures this)
+
+**Note:** shadcn Card is built on Radix UI primitives, which handle complex accessibility automatically.
 
 ## Testing Requirements
 - [ ] Unit tests for each widget
@@ -156,10 +184,60 @@ Implement the core layout widgets (Page, Section, Grid, Card) that provide the s
 - [ ] Accessibility guidelines
 
 ## Deliverables
-- Page widget component
-- Section widget component
-- Grid widget component
-- Card widget component
-- Widget tests
-- Storybook stories
-- Documentation
+- Page widget component (custom Tailwind layout)
+- Section widget component (optional shadcn Card wrapper)
+- Grid widget component (Tailwind grid)
+- Card widget component (shadcn Card wrapper)
+- Widget tests (following ISSUE-014 test patterns)
+- Documentation (usage examples, configuration)
+
+## Implementation Example
+
+**CardWidget using shadcn:**
+```typescript
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { WidgetProps } from '@/types/widget'
+
+interface CardWidgetConfig extends WidgetConfig {
+  type: 'Card'
+  title?: string
+  description?: string
+  bordered?: boolean
+  actions?: Array<{ id: string; label: string; variant?: string }>
+}
+
+export function CardWidget({ config, bindings, events }: WidgetProps<CardWidgetConfig>) {
+  const { title, description, actions } = config
+  
+  return (
+    <Card>
+      {title && (
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+          {description && <CardDescription>{description}</CardDescription>}
+        </CardHeader>
+      )}
+      <CardContent>{bindings?.content}</CardContent>
+      {actions && (
+        <CardFooter className="flex gap-2">
+          {actions.map(action => (
+            <Button
+              key={action.id}
+              variant={action.variant as any}
+              onClick={() => events?.onAction?.(action.id)}
+            >
+              {action.label}
+            </Button>
+          ))}
+        </CardFooter>
+      )}
+    </Card>
+  )
+}
+```
+
+## References
+- **WIDGET-COMPONENT-MAPPING.md:** Component mappings and complexity estimates
+- **WIDGET-ARCHITECTURE.md:** 3-layer architecture patterns
+- **ISSUE-014:** TextInputWidget POC implementation patterns

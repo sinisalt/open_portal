@@ -7,8 +7,12 @@
 **Priority:** Medium  
 **Labels:** phase-2, frontend, forms, advanced
 
+**Updated:** January 23, 2026 - Added shadcn/ui references for consistency with Phase 1 updates
+
 ## Description
 Implement advanced form capabilities including conditional field visibility, cross-field validation, computed/derived fields, and dynamic field generation based on form state or external data.
+
+**Note:** This issue builds on the form widgets implemented in Issue 017 (TextInput, Select, DatePicker, Checkbox) which use shadcn/ui components. Advanced features will leverage the same shadcn foundation.
 
 ## Acceptance Criteria
 - [ ] Conditional field visibility based on other field values
@@ -74,16 +78,21 @@ Implement advanced form capabilities including conditional field visibility, cro
 }
 ```
 
+**Implementation Note:** Async lookups will use the searchable Select variant from Issue 017, which is built on shadcn Command + Popover components for optimal UX.
+
 ## Dependencies
-- Depends on: #022 (Form handling system)
-- Depends on: #017 (Form widgets)
+- Depends on: #022 (Form handling system with React Hook Form)
+- Depends on: #017 (Form widgets - TextInput, Select, DatePicker, Checkbox using shadcn/ui)
+- References: shadcn Command + Popover for async typeahead
 
 ## Technical Notes
-- Use reactive programming for field dependencies
-- Debounce async lookups
+- Use reactive programming for field dependencies (React Hook Form watch/subscribe)
+- Debounce async lookups (shadcn Command component supports this)
 - Cache lookup results
-- Minimize re-renders
+- Minimize re-renders (React.memo, useMemo)
 - Support complex conditional expressions
+- Leverage shadcn/ui components from Issue 017 as foundation
+- Radix UI primitives handle accessibility automatically
 
 ## Testing Requirements
 - [ ] Test conditional visibility
