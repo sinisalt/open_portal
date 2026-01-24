@@ -150,15 +150,17 @@ export function useDatasource<T = any>(
   /**
    * Initial fetch on mount
    */
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Intentionally including config?.id to refetch when ID changes
   useEffect(() => {
     if (fetchOnMount && !skip && configRef.current) {
       fetch();
     }
-  }, [config?.id, fetchOnMount, skip, fetch]); // Only refetch if datasource ID changes
+  }, [config?.id, fetchOnMount, skip, fetch]);
 
   /**
    * Set up refetch on focus
    */
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Intentionally including config?.id to refetch when ID changes
   useEffect(() => {
     if (!refetchOnFocus || skip || !configRef.current) {
       return;
