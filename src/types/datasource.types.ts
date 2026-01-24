@@ -27,7 +27,7 @@ export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 /**
  * Datasource state represents the current state of a datasource
  */
-export interface DatasourceState<T = any> {
+export interface DatasourceState<T = unknown> {
   /** Data returned from the datasource */
   data: T | null;
 
@@ -97,10 +97,10 @@ export interface HttpDatasourceConfig extends BaseDatasourceConfig {
     headers?: Record<string, string>;
 
     /** Request body (for POST/PUT/PATCH) */
-    body?: any;
+    body?: unknown;
 
     /** Query parameters */
-    queryParams?: Record<string, any>;
+    queryParams?: Record<string, unknown>;
   };
 }
 
@@ -122,7 +122,7 @@ export interface WebSocketDatasourceConfig extends BaseDatasourceConfig {
     reconnectDelay?: number;
 
     /** Message handlers */
-    onMessage?: (data: any) => void;
+    onMessage?: (data: unknown) => void;
     onOpen?: () => void;
     onClose?: () => void;
     onError?: (error: Event) => void;
@@ -138,7 +138,7 @@ export interface StaticDatasourceConfig extends BaseDatasourceConfig {
   /** Static data configuration */
   config: {
     /** Static data value */
-    data: any;
+    data: unknown;
   };
 }
 
@@ -153,7 +153,7 @@ export type DatasourceConfig =
 /**
  * Cache entry for storing datasource results
  */
-export interface CacheEntry<T = any> {
+export interface CacheEntry<T = unknown> {
   /** Cached data */
   data: T;
 
@@ -214,7 +214,7 @@ export interface DatasourceHandler<TConfig extends BaseDatasourceConfig = BaseDa
    * @param signal - Optional AbortSignal for cancellation
    * @returns Promise resolving to fetched data
    */
-  fetch(config: TConfig, signal?: AbortSignal): Promise<any>;
+  fetch(config: TConfig, signal?: AbortSignal): Promise<unknown>;
 
   /**
    * Clean up resources (e.g., close WebSocket connections)
@@ -237,7 +237,7 @@ export interface DatasourceManagerOptions {
   defaultFetchPolicy?: FetchPolicy;
 
   /** Context data for template interpolation */
-  context?: Record<string, any>;
+  context?: Record<string, unknown>;
 }
 
 /**
@@ -257,7 +257,7 @@ export interface DatasourceFetchOptions {
 /**
  * Datasource fetch result
  */
-export interface DatasourceFetchResult<T = any> {
+export interface DatasourceFetchResult<T = unknown> {
   /** Fetched data */
   data: T;
 
@@ -366,7 +366,7 @@ export interface IDatasourceManager {
    * @param options - Fetch options
    * @returns Promise resolving to fetch result
    */
-  fetch<T = any>(
+  fetch<T = unknown>(
     config: DatasourceConfig,
     options?: DatasourceFetchOptions
   ): Promise<DatasourceFetchResult<T>>;
@@ -376,7 +376,7 @@ export interface IDatasourceManager {
    * @param datasourceId - Datasource identifier
    * @returns Datasource state or undefined
    */
-  getState<T = any>(datasourceId: string): DatasourceState<T> | undefined;
+  getState<T = unknown>(datasourceId: string): DatasourceState<T> | undefined;
 
   /**
    * Invalidate cache for a datasource

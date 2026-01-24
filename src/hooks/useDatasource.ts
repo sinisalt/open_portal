@@ -23,7 +23,7 @@ export interface UseDatasourceOptions {
   refetchOnFocus?: boolean;
 
   /** Callback on successful fetch */
-  onSuccess?: (data: any) => void;
+  onSuccess?: (data: unknown) => void;
 
   /** Callback on fetch error */
   onError?: (error: Error) => void;
@@ -32,7 +32,7 @@ export interface UseDatasourceOptions {
 /**
  * Hook return type
  */
-export interface UseDatasourceResult<T = any>
+export interface UseDatasourceResult<T = unknown>
   extends Omit<DatasourceState<T>, 'refetch' | 'invalidate'> {
   /** Refetch data */
   refetch: () => Promise<void>;
@@ -51,7 +51,7 @@ export interface UseDatasourceResult<T = any>
  * @param options - Hook options
  * @returns Datasource state and methods
  */
-export function useDatasource<T = any>(
+export function useDatasource<T = unknown>(
   config: DatasourceConfig | null,
   options: UseDatasourceOptions = {}
 ): UseDatasourceResult<T> {
@@ -104,9 +104,9 @@ export function useDatasource<T = any>(
           onSuccess(result.data);
         }
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       if (isMountedRef.current) {
-        setError(err);
+        setError(err instanceof Error ? err : new Error(String(err)));
         setIsInitialLoading(false);
 
         if (onError) {

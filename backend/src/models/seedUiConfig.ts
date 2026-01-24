@@ -1276,7 +1276,7 @@ export async function seedUiConfig(): Promise<void> {
           params: {
             currentPage: '{{event.page}}',
           },
-          then: {
+          onSuccess: {
             actionId: 'refreshListings',
           },
         },

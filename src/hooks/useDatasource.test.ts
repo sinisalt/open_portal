@@ -105,7 +105,7 @@ describe('useDatasource', () => {
   describe('loading state', () => {
     it('should set loading to true during fetch', async () => {
       const config = createConfig('test-ds', '/api/test');
-      let resolveFetch: any;
+      let resolveFetch: ((value: unknown) => void) | undefined;
       fetchSpy.mockReturnValue(
         new Promise(resolve => {
           resolveFetch = resolve;
