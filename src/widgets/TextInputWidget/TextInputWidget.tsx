@@ -24,7 +24,7 @@ export function TextInputWidget({ config, bindings, events }: WidgetProps<TextIn
     required,
     autoFocus,
     icon,
-    iconPosition,
+    // iconPosition is not used in MVP implementation
   } = config;
 
   const value = (bindings?.value as string) ?? '';

@@ -88,10 +88,7 @@ describe('SelectWidget', () => {
     ];
 
     render(
-      <SelectWidget
-        config={{ ...baseConfig, options: numberOptions }}
-        events={{ onChange }}
-      />
+      <SelectWidget config={{ ...baseConfig, options: numberOptions }} events={{ onChange }} />
     );
 
     const select = screen.getByRole('combobox');
@@ -129,10 +126,7 @@ describe('SelectWidget', () => {
 
   it('renders clear button when clearable and has value', () => {
     render(
-      <SelectWidget
-        config={{ ...baseConfig, clearable: true }}
-        bindings={{ value: 'option1' }}
-      />
+      <SelectWidget config={{ ...baseConfig, clearable: true }} bindings={{ value: 'option1' }} />
     );
 
     const clearButton = screen.getByLabelText('Clear selection');

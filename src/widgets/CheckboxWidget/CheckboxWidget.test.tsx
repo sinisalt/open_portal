@@ -31,9 +31,7 @@ describe('CheckboxWidget', () => {
 
   it('renders help text', () => {
     render(
-      <CheckboxWidget
-        config={{ ...baseConfig, label: 'Checkbox', helpText: 'Check this box' }}
-      />
+      <CheckboxWidget config={{ ...baseConfig, label: 'Checkbox', helpText: 'Check this box' }} />
     );
 
     expect(screen.getByText('Check this box')).toBeInTheDocument();
@@ -121,10 +119,7 @@ describe('CheckboxWidget', () => {
     const onChange = jest.fn();
 
     render(
-      <CheckboxWidget
-        config={{ ...baseConfig, indeterminate: true }}
-        events={{ onChange }}
-      />
+      <CheckboxWidget config={{ ...baseConfig, indeterminate: true }} events={{ onChange }} />
     );
 
     const checkbox = screen.getByRole('checkbox');
@@ -149,9 +144,7 @@ describe('CheckboxWidget', () => {
 
   it('associates help text with aria-describedby', () => {
     render(
-      <CheckboxWidget
-        config={{ ...baseConfig, label: 'Checkbox', helpText: 'Help text here' }}
-      />
+      <CheckboxWidget config={{ ...baseConfig, label: 'Checkbox', helpText: 'Help text here' }} />
     );
 
     const checkbox = screen.getByRole('checkbox');
@@ -162,10 +155,7 @@ describe('CheckboxWidget', () => {
     const onChange = jest.fn();
 
     render(
-      <CheckboxWidget
-        config={{ ...baseConfig, label: 'Clickable label' }}
-        events={{ onChange }}
-      />
+      <CheckboxWidget config={{ ...baseConfig, label: 'Clickable label' }} events={{ onChange }} />
     );
 
     const label = screen.getByText('Clickable label');
@@ -175,11 +165,8 @@ describe('CheckboxWidget', () => {
   });
 
   it('error message appears below checkbox', () => {
-    const { container } = render(
-      <CheckboxWidget
-        config={{ ...baseConfig, label: 'Checkbox' }}
-        bindings={{ error: 'Error' }}
-      />
+    render(
+      <CheckboxWidget config={{ ...baseConfig, label: 'Checkbox' }} bindings={{ error: 'Error' }} />
     );
 
     const errorMessage = screen.getByRole('alert');

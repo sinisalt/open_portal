@@ -124,8 +124,8 @@ describe('TextInputWidget', () => {
     render(<TextInputWidget config={{ ...baseConfig, autoFocus: true }} />);
 
     const input = screen.getByRole('textbox');
-    // React uses autoFocus prop but DOM renders it as lowercase autofocus
-    expect(input).toHaveAttribute('autofocus');
+    // React uses autoFocus prop, check that the element has focus
+    expect(input).toHaveFocus();
   });
 
   it('renders placeholder text', () => {
@@ -136,9 +136,7 @@ describe('TextInputWidget', () => {
   });
 
   it('supports different input types', () => {
-    const { rerender } = render(
-      <TextInputWidget config={{ ...baseConfig, inputType: 'email' }} />
-    );
+    const { rerender } = render(<TextInputWidget config={{ ...baseConfig, inputType: 'email' }} />);
 
     let input = screen.getByRole('textbox');
     expect(input).toHaveAttribute('type', 'email');

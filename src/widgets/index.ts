@@ -21,13 +21,13 @@
 
 import { widgetRegistry } from '@/core/registry/WidgetRegistry';
 import { CardWidget } from './CardWidget';
+// Form Input widgets (4 widgets)
+import { CheckboxWidget } from './CheckboxWidget';
+import { DatePickerWidget } from './DatePickerWidget';
 import { GridWidget } from './GridWidget';
 // Layout & Structure widgets (4 widgets)
 import { PageWidget } from './PageWidget';
 import { SectionWidget } from './SectionWidget';
-// Form Input widgets (4 widgets)
-import { CheckboxWidget } from './CheckboxWidget';
-import { DatePickerWidget } from './DatePickerWidget';
 import { SelectWidget } from './SelectWidget';
 import { TextInputWidget } from './TextInputWidget';
 
@@ -162,26 +162,26 @@ export function getWidgetRegistry() {
  */
 export { widgetRegistry };
 
-/**
- * Re-export widgets for direct usage
- */
-export { PageWidget } from './PageWidget';
-export { SectionWidget } from './SectionWidget';
-export { GridWidget } from './GridWidget';
+export type { CardWidgetConfig } from './CardWidget';
 export { CardWidget } from './CardWidget';
-export { TextInputWidget } from './TextInputWidget';
-export { SelectWidget } from './SelectWidget';
-export { DatePickerWidget } from './DatePickerWidget';
+export type { CheckboxWidgetConfig } from './CheckboxWidget';
 export { CheckboxWidget } from './CheckboxWidget';
+export type { DatePickerWidgetConfig } from './DatePickerWidget';
+export { DatePickerWidget } from './DatePickerWidget';
+export type { GridWidgetConfig } from './GridWidget';
+export { GridWidget } from './GridWidget';
 
 /**
  * Re-export widget types
  */
 export type { PageWidgetConfig } from './PageWidget';
+/**
+ * Re-export widgets for direct usage
+ */
+export { PageWidget } from './PageWidget';
 export type { SectionWidgetConfig } from './SectionWidget';
-export type { GridWidgetConfig } from './GridWidget';
-export type { CardWidgetConfig } from './CardWidget';
+export { SectionWidget } from './SectionWidget';
+export type { SelectOption, SelectWidgetConfig } from './SelectWidget';
+export { SelectWidget } from './SelectWidget';
 export type { TextInputWidgetConfig } from './TextInputWidget';
-export type { SelectWidgetConfig, SelectOption } from './SelectWidget';
-export type { DatePickerWidgetConfig } from './DatePickerWidget';
-export type { CheckboxWidgetConfig } from './CheckboxWidget';
+export { TextInputWidget } from './TextInputWidget';
