@@ -173,8 +173,6 @@ export function formatDateValue(
     }
 
     // Use date-fns format
-    // Note: date-fns locale would require importing locale objects
-    // For MVP, we'll use the format string only
     return formatDate(date, format);
   } catch (error) {
     console.error('Error formatting date:', error);
@@ -224,13 +222,12 @@ export function formatValue(
         formatOptions as DateFormatOptions
       );
 
-    case 'text':
     default:
       // Handle null/undefined
       if (value === null || value === undefined) {
         return '—';
       }
-      // Convert to string
+      // Convert to string (text format)
       return String(value);
   }
 }

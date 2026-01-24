@@ -60,7 +60,7 @@ export interface KPIWidgetConfig extends BaseWidgetConfig {
   /** Trend configuration */
   trend?: TrendConfig;
 
-  /** Icon name (lucide-react icon) */
+  /** Icon text/emoji to display (placeholder for future lucide-react integration) */
   icon?: string;
 
   /** Custom color for the card */

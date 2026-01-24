@@ -119,8 +119,7 @@ export function KPIWidget({ config, bindings, events }: WidgetProps<KPIWidgetCon
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className={cn('font-medium', sizes.title)}>{label}</CardTitle>
         {icon && (
-          <span className={cn('text-muted-foreground', sizes.icon)} aria-hidden="true">
-            {/* Icon placeholder - would use lucide-react icon here */}
+          <span className={cn('text-muted-foreground', sizes.icon)} aria-hidden="true" title={icon}>
             {icon}
           </span>
         )}
