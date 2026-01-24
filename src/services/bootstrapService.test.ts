@@ -269,8 +269,11 @@ describe('bootstrapService', () => {
     });
 
     it('should return false when permissions array is missing', () => {
-      const bootstrap = { ...mockBootstrapResponse, permissions: undefined };
-      const result = hasPermission(bootstrap as any, 'dashboard.view');
+      const bootstrap = {
+        ...mockBootstrapResponse,
+        permissions: undefined,
+      } as Partial<BootstrapResponse>;
+      const result = hasPermission(bootstrap as BootstrapResponse, 'dashboard.view');
       expect(result).toBe(false);
     });
   });
@@ -297,8 +300,11 @@ describe('bootstrapService', () => {
     });
 
     it('should return false when featureFlags object is missing', () => {
-      const bootstrap = { ...mockBootstrapResponse, featureFlags: undefined };
-      const result = isFeatureEnabled(bootstrap as any, 'newDashboard');
+      const bootstrap = {
+        ...mockBootstrapResponse,
+        featureFlags: undefined,
+      } as Partial<BootstrapResponse>;
+      const result = isFeatureEnabled(bootstrap as BootstrapResponse, 'newDashboard');
       expect(result).toBe(false);
     });
   });
@@ -337,8 +343,8 @@ describe('bootstrapService', () => {
     });
 
     it('should return empty array when menu is missing', () => {
-      const bootstrap = { ...mockBootstrapResponse, menu: undefined };
-      const result = getFilteredMenu(bootstrap as any);
+      const bootstrap = { ...mockBootstrapResponse, menu: undefined } as Partial<BootstrapResponse>;
+      const result = getFilteredMenu(bootstrap as BootstrapResponse);
       expect(result).toEqual([]);
     });
 
