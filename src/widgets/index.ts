@@ -6,7 +6,7 @@
  *
  * Widget Categories:
  * - layout: Page structure and layout widgets (Page, Section, Grid, Card)
- * - form: Form input widgets (TextInput, Select, DatePicker, Checkbox)
+ * - form: Form input widgets (Select, DatePicker, Checkbox) - TextInput pending
  * - data: Data display widgets (Table, KPI)
  * - feedback: User feedback widgets (Modal, Toast)
  *
@@ -59,7 +59,7 @@ export function registerWidgets(): void {
     description: 'Content card container',
   });
 
-  // Form Input widgets (3 widgets - TextInput to be added later)
+  // Form Input widgets (3 widgets implemented - TextInput pending)
   widgetRegistry.register('Select', SelectWidget, {
     displayName: 'Select',
     category: 'form',
@@ -78,7 +78,9 @@ export function registerWidgets(): void {
     description: 'Boolean checkbox',
   });
 
-  // TextInput widget - to be implemented in ISSUE-014 or separate issue
+  // TextInput widget - NOT IMPLEMENTED YET
+  // ISSUE-014 was about Page Configuration Loader, not TextInput widget
+  // TextInput needs to be implemented in a future issue
   // import { TextInputWidget } from './TextInputWidget';
   // widgetRegistry.register('TextInput', TextInputWidget, {
   //   displayName: 'Text Input',

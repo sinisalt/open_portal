@@ -448,9 +448,13 @@ const config: CheckboxWidgetConfig = {
   - ✅ SelectWidget
   - ✅ DatePickerWidget
   - ✅ CheckboxWidget
-  - ⏳ TextInputWidget (verification pending from ISSUE-014)
+  - ❌ TextInputWidget (NOT IMPLEMENTED - ISSUE-014 was Page Config Loader, not TextInput)
+
+**Note on TextInput Widget:**
+The original ISSUE-017 specification incorrectly stated "TextInput: Already implemented in ISSUE-014". However, ISSUE-014 was about the Page Configuration Loader, not the TextInput widget. The TextInput widget has NOT been implemented and needs to be created in a future issue.
 
 **Next Steps:**
+- **NEW**: Implement TextInputWidget in a separate issue
 - ISSUE-018: Table and KPI widgets (data display)
 - ISSUE-019: Modal and Toast widgets (dialogs & feedback)
 - ISSUE-022: Form validation and React Hook Form integration
@@ -475,7 +479,7 @@ The implementation successfully meets the acceptance criteria for MVP form widge
 ---
 
 **Next Steps:**
-- Verify TextInputWidget from ISSUE-014
+- **NEW**: Implement TextInputWidget (not in ISSUE-014 as originally thought)
 - Implement Table and KPI widgets (ISSUE-018)
 - Implement Modal and Toast widgets (ISSUE-019)
 - Integrate with form validation (ISSUE-022)
@@ -485,4 +489,4 @@ The implementation successfully meets the acceptance criteria for MVP form widge
 **Dependencies Resolved:**
 - ✅ ISSUE-015 (Widget Registry) - Complete
 - ✅ ISSUE-012 (Branding/Theming) - Complete
-- ⏳ ISSUE-014 (TextInputWidget POC) - Verification pending
+- ❌ ISSUE-014 - Was Page Config Loader, NOT TextInput widget (clarification needed)
