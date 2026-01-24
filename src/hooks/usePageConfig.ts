@@ -133,15 +133,7 @@ export function usePageConfig(
         setLoading(false);
       }
     },
-    [
-      pageId,
-      loaderOptions.skipCache,
-      loaderOptions.cacheTTL,
-      loaderOptions.staleWhileRevalidate,
-      loaderOptions.signal,
-      onLoad,
-      onError,
-    ]
+    [pageId, onLoad, onError]
   );
 
   /**
