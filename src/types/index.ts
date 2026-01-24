@@ -10,6 +10,8 @@ export * from './action.types';
 export * from './bootstrap.types';
 // Branding types
 export * from './branding.types';
+// Datasource types
+export * from './datasource.types';
 // Form types
 export * from './form.types';
 // Page configuration types
