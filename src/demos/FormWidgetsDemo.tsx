@@ -1,18 +1,18 @@
 /**
  * Form Widgets Demo
- * 
+ *
  * This file demonstrates the usage of all form widgets in a simple form.
  * Can be used for manual testing and as a reference for developers.
  */
 
 import { useState } from 'react';
-import { CheckboxWidget, DatePickerWidget, SelectWidget, TextInputWidget } from '@/widgets';
 import type {
   CheckboxWidgetConfig,
   DatePickerWidgetConfig,
   SelectWidgetConfig,
   TextInputWidgetConfig,
 } from '@/widgets';
+import { CheckboxWidget, DatePickerWidget, SelectWidget, TextInputWidget } from '@/widgets';
 
 export function FormWidgetsDemo() {
   // Form state
@@ -84,35 +84,35 @@ export function FormWidgetsDemo() {
 
   // Event handlers
   const handleNameChange = (value: unknown) => {
-    setFormData((prev) => ({ ...prev, name: value as string }));
+    setFormData(prev => ({ ...prev, name: value as string }));
     if (errors.name) {
-      setErrors((prev) => ({ ...prev, name: '' }));
+      setErrors(prev => ({ ...prev, name: '' }));
     }
   };
 
   const handleEmailChange = (value: unknown) => {
-    setFormData((prev) => ({ ...prev, email: value as string }));
+    setFormData(prev => ({ ...prev, email: value as string }));
     if (errors.email) {
-      setErrors((prev) => ({ ...prev, email: '' }));
+      setErrors(prev => ({ ...prev, email: '' }));
     }
   };
 
   const handleCountryChange = (value: unknown) => {
-    setFormData((prev) => ({ ...prev, country: value as string }));
+    setFormData(prev => ({ ...prev, country: value as string }));
     if (errors.country) {
-      setErrors((prev) => ({ ...prev, country: '' }));
+      setErrors(prev => ({ ...prev, country: '' }));
     }
   };
 
   const handleBirthDateChange = (value: unknown) => {
-    setFormData((prev) => ({ ...prev, birthDate: value as string }));
+    setFormData(prev => ({ ...prev, birthDate: value as string }));
     if (errors.birthDate) {
-      setErrors((prev) => ({ ...prev, birthDate: '' }));
+      setErrors(prev => ({ ...prev, birthDate: '' }));
     }
   };
 
   const handleNewsletterChange = (value: unknown) => {
-    setFormData((prev) => ({ ...prev, newsletter: value as boolean }));
+    setFormData(prev => ({ ...prev, newsletter: value as boolean }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -260,9 +260,7 @@ export function FormWidgetsDemo() {
         {/* Current State Display */}
         <div className="mt-8 p-4 bg-muted rounded-md">
           <h2 className="text-lg font-semibold mb-2">Current Form State</h2>
-          <pre className="text-sm">
-            {JSON.stringify(formData, null, 2)}
-          </pre>
+          <pre className="text-sm">{JSON.stringify(formData, null, 2)}</pre>
         </div>
       </div>
     </div>

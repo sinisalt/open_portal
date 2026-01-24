@@ -5,14 +5,14 @@
  * Uses shadcn/ui Calendar and Popover components built on Radix UI primitives.
  */
 
+import { format, isValid, parseISO } from 'date-fns';
+import { Calendar as CalendarIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import type { WidgetProps } from '@/types/widget.types';
-import { format, isValid, parseISO } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
 import type { DatePickerWidgetConfig } from './types';
 
 export function DatePickerWidget({

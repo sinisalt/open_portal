@@ -3,4 +3,4 @@
  */
 
 export { SelectWidget } from './SelectWidget';
-export type { SelectWidgetConfig, SelectOption } from './types';
+export type { SelectOption, SelectWidgetConfig } from './types';

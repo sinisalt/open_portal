@@ -18,17 +18,8 @@ import type { WidgetProps } from '@/types/widget.types';
 import type { SelectWidgetConfig } from './types';
 
 export function SelectWidget({ config, bindings, events }: WidgetProps<SelectWidgetConfig>) {
-  const {
-    id,
-    label,
-    placeholder,
-    helpText,
-    options,
-    disabled,
-    required,
-    clearable,
-    searchable,
-  } = config;
+  const { id, label, placeholder, helpText, options, disabled, required, clearable, searchable } =
+    config;
 
   const value = (bindings?.value as string | number | undefined) ?? '';
   const error = bindings?.error as string | undefined;
@@ -39,7 +30,7 @@ export function SelectWidget({ config, bindings, events }: WidgetProps<SelectWid
   const handleValueChange = (newValue: string) => {
     if (events?.onChange) {
       // Try to preserve the original type (number or string)
-      const option = options.find((opt) => String(opt.value) === newValue);
+      const option = options.find(opt => String(opt.value) === newValue);
       events.onChange(option?.value ?? newValue);
     }
   };
@@ -77,16 +68,14 @@ export function SelectWidget({ config, bindings, events }: WidgetProps<SelectWid
               clearable && stringValue && 'pr-8'
             )}
             aria-invalid={!!error}
-            aria-describedby={
-              error ? `${id}-error` : helpText ? `${id}-help` : undefined
-            }
+            aria-describedby={error ? `${id}-error` : helpText ? `${id}-help` : undefined}
             aria-required={required}
           >
             <SelectValue placeholder={placeholder || 'Select an option'} />
           </SelectTrigger>
 
           <SelectContent>
-            {options.map((option) => (
+            {options.map(option => (
               <SelectItem
                 key={String(option.value)}
                 value={String(option.value)}
@@ -116,6 +105,8 @@ export function SelectWidget({ config, bindings, events }: WidgetProps<SelectWid
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
+              role="img"
+              aria-hidden="true"
             >
               <circle cx="12" cy="12" r="10" />
               <path d="m15 9-6 6" />
