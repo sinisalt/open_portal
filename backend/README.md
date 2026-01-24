@@ -153,6 +153,72 @@ Check server health status.
 }
 ```
 
+### UI Configuration
+
+#### GET /ui/bootstrap
+Get initial application configuration (requires authentication).
+
+**Response:**
+```json
+{
+  "user": { "id": "...", "name": "...", "email": "...", "roles": [...] },
+  "permissions": [...],
+  "tenant": { "id": "...", "name": "...", "brandingVersion": "..." },
+  "menu": { "items": [...] },
+  "defaults": { "homePage": "/", "theme": "light" },
+  "featureFlags": { "darkMode": true, ... }
+}
+```
+
+#### GET /ui/branding
+Get tenant branding configuration (requires authentication).
+
+**Query:** `?tenantId=tenant-001` (optional)
+
+**Response:**
+```json
+{
+  "version": "1.0.0",
+  "tenantId": "tenant-001",
+  "colors": { "primary": "#1e40af", ... },
+  "typography": { "fontFamily": "Inter", ... },
+  "spacing": { "md": "1rem", ... },
+  "logos": { "primary": "/logo.svg", ... }
+}
+```
+
+#### GET /ui/routes/resolve
+Resolve route path to page ID (requires authentication).
+
+**Query:** `?path=/dashboard` (required)
+
+**Response:**
+```json
+{
+  "pageId": "dashboard",
+  "params": {},
+  "metadata": { "title": "Dashboard", "permissions": [...] }
+}
+```
+
+#### GET /ui/pages/:pageId
+Get full page configuration (requires authentication).
+
+**Response:**
+```json
+{
+  "id": "...",
+  "pageId": "home",
+  "version": "1.0.0",
+  "config": { "widgets": [...], ... },
+  "tenantId": "tenant-001",
+  "permissions": [],
+  "isActive": true
+}
+```
+
+For detailed UI configuration API documentation, see [UI Configuration API](../documentation/ui-config-api.md).
+
 ## Testing
 
 ```bash
