@@ -112,7 +112,7 @@ export function resolveTemplate(template: string, context: ActionContext): unkno
   }
 
   // Replace all template expressions in string
-  return template.replace(TEMPLATE_PATTERN, (match, path) => {
+  return template.replace(TEMPLATE_PATTERN, (_match, path) => {
     const value = resolveContextPath(path.trim(), context);
     return String(value ?? '');
   });

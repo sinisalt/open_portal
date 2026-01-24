@@ -49,6 +49,7 @@ describe('templateUtils', () => {
 
   describe('setNestedValue', () => {
     it('should set nested value in object', () => {
+      // biome-ignore lint/suspicious/noExplicitAny: Testing dynamic nested structure
       const obj: Record<string, any> = {};
 
       setNestedValue(obj, 'user.name', 'John');
@@ -57,6 +58,7 @@ describe('templateUtils', () => {
     });
 
     it('should create nested objects as needed', () => {
+      // biome-ignore lint/suspicious/noExplicitAny: Testing dynamic nested structure
       const obj: Record<string, any> = {};
 
       setNestedValue(obj, 'user.profile.age', 30);
@@ -65,6 +67,7 @@ describe('templateUtils', () => {
     });
 
     it('should merge objects when merge is true', () => {
+      // biome-ignore lint/suspicious/noExplicitAny: Testing dynamic nested structure
       const obj: Record<string, any> = {
         user: {
           name: 'John',
@@ -82,6 +85,7 @@ describe('templateUtils', () => {
     });
 
     it('should replace value when merge is false', () => {
+      // biome-ignore lint/suspicious/noExplicitAny: Testing dynamic nested structure
       const obj: Record<string, any> = {
         user: {
           name: 'John',
@@ -95,6 +99,7 @@ describe('templateUtils', () => {
     });
 
     it('should not merge arrays', () => {
+      // biome-ignore lint/suspicious/noExplicitAny: Testing dynamic nested structure
       const obj: Record<string, any> = {
         items: [1, 2, 3],
       };

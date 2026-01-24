@@ -69,11 +69,11 @@ export async function apiCallHandler(
       const rawBody = await response.text().catch(() => '');
       throw new Error(
         `Expected JSON response from "${fullUrl}" but received content type "${contentType}" with status ${response.status}.` +
-          (rawBody ? ` Body (truncated): ${rawBody.slice(0, 200)}` : ''),
+          (rawBody ? ` Body (truncated): ${rawBody.slice(0, 200)}` : '')
       );
     }
 
-    let responseData: any;
+    let responseData: unknown;
     try {
       responseData = await response.json();
     } catch (error) {

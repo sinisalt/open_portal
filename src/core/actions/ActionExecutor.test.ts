@@ -2,8 +2,7 @@
  * ActionExecutor Tests
  */
 
-import type { ActionConfig, ActionContext, ActionResult } from '@/types/action.types';
-import { ActionKind } from '@/types/action.types';
+import type { ActionConfig, ActionContext } from '@/types/action.types';
 import { ActionExecutor } from './ActionExecutor';
 import { actionRegistry } from './ActionRegistry';
 

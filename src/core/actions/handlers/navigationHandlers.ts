@@ -102,7 +102,7 @@ export async function goBackHandler(
  * config caching is added.
  */
 export async function reloadHandler(
-  params: ReloadActionParams,
+  _params: ReloadActionParams,
   _context: ActionContext
 ): Promise<ActionResult> {
   try {

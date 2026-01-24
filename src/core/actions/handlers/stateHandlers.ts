@@ -11,7 +11,7 @@ import type {
   ResetStateActionParams,
   SetStateActionParams,
 } from '@/types/action.types';
-import { getNestedValue, setNestedValue } from '../templateUtils';
+import { getNestedValue } from '../templateUtils';
 
 /**
  * Update page state

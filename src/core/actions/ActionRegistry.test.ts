@@ -2,7 +2,7 @@
  * ActionRegistry Tests
  */
 
-import type { ActionContext, ActionHandler, ActionResult } from '@/types/action.types';
+import type { ActionHandler } from '@/types/action.types';
 import { ActionRegistry } from './ActionRegistry';
 
 describe('ActionRegistry', () => {
@@ -47,6 +47,7 @@ describe('ActionRegistry', () => {
 
     it('should throw error if handler is not a function', () => {
       expect(() => {
+        // biome-ignore lint/suspicious/noExplicitAny: Testing invalid type
         registry.register('testAction', 'not a function' as any);
       }).toThrow('Action handler must be a function');
     });
