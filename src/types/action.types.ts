@@ -299,6 +299,9 @@ export interface ActionContext {
   /** Current page state */
   pageState: Record<string, unknown>;
 
+  /** Initial page state snapshot (for reset functionality) */
+  initialPageState?: Record<string, unknown>;
+
   /** Form field values */
   formData: Record<string, unknown>;
 

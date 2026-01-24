@@ -11,7 +11,7 @@ import type {
   ResetStateActionParams,
   SetStateActionParams,
 } from '@/types/action.types';
-import { setNestedValue } from '../templateUtils';
+import { getNestedValue, setNestedValue } from '../templateUtils';
 
 /**
  * Update page state
@@ -52,11 +52,10 @@ export async function setStateHandler(
 }
 
 /**
- * Reset page state
+ * Reset page state to initial values
  *
- * Note: This action clears state values rather than resetting to initial values.
- * True reset-to-initial-values functionality requires storing initial state snapshots,
- * which will be implemented when page state management is enhanced.
+ * Restores state to initial values when initialPageState is available in context.
+ * If initialPageState is not available, clears the state values.
  */
 export async function resetStateHandler(
   params: ResetStateActionParams,
@@ -66,15 +65,32 @@ export async function resetStateHandler(
     const { paths } = params;
 
     if (paths && paths.length > 0) {
-      // Clear specific state paths
+      // Reset specific state paths
       for (const path of paths) {
-        context.setState(path, undefined, false);
+        if (context.initialPageState) {
+          // Restore from initial state
+          const initialValue = getNestedValue(context.initialPageState, path);
+          context.setState(path, initialValue, false);
+        } else {
+          // Clear if no initial state available
+          context.setState(path, undefined, false);
+        }
       }
     } else {
-      // Clear all state
-      Object.keys(context.pageState).forEach(key => {
-        delete context.pageState[key];
-      });
+      // Reset all state
+      if (context.initialPageState) {
+        // Restore entire state from initial snapshot
+        Object.keys(context.pageState).forEach(key => {
+          delete context.pageState[key];
+        });
+        // Deep clone to avoid reference issues
+        Object.assign(context.pageState, JSON.parse(JSON.stringify(context.initialPageState)));
+      } else {
+        // Clear all state if no initial state available
+        Object.keys(context.pageState).forEach(key => {
+          delete context.pageState[key];
+        });
+      }
     }
 
     return {
