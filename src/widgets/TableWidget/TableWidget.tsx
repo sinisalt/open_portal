@@ -32,8 +32,9 @@ export function TableWidget({ config, bindings, events }: WidgetProps<TableWidge
     caption,
   } = config;
 
-  // Get data from bindings
-  const data = (bindings?.value as Record<string, unknown>[]) || [];
+  // Get data from bindings with runtime validation
+  const rawData = bindings?.value;
+  const data: Record<string, unknown>[] = Array.isArray(rawData) ? rawData : [];
 
   // Convert column configs to TanStack Table column definitions
   const columns = useMemo<ColumnDef<Record<string, unknown>>[]>(() => {

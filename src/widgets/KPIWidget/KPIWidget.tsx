@@ -59,7 +59,7 @@ export function KPIWidget({ config, bindings, events }: WidgetProps<KPIWidgetCon
   // Format the value
   const formattedValue = formatValue(value, format, formatOptions);
 
-  // Trend icon and color
+  // Get trend icon component
   const getTrendIcon = () => {
     if (!trend) return null;
 
@@ -75,6 +75,7 @@ export function KPIWidget({ config, bindings, events }: WidgetProps<KPIWidgetCon
     }
   };
 
+  // Get trend color class
   const getTrendColor = () => {
     if (!trend) return '';
 
@@ -89,11 +90,6 @@ export function KPIWidget({ config, bindings, events }: WidgetProps<KPIWidgetCon
         return '';
     }
   };
-
-  // Icon support is stubbed for MVP
-  if (icon) {
-    console.warn('KPI icon support not yet fully implemented in MVP.');
-  }
 
   // Handle click event
   const handleClick = () => {
@@ -137,7 +133,7 @@ export function KPIWidget({ config, bindings, events }: WidgetProps<KPIWidgetCon
           </div>
         ) : (
           <>
-            {/* biome-ignore lint/a11y/useSemanticElements: role="status" is correct for dynamic KPI values */}
+            {/* biome-ignore lint/a11y/useSemanticElements: Using div with role="status" for live region (not form output) */}
             <div className={cn('font-bold', sizes.value)} role="status" aria-live="polite">
               {formattedValue}
             </div>

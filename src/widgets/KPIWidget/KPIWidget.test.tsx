@@ -216,18 +216,6 @@ describe('KPIWidget', () => {
     expect(card).toHaveAttribute('tabIndex', '0');
   });
 
-  it('logs warning for icon support', () => {
-    const consoleWarn = jest.spyOn(console, 'warn').mockImplementation();
-
-    render(
-      <KPIWidget config={{ ...baseConfig, icon: 'dollar-sign' }} bindings={{ value: 1234 }} />
-    );
-
-    expect(consoleWarn).toHaveBeenCalledWith('KPI icon support not yet fully implemented in MVP.');
-
-    consoleWarn.mockRestore();
-  });
-
   it('renders icon placeholder when icon is provided', () => {
     render(<KPIWidget config={{ ...baseConfig, icon: '$' }} bindings={{ value: 1234 }} />);
 
