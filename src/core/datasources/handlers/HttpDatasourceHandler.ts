@@ -60,6 +60,29 @@ function buildQueryString(params: Record<string, any>): string {
 }
 
 /**
+ * Create a typed datasource error
+ * @param type - Error type
+ * @param message - Error message
+ * @param datasourceId - Datasource ID
+ * @param cause - Original error cause
+ * @returns Typed datasource error
+ */
+function createDatasourceError(
+  type: DatasourceErrorType,
+  message: string,
+  datasourceId: string,
+  cause?: unknown
+): IDatasourceError {
+  const error = new Error(message) as IDatasourceError;
+  error.type = type;
+  error.datasourceId = datasourceId;
+  if (cause !== undefined) {
+    error.cause = cause;
+  }
+  return error;
+}
+
+/**
  * HTTP Datasource Handler Implementation
  */
 export class HttpDatasourceHandler implements DatasourceHandler<HttpDatasourceConfig> {
@@ -100,10 +123,11 @@ export class HttpDatasourceHandler implements DatasourceHandler<HttpDatasourceCo
       // Handle HTTP errors
       if (!response.ok) {
         const errorMessage = await response.text().catch(() => response.statusText);
-        const error = new Error(errorMessage || `HTTP ${response.status}`) as IDatasourceError;
-        error.type = 'NETWORK_ERROR' as DatasourceErrorType;
-        error.datasourceId = config.id;
-        throw error;
+        throw createDatasourceError(
+          'NETWORK_ERROR',
+          errorMessage || `HTTP ${response.status}`,
+          config.id
+        );
       }
 
       // Parse response
@@ -121,13 +145,12 @@ export class HttpDatasourceHandler implements DatasourceHandler<HttpDatasourceCo
         try {
           data = transformData(data, transform);
         } catch (err) {
-          const error = new Error(
-            `Failed to transform data with path '${transform}': ${err}`
-          ) as IDatasourceError;
-          error.type = 'TRANSFORM_ERROR' as DatasourceErrorType;
-          error.datasourceId = config.id;
-          error.cause = err;
-          throw error;
+          throw createDatasourceError(
+            'TRANSFORM_ERROR',
+            `Failed to transform data with path '${transform}': ${err}`,
+            config.id,
+            err
+          );
         }
       }
 
@@ -140,30 +163,21 @@ export class HttpDatasourceHandler implements DatasourceHandler<HttpDatasourceCo
 
       // Handle AbortError
       if (err.name === 'AbortError') {
-        const error = new Error('Request aborted') as IDatasourceError;
-        error.type = 'NETWORK_ERROR' as DatasourceErrorType;
-        error.datasourceId = config.id;
-        error.cause = err;
-        throw error;
+        throw createDatasourceError('NETWORK_ERROR', 'Request aborted', config.id, err);
       }
 
       // Handle network errors
       if (err instanceof TypeError && err.message.includes('fetch')) {
-        const error = new Error('Network request failed') as IDatasourceError;
-        error.type = 'NETWORK_ERROR' as DatasourceErrorType;
-        error.datasourceId = config.id;
-        error.cause = err;
-        throw error;
+        throw createDatasourceError('NETWORK_ERROR', 'Network request failed', config.id, err);
       }
 
       // Wrap unknown errors
-      const error = new Error(
-        `HTTP datasource fetch failed: ${err.message || 'Unknown error'}`
-      ) as IDatasourceError;
-      error.type = 'UNKNOWN_ERROR' as DatasourceErrorType;
-      error.datasourceId = config.id;
-      error.cause = err;
-      throw error;
+      throw createDatasourceError(
+        'UNKNOWN_ERROR',
+        `HTTP datasource fetch failed: ${err.message || 'Unknown error'}`,
+        config.id,
+        err
+      );
     }
   }
 }

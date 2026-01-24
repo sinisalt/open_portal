@@ -151,16 +151,16 @@ export function useDatasource<T = any>(
    * Initial fetch on mount
    */
   useEffect(() => {
-    if (fetchOnMount && !skip && config) {
+    if (fetchOnMount && !skip && configRef.current) {
       fetch();
     }
-  }, [config?.id, fetchOnMount, skip, config, fetch]); // Only refetch if datasource ID changes
+  }, [config?.id, fetchOnMount, skip, fetch]); // Only refetch if datasource ID changes
 
   /**
    * Set up refetch on focus
    */
   useEffect(() => {
-    if (!refetchOnFocus || skip || !config) {
+    if (!refetchOnFocus || skip || !configRef.current) {
       return;
     }
 
@@ -173,7 +173,7 @@ export function useDatasource<T = any>(
     return () => {
       window.removeEventListener('focus', handleFocus);
     };
-  }, [refetchOnFocus, skip, config?.id, fetch, config]);
+  }, [refetchOnFocus, skip, config?.id, fetch]);
 
   return {
     data,
