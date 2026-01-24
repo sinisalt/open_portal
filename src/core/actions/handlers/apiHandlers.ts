@@ -63,9 +63,24 @@ export async function apiCallHandler(
       signal: effectiveSignal,
     });
 
-    // Parse response
-    const responseData = await response.json();
+    // Parse response safely, expecting JSON
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.toLowerCase().includes('application/json')) {
+      const rawBody = await response.text().catch(() => '');
+      throw new Error(
+        `Expected JSON response from "${fullUrl}" but received content type "${contentType}" with status ${response.status}.` +
+          (rawBody ? ` Body (truncated): ${rawBody.slice(0, 200)}` : ''),
+      );
+    }
 
+    let responseData: any;
+    try {
+      responseData = await response.json();
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Unknown error while parsing JSON response';
+      throw new Error(`Failed to parse JSON response from "${fullUrl}": ${message}`);
+    }
     // Check for errors
     if (!response.ok) {
       return {
