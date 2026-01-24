@@ -27,12 +27,15 @@ import { DatePickerWidget } from './DatePickerWidget';
 import { GridWidget } from './GridWidget';
 // Data Display widgets (2 widgets)
 import { KPIWidget } from './KPIWidget';
+// Dialogs & Feedback widgets (2 widgets)
+import { ModalWidget } from './ModalWidget';
 // Layout & Structure widgets (4 widgets)
 import { PageWidget } from './PageWidget';
 import { SectionWidget } from './SectionWidget';
 import { SelectWidget } from './SelectWidget';
 import { TableWidget } from './TableWidget';
 import { TextInputWidget } from './TextInputWidget';
+import { ToastWidget } from './ToastWidget';
 
 /**
  * Register all widgets
@@ -101,21 +104,18 @@ export function registerWidgets(): void {
     description: 'Key performance indicator display',
   });
 
-  // Dialogs & Feedback widgets (2 widgets)
-  // import { ModalWidget } from './ModalWidget';
-  // import { ToastWidget } from './ToastWidget';
-  //
-  // widgetRegistry.register('Modal', ModalWidget, {
-  //   displayName: 'Modal',
-  //   category: 'feedback',
-  //   description: 'Modal dialog overlay',
-  // });
-  //
-  // widgetRegistry.register('Toast', ToastWidget, {
-  //   displayName: 'Toast',
-  //   category: 'feedback',
-  //   description: 'Toast notification',
-  // });
+  // Dialogs & Feedback widgets (2 widgets - complete for MVP)
+  widgetRegistry.register('Modal', ModalWidget, {
+    displayName: 'Modal',
+    category: 'feedback',
+    description: 'Modal dialog overlay',
+  });
+
+  widgetRegistry.register('Toast', ToastWidget, {
+    displayName: 'Toast',
+    category: 'feedback',
+    description: 'Toast notification',
+  });
 
   // Example: Lazy loading for heavy widgets
   // import { lazy } from 'react';
@@ -172,6 +172,8 @@ export type { GridWidgetConfig } from './GridWidget';
 export { GridWidget } from './GridWidget';
 export type { KPIWidgetConfig } from './KPIWidget';
 export { KPIWidget } from './KPIWidget';
+export type { ModalAction, ModalWidgetConfig } from './ModalWidget';
+export { ModalWidget } from './ModalWidget';
 
 /**
  * Re-export widget types
@@ -189,3 +191,11 @@ export type { TableWidgetConfig } from './TableWidget';
 export { TableWidget } from './TableWidget';
 export type { TextInputWidgetConfig } from './TextInputWidget';
 export { TextInputWidget } from './TextInputWidget';
+export type {
+  ToastAction,
+  ToastOptions,
+  ToastPosition,
+  ToastVariant,
+  ToastWidgetConfig,
+} from './ToastWidget';
+export { ToastWidget, toastManager } from './ToastWidget';
