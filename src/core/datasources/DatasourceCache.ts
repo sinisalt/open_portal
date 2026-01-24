@@ -204,15 +204,61 @@ export class DatasourceCache {
     const totalRequests = this.hits + this.misses;
     const hitRate = totalRequests > 0 ? this.hits / totalRequests : 0;
 
-    // Approximate memory usage
+    // Approximate memory usage using a lightweight size estimator
+    const estimateSize = (value: unknown, depth: number = 0): number => {
+      if (value === null || value === undefined) {
+        return 0;
+      }
+
+      // Limit depth to avoid expensive traversal of deeply nested structures
+      if (depth > 1) {
+        return 0;
+      }
+
+      const valueType = typeof value;
+
+      if (valueType === 'string') {
+        return (value as string).length;
+      }
+
+      if (valueType === 'number') {
+        // Rough size of a JS number in bytes
+        return 8;
+      }
+
+      if (valueType === 'boolean') {
+        return 4;
+      }
+
+      if (Array.isArray(value)) {
+        let size = 0;
+        for (const item of value) {
+          size += estimateSize(item, depth + 1);
+        }
+        return size;
+      }
+
+      if (valueType === 'object') {
+        let size = 0;
+        const entries = Object.entries(value as Record<string, unknown>);
+        for (const [key, val] of entries) {
+          size += key.length;
+          // Only estimate shallow primitive properties to avoid heavy recursion
+          const valType = typeof val;
+          if (valType === 'string' || valType === 'number' || valType === 'boolean') {
+            size += estimateSize(val, depth + 1);
+          }
+        }
+        return size;
+      }
+
+      // Fallback for other types (symbol, function, bigint, etc.)
+      return 0;
+    };
+
     let memoryUsage = 0;
     for (const entry of this.cache.values()) {
-      // Rough estimate: JSON size of data
-      try {
-        memoryUsage += JSON.stringify(entry.data).length;
-      } catch {
-        // Skip if data is not serializable
-      }
+      memoryUsage += estimateSize(entry.data);
     }
 
     return {
