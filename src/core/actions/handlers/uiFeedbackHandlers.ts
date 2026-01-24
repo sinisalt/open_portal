@@ -61,7 +61,7 @@ export async function showDialogHandler(
     }
 
     // For now, use native browser dialogs
-    // TODO: Replace with custom modal component
+    // TODO(ISSUE-011): Replace with custom modal component
     let confirmed = false;
 
     if (variant === 'confirm') {
