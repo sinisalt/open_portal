@@ -11,7 +11,6 @@ import type {
   ActionResult,
   IActionExecutor,
 } from '@/types/action.types';
-import { ActionKind } from '@/types/action.types';
 import { actionRegistry } from './ActionRegistry';
 import { evaluateCondition, resolveTemplatesInObject } from './templateUtils';
 

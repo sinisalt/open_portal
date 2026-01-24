@@ -5,7 +5,6 @@
  * context, results, and registry definitions.
  */
 
-import type { ComponentType } from 'react';
 import type { BootstrapTenant, BootstrapUser } from './bootstrap.types';
 
 /**

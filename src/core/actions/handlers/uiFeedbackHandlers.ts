@@ -54,7 +54,8 @@ export async function showDialogHandler(
   _context: ActionContext
 ): Promise<ActionResult<{ confirmed: boolean }>> {
   try {
-    const { title, message, variant, confirmLabel = 'OK', cancelLabel = 'Cancel' } = params;
+    const { title, message, variant } = params;
+    // TODO(ISSUE-011): Use confirmLabel and cancelLabel when implementing custom modal component
 
     if (!title || !message) {
       throw new Error('Show dialog action requires "title" and "message" parameters');

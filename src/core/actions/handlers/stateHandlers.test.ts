@@ -23,10 +23,11 @@ describe('stateHandlers', () => {
       navigate: jest.fn(),
       showToast: jest.fn(),
       fetch: jest.fn(),
-      setState: jest.fn((path, value, merge) => {
+      setState: jest.fn((path, value, _merge) => {
         // Simulate setState behavior
         if (!path) return;
         const keys = path.split('.');
+        // biome-ignore lint/suspicious/noExplicitAny: Dynamic mock state access
         let obj: any = mockContext.pageState;
         for (let i = 0; i < keys.length - 1; i++) {
           if (!obj[keys[i]]) obj[keys[i]] = {};
@@ -115,6 +116,7 @@ describe('stateHandlers', () => {
     });
 
     it('should fail if updates parameter is missing', async () => {
+      // biome-ignore lint/suspicious/noExplicitAny: Testing invalid type
       const result = await mergeStateHandler({ updates: null as any }, mockContext);
 
       expect(result.success).toBe(false);
