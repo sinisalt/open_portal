@@ -2,9 +2,9 @@
  * Datasource Registry Tests
  */
 
-import { describe, it, expect, beforeEach } from '@jest/globals';
-import { DatasourceRegistry } from './DatasourceRegistry';
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import type { DatasourceHandler } from '@/types/datasource.types';
+import { DatasourceRegistry } from './DatasourceRegistry';
 
 describe('DatasourceRegistry', () => {
   let registry: DatasourceRegistry;

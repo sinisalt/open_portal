@@ -5,7 +5,7 @@
  * Supports TTL-based expiration and manual invalidation.
  */
 
-import type { CacheEntry, CacheConfig, CacheStats } from '@/types/datasource.types';
+import type { CacheConfig, CacheEntry, CacheStats } from '@/types/datasource.types';
 
 /**
  * Default cache configuration
@@ -46,7 +46,7 @@ export class DatasourceCache {
     // Sort params for consistent key generation
     const sortedParams = Object.keys(params)
       .sort()
-      .map((key) => `${key}=${JSON.stringify(params[key])}`)
+      .map(key => `${key}=${JSON.stringify(params[key])}`)
       .join('&');
     return `${datasourceId}?${sortedParams}`;
   }
@@ -70,17 +70,22 @@ export class DatasourceCache {
   }
 
   /**
-   * Evict least recently used entry
+   * Evict an entry to make room for new ones
+   * Uses LRU if enabled, otherwise evicts first entry in map
    */
-  private evictLRU(): void {
-    if (this.accessOrder.length === 0) {
-      return;
-    }
-
-    // Remove least recently used (first in array)
-    const keyToEvict = this.accessOrder.shift();
-    if (keyToEvict) {
-      this.cache.delete(keyToEvict);
+  private evict(): void {
+    if (this.config.enableLRU && this.accessOrder.length > 0) {
+      // Evict least recently used (first in array)
+      const keyToEvict = this.accessOrder.shift();
+      if (keyToEvict) {
+        this.cache.delete(keyToEvict);
+      }
+    } else if (this.cache.size > 0) {
+      // Evict first entry when LRU is disabled
+      const firstKey = this.cache.keys().next().value;
+      if (firstKey) {
+        this.cache.delete(firstKey);
+      }
     }
   }
 
@@ -135,7 +140,7 @@ export class DatasourceCache {
 
     // Evict if at max size
     if (this.cache.size >= this.config.maxSize && !this.cache.has(key)) {
-      this.evictLRU();
+      this.evict();
     }
 
     const now = Date.now();

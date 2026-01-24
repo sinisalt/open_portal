@@ -5,10 +5,7 @@
  * Useful for mock data, constants, or testing.
  */
 
-import type {
-  DatasourceHandler,
-  StaticDatasourceConfig,
-} from '@/types/datasource.types';
+import type { DatasourceHandler, StaticDatasourceConfig } from '@/types/datasource.types';
 
 /**
  * Static Datasource Handler Implementation

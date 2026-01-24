@@ -10,13 +10,13 @@
  * - Error handling
  */
 
+import { httpClient } from '@/services/httpClient';
 import type {
+  DatasourceErrorType,
   DatasourceHandler,
   HttpDatasourceConfig,
   DatasourceError as IDatasourceError,
-  DatasourceErrorType,
 } from '@/types/datasource.types';
-import { httpClient } from '@/services/httpClient';
 
 /**
  * Transform response data using dot notation path

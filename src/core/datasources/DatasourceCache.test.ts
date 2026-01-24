@@ -2,7 +2,7 @@
  * Datasource Cache Tests
  */
 
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { DatasourceCache } from './DatasourceCache';
 
 describe('DatasourceCache', () => {
@@ -111,14 +111,18 @@ describe('DatasourceCache', () => {
       expect(smallCache.get('ds4')).not.toBeNull();
     });
 
-    it('should not evict when LRU is disabled', () => {
+    it('should still evict when maxSize is reached even with LRU disabled', () => {
       const noLRUCache = new DatasourceCache({ maxSize: 2, enableLRU: false });
 
       noLRUCache.set('ds1', { value: 1 });
       noLRUCache.set('ds2', { value: 2 });
+
+      // At maxSize, cache size should be 2
+      expect(noLRUCache.getSize()).toBe(2);
+
       noLRUCache.set('ds3', { value: 3 });
 
-      // With LRU disabled, should still evict but may not follow LRU order
+      // Should still evict when at maxSize (even without LRU)
       expect(noLRUCache.getSize()).toBeLessThanOrEqual(2);
     });
 
@@ -285,7 +289,7 @@ describe('DatasourceCache', () => {
       expect(keys).toHaveLength(3);
       expect(keys).toContain('ds1');
       expect(keys).toContain('ds2');
-      expect(keys.some((k) => k.startsWith('ds3'))).toBe(true);
+      expect(keys.some(k => k.startsWith('ds3'))).toBe(true);
     });
 
     it('should return empty array when cache is empty', () => {
