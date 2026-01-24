@@ -124,7 +124,8 @@ describe('TextInputWidget', () => {
     render(<TextInputWidget config={{ ...baseConfig, autoFocus: true }} />);
 
     const input = screen.getByRole('textbox');
-    expect(input).toHaveAttribute('autoFocus');
+    // React uses autoFocus prop but DOM renders it as lowercase autofocus
+    expect(input).toHaveAttribute('autofocus');
   });
 
   it('renders placeholder text', () => {
@@ -218,7 +219,8 @@ describe('TextInputWidget', () => {
   it('supports password input type', () => {
     render(<TextInputWidget config={{ ...baseConfig, inputType: 'password' }} />);
 
-    const input = screen.getByLabelText('test-input');
+    // Password inputs don't have a specific role, so we query by id
+    const input = document.getElementById('test-input');
     expect(input).toHaveAttribute('type', 'password');
   });
 
