@@ -25,6 +25,11 @@ import { GridWidget } from './GridWidget';
 // Layout & Structure widgets (4 widgets)
 import { PageWidget } from './PageWidget';
 import { SectionWidget } from './SectionWidget';
+// Form Input widgets (4 widgets)
+import { CheckboxWidget } from './CheckboxWidget';
+import { DatePickerWidget } from './DatePickerWidget';
+import { SelectWidget } from './SelectWidget';
+import { TextInputWidget } from './TextInputWidget';
 
 /**
  * Register all widgets
@@ -55,35 +60,30 @@ export function registerWidgets(): void {
     description: 'Content card container',
   });
 
-  // Form Input widgets (4 widgets)
-  // import { TextInputWidget } from './TextInputWidget';
-  // import { SelectWidget } from './SelectWidget';
-  // import { DatePickerWidget } from './DatePickerWidget';
-  // import { CheckboxWidget } from './CheckboxWidget';
-  //
-  // widgetRegistry.register('TextInput', TextInputWidget, {
-  //   displayName: 'Text Input',
-  //   category: 'form',
-  //   description: 'Single-line text input',
-  // });
-  //
-  // widgetRegistry.register('Select', SelectWidget, {
-  //   displayName: 'Select',
-  //   category: 'form',
-  //   description: 'Dropdown selection',
-  // });
-  //
-  // widgetRegistry.register('DatePicker', DatePickerWidget, {
-  //   displayName: 'Date Picker',
-  //   category: 'form',
-  //   description: 'Date selection',
-  // });
-  //
-  // widgetRegistry.register('Checkbox', CheckboxWidget, {
-  //   displayName: 'Checkbox',
-  //   category: 'form',
-  //   description: 'Boolean checkbox',
-  // });
+  // Form Input widgets (4 widgets - complete for MVP)
+  widgetRegistry.register('TextInput', TextInputWidget, {
+    displayName: 'Text Input',
+    category: 'form',
+    description: 'Single-line text input',
+  });
+
+  widgetRegistry.register('Select', SelectWidget, {
+    displayName: 'Select',
+    category: 'form',
+    description: 'Dropdown selection',
+  });
+
+  widgetRegistry.register('DatePicker', DatePickerWidget, {
+    displayName: 'Date Picker',
+    category: 'form',
+    description: 'Date selection',
+  });
+
+  widgetRegistry.register('Checkbox', CheckboxWidget, {
+    displayName: 'Checkbox',
+    category: 'form',
+    description: 'Boolean checkbox',
+  });
 
   // Data Display widgets (2 widgets)
   // import { TableWidget } from './TableWidget';
@@ -161,3 +161,27 @@ export function getWidgetRegistry() {
  * Re-export widget registry for convenience
  */
 export { widgetRegistry };
+
+/**
+ * Re-export widgets for direct usage
+ */
+export { PageWidget } from './PageWidget';
+export { SectionWidget } from './SectionWidget';
+export { GridWidget } from './GridWidget';
+export { CardWidget } from './CardWidget';
+export { TextInputWidget } from './TextInputWidget';
+export { SelectWidget } from './SelectWidget';
+export { DatePickerWidget } from './DatePickerWidget';
+export { CheckboxWidget } from './CheckboxWidget';
+
+/**
+ * Re-export widget types
+ */
+export type { PageWidgetConfig } from './PageWidget';
+export type { SectionWidgetConfig } from './SectionWidget';
+export type { GridWidgetConfig } from './GridWidget';
+export type { CardWidgetConfig } from './CardWidget';
+export type { TextInputWidgetConfig } from './TextInputWidget';
+export type { SelectWidgetConfig, SelectOption } from './SelectWidget';
+export type { DatePickerWidgetConfig } from './DatePickerWidget';
+export type { CheckboxWidgetConfig } from './CheckboxWidget';
