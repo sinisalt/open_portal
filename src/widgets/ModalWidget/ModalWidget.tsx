@@ -58,6 +58,13 @@ export function ModalWidget({
     }
   };
 
+  // Prevent default event when condition is met
+  const preventDefaultIf = (condition: boolean) => (e: Event) => {
+    if (condition) {
+      e.preventDefault();
+    }
+  };
+
   // Size class mapping
   const sizeClasses: Record<string, string> = {
     sm: 'sm:max-w-sm',
@@ -71,21 +78,9 @@ export function ModalWidget({
     <Dialog open={isOpen} onOpenChange={closeOnBackdrop ? handleOpenChange : undefined}>
       <DialogContent
         className={cn(sizeClasses[size])}
-        onEscapeKeyDown={e => {
-          if (!closable) {
-            e.preventDefault();
-          }
-        }}
-        onPointerDownOutside={e => {
-          if (!closeOnBackdrop) {
-            e.preventDefault();
-          }
-        }}
-        onInteractOutside={e => {
-          if (!closeOnBackdrop) {
-            e.preventDefault();
-          }
-        }}
+        onEscapeKeyDown={preventDefaultIf(!closable)}
+        onPointerDownOutside={preventDefaultIf(!closeOnBackdrop)}
+        onInteractOutside={preventDefaultIf(!closeOnBackdrop)}
         // Hide close button if not closable
         hideCloseButton={!closable}
       >
