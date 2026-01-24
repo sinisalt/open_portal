@@ -165,9 +165,7 @@ export function useDatasource<T = any>(
     }
 
     const handleFocus = () => {
-      if (config) {
-        fetch();
-      }
+      fetch();
     };
 
     window.addEventListener('focus', handleFocus);
