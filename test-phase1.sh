@@ -221,7 +221,7 @@ update_response=$(curl -s -X POST -H "Content-Type: application/json" \
   -d "{\"actionId\":\"updateRecord\",\"params\":{\"collection\":\"tasks\",\"id\":\"$record_id\",\"data\":{\"status\":\"completed\"}}}" \
   "$BASE_URL/ui/actions/execute")
 echo "$update_response" | jq '.' > "$OUTPUT_DIR/12-Update-Record-Action.json"
-if echo "$update_response" | jq -e '.data.record' > /dev/null 2>&1; then
+if echo "$update_response" | jq -e '.data.id' > /dev/null 2>&1; then
     echo -e "${GREEN}✓ PASSED${NC} - Record updated"
     PASSED=$((PASSED + 1))
 else
@@ -250,7 +250,7 @@ echo ""
 echo -e "${YELLOW}Testing: 14 Get Audit Logs${NC}"
 audit_response=$(curl -s -H "Authorization: Bearer $admin_token" "$BASE_URL/ui/actions/audit?limit=10")
 echo "$audit_response" | jq '.' > "$OUTPUT_DIR/14-Audit-Logs.json"
-if echo "$audit_response" | jq -e '.[0].id' > /dev/null 2>&1; then
+if echo "$audit_response" | jq -e '.data[0].id' > /dev/null 2>&1; then
     echo -e "${GREEN}✓ PASSED${NC} - Audit logs retrieved"
     PASSED=$((PASSED + 1))
 else
