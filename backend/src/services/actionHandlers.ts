@@ -54,7 +54,7 @@ export const createRecordHandler: ActionHandler = {
   execute: async (params: unknown, context: ActionContext): Promise<ActionResult> => {
     const { collection, data } = params as z.infer<typeof createRecordSchema>;
 
-    const id = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
     const record = {
       id,
       ...data,
