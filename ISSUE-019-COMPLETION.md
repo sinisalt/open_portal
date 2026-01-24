@@ -171,7 +171,7 @@ Created interactive demo page showcasing:
 ## Dependencies
 
 ### Installed Packages
-- `sonner@1.7.3` - Toast notification library
+- `sonner@2.0.7` - Toast notification library
 - `lucide-react@0.563.0` - Icons for toast variants (already installed)
 - `next-themes@0.4.6` - Theme support for sonner (already installed)
 

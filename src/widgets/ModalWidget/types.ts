@@ -8,7 +8,7 @@ import type { BaseWidgetConfig } from '@/types/widget.types';
  * Modal action button configuration
  */
 export interface ModalAction {
-  /** Unique action identifier */
+  /** Unique button identifier (for React key prop) */
   id: string;
 
   /** Button label */
@@ -17,7 +17,7 @@ export interface ModalAction {
   /** Button variant style */
   variant?: 'default' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive';
 
-  /** Action identifier for event handling */
+  /** Action identifier passed to onActionClick event handler */
   actionId: string;
 }
 
