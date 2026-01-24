@@ -207,16 +207,22 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - [x] Default branding configuration - **Completed via ISSUE-025** ✅
 
 #### 1.2 Actions & Validation (Week 5-7)
-- [ ] `/ui/actions/execute` endpoint
-- [ ] Action handler framework
-- [ ] Validation service
-- [ ] Permission checking
+- [x] `/ui/actions/execute` endpoint - **Completed via ISSUE-026** ✅
+- [x] Action handler framework - **Completed via ISSUE-026** ✅
+- [x] Validation service - **Completed via ISSUE-026** ✅
+- [x] Permission checking - **Completed via ISSUE-026** ✅
+- [x] Core CRUD action handlers (6 handlers) - **Completed via ISSUE-026** ✅
+- [x] Audit logging system - **Completed via ISSUE-026** ✅
 
 #### 1.3 Sample Configurations (Week 7-10)
-- [ ] Dashboard page configuration
-- [ ] Profile page configuration
-- [ ] Listings page configuration
-- [ ] Menu configuration
+- [x] Dashboard page configuration (enhanced with KPIs, table) - **Completed via ISSUE-027** ✅
+- [x] Profile page configuration (form inputs, save action) - **Completed via ISSUE-027** ✅
+- [x] Listings page configuration (table, CRUD modals) - **Completed via ISSUE-027** ✅
+- [x] Menu configuration (Profile, Listings added) - **Completed via ISSUE-027** ✅
+- [x] Route configurations (added 2 new routes) - **Completed via ISSUE-027** ✅
+- [x] Sample datasources documented - **Completed via ISSUE-027** ✅
+- [x] Sample actions documented - **Completed via ISSUE-027** ✅
+- [x] Configuration documentation and examples - **Completed via ISSUE-027** ✅
 
 ### Integration & Testing (Week 10)
 - [ ] End-to-end integration testing
@@ -553,13 +559,37 @@ This document outlines the phased approach to implementing the OpenPortal platfo
   - Tenant isolation
   - Sample data seeding
 
+### Phase 1.2 Backend: Actions & Sample Configurations - ✅ **100% Complete** (2/2 issues)
+- ✅ **ISSUE-026 Complete:** Backend Actions Execution Endpoint
+  - POST /ui/actions/execute (action execution gateway)
+  - GET /ui/actions/audit (audit log retrieval)
+  - Action handler framework with registry
+  - 6 core CRUD action handlers (create, update, delete, bulk operations, query)
+  - Comprehensive validation with Zod schemas
+  - Permission checking per action
+  - Rate limiting (5 requests/minute)
+  - Complete audit logging system
+  - Error handling with proper HTTP status codes
+  - Comprehensive documentation
+- ✅ **ISSUE-027 Complete:** Sample Page Configurations
+  - Enhanced Dashboard page (KPIs, metrics, recent activity table)
+  - Profile page (form inputs, save action, toast notifications)
+  - Listings page (CRUD table, modals, toolbar, comprehensive actions)
+  - Menu updates (Profile and Listings items added)
+  - Route configurations (2 new routes)
+  - Sample datasources documented (4 endpoints)
+  - Sample actions documented (15+ actions)
+  - Comprehensive configuration documentation (16KB guide)
+
 ---
 
-**Version:** 2.11  
+**Version:** 2.12  
 **Last Updated:** January 24, 2026  
-**Status:** Active Development - Phase 1 (Backend APIs Complete, Frontend Widget System Complete)
+**Status:** Active Development - Phase 1 (Backend Complete, Frontend Widget System Complete)
 
 **Recent Updates:**
+- **January 24, 2026:** ✅ **ISSUE-027 Complete** - Sample Page Configurations (Dashboard, Profile, Listings). Created comprehensive page configurations demonstrating all 12 MVP widgets with datasources, actions, menus, and routes. Includes 16KB documentation guide with API structures and best practices.
+- **January 24, 2026:** ✅ **ISSUE-026 Complete** - Backend Actions Execution Endpoint. Implemented POST /ui/actions/execute and GET /ui/actions/audit endpoints with action handler framework, 6 core CRUD handlers, validation, permissions, rate limiting, and audit logging.
 - **January 24, 2026:** ✅ **ISSUE-025 Complete** - Backend UI Configuration Endpoints. Implemented all 4 core API endpoints (/ui/bootstrap, /ui/branding, /ui/routes/resolve, /ui/pages/:pageId) with ETag caching, permission filtering, tenant isolation, and comprehensive documentation. Ready for frontend integration.
 - **January 24, 2026:** ✅ **ISSUE-019 Complete** - Dialog & Feedback Widgets (ModalWidget, ToastWidget) with 33 new tests passing. All 12 MVP core widgets now complete! Phase 1.3 100% complete.
 - **January 24, 2026:** ✅ ISSUE-018 Complete - Data Display Widgets (TableWidget, KPIWidget) with formatting utilities (80 new tests passing)
