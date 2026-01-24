@@ -6,7 +6,9 @@ import pinoHttp from 'pino-http';
 import { config } from './config/index.js';
 import { generalRateLimiter } from './middleware/rateLimiter.js';
 import { seedUsers } from './models/seed.js';
+import { seedUiConfig } from './models/seedUiConfig.js';
 import authRouter from './routes/auth.js';
+import uiRouter from './routes/ui.js';
 
 const logger = pino({ level: config.logLevel });
 const app = express();
@@ -42,6 +44,7 @@ app.use(express.urlencoded({ extended: true }));
  * Routes
  */
 app.use('/auth', authRouter);
+app.use('/ui', uiRouter);
 
 /**
  * Health Check
@@ -79,6 +82,9 @@ const server = app.listen(config.port, async () => {
 
   // Seed database with test users
   await seedUsers();
+
+  // Seed UI configurations
+  await seedUiConfig();
 });
 
 /**

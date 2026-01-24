@@ -42,12 +42,71 @@ export interface AuditLogEntry {
 }
 
 /**
+ * Page Configuration Model
+ */
+export interface PageConfig {
+  id: string;
+  pageId: string;
+  version: string;
+  config: Record<string, unknown>;
+  tenantId?: string;
+  permissions: string[];
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+/**
+ * Route Configuration Model
+ */
+export interface RouteConfig {
+  id: string;
+  pattern: string;
+  pageId: string;
+  permissions: string[];
+  exact: boolean;
+  redirectTo?: string;
+  metadata?: Record<string, unknown>;
+  tenantId?: string;
+  priority: number;
+  createdAt: Date;
+}
+
+/**
+ * Tenant Branding Configuration
+ */
+export interface TenantBranding {
+  id: string;
+  tenantId: string;
+  version: string;
+  config: Record<string, unknown>;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+/**
+ * Menu Configuration
+ */
+export interface MenuConfig {
+  id: string;
+  tenantId: string;
+  role?: string;
+  config: Record<string, unknown>;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+/**
  * In-Memory Database
  */
 class InMemoryDatabase {
   private users: Map<string, User> = new Map();
   private refreshTokens: Map<string, RefreshToken> = new Map();
   private auditLogs: AuditLogEntry[] = [];
+  private pageConfigs: Map<string, PageConfig> = new Map();
+  private routeConfigs: Map<string, RouteConfig> = new Map();
+  private tenantBrandings: Map<string, TenantBranding> = new Map();
+  private menuConfigs: Map<string, MenuConfig> = new Map();
 
   // Users
   getUsers(): User[] {
@@ -110,6 +169,109 @@ class InMemoryDatabase {
 
   addAuditLog(entry: AuditLogEntry): void {
     this.auditLogs.push(entry);
+  }
+
+  // Page Configs
+  getPageConfigs(): PageConfig[] {
+    return Array.from(this.pageConfigs.values());
+  }
+
+  getPageConfigById(id: string): PageConfig | undefined {
+    return this.pageConfigs.get(id);
+  }
+
+  getPageConfigByPageId(pageId: string, tenantId?: string): PageConfig | undefined {
+    return this.getPageConfigs().find(
+      (config) =>
+        config.pageId === pageId &&
+        config.isActive &&
+        (!tenantId || !config.tenantId || config.tenantId === tenantId),
+    );
+  }
+
+  createPageConfig(config: PageConfig): PageConfig {
+    this.pageConfigs.set(config.id, config);
+    return config;
+  }
+
+  updatePageConfig(id: string, updates: Partial<PageConfig>): PageConfig | undefined {
+    const config = this.pageConfigs.get(id);
+    if (!config) {
+      return undefined;
+    }
+    const updated = { ...config, ...updates, updatedAt: new Date() };
+    this.pageConfigs.set(id, updated);
+    return updated;
+  }
+
+  // Route Configs
+  getRouteConfigs(): RouteConfig[] {
+    return Array.from(this.routeConfigs.values());
+  }
+
+  getRouteConfigById(id: string): RouteConfig | undefined {
+    return this.routeConfigs.get(id);
+  }
+
+  getRouteConfigsByTenant(tenantId?: string): RouteConfig[] {
+    return this.getRouteConfigs()
+      .filter((route) => !tenantId || !route.tenantId || route.tenantId === tenantId)
+      .sort((a, b) => b.priority - a.priority);
+  }
+
+  createRouteConfig(route: RouteConfig): RouteConfig {
+    this.routeConfigs.set(route.id, route);
+    return route;
+  }
+
+  // Tenant Branding
+  getTenantBrandings(): TenantBranding[] {
+    return Array.from(this.tenantBrandings.values());
+  }
+
+  getTenantBrandingByTenantId(tenantId: string): TenantBranding | undefined {
+    return this.getTenantBrandings().find((branding) => branding.tenantId === tenantId);
+  }
+
+  createTenantBranding(branding: TenantBranding): TenantBranding {
+    this.tenantBrandings.set(branding.id, branding);
+    return branding;
+  }
+
+  updateTenantBranding(id: string, updates: Partial<TenantBranding>): TenantBranding | undefined {
+    const branding = this.tenantBrandings.get(id);
+    if (!branding) {
+      return undefined;
+    }
+    const updated = { ...branding, ...updates, updatedAt: new Date() };
+    this.tenantBrandings.set(id, updated);
+    return updated;
+  }
+
+  // Menu Configs
+  getMenuConfigs(): MenuConfig[] {
+    return Array.from(this.menuConfigs.values());
+  }
+
+  getMenuConfigByTenantAndRole(tenantId: string, role?: string): MenuConfig | undefined {
+    return this.getMenuConfigs().find(
+      (config) => config.tenantId === tenantId && config.role === role,
+    );
+  }
+
+  createMenuConfig(config: MenuConfig): MenuConfig {
+    this.menuConfigs.set(config.id, config);
+    return config;
+  }
+
+  updateMenuConfig(id: string, updates: Partial<MenuConfig>): MenuConfig | undefined {
+    const config = this.menuConfigs.get(id);
+    if (!config) {
+      return undefined;
+    }
+    const updated = { ...config, ...updates, updatedAt: new Date() };
+    this.menuConfigs.set(id, updated);
+    return updated;
   }
 }
 
