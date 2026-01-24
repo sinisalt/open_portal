@@ -203,7 +203,7 @@ export class DatasourceManager implements IDatasourceManager {
 
       // Cache if enabled
       if (shouldCache) {
-        this.cache.set(id, data, config.cacheTime, undefined);
+        this.cache.set(id, data, config.cacheTime);
       }
 
       return {
