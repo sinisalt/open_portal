@@ -56,7 +56,11 @@ export class ActionExecutor implements IActionExecutor {
         if (this.enableLogging) {
           console.log(`[Action] Skipped "${action.id}" - condition not met:`, action.when);
         }
-        return this.createSuccessResult(undefined, startTime, { skipped: true });
+        return this.createSuccessResult(
+          { skipped: true, reason: 'condition_not_met' },
+          startTime,
+          { skipped: true }
+        );
       }
 
       // Resolve parameters with templates
