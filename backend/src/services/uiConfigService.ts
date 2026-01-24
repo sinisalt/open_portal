@@ -275,15 +275,19 @@ export class UiConfigService {
       return null;
     }
 
-    // Handle prefix match
-    if (path.startsWith(pattern)) {
-      return { params };
+    const patternParts = pattern.split('/');
+    const pathParts = path.split('/');
+    const hasParams = patternParts.some((part) => part.startsWith(':'));
+
+    // For non-parameterized routes, allow simple prefix matching
+    if (!hasParams) {
+      if (path.startsWith(pattern)) {
+        return { params };
+      }
+      return null;
     }
 
     // Handle parameterized routes (e.g., /users/:id)
-    const patternParts = pattern.split('/');
-    const pathParts = path.split('/');
-
     if (patternParts.length !== pathParts.length) {
       return null;
     }
