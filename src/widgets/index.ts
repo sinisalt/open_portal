@@ -25,10 +25,13 @@ import { CardWidget } from './CardWidget';
 import { CheckboxWidget } from './CheckboxWidget';
 import { DatePickerWidget } from './DatePickerWidget';
 import { GridWidget } from './GridWidget';
+// Data Display widgets (2 widgets)
+import { KPIWidget } from './KPIWidget';
 // Layout & Structure widgets (4 widgets)
 import { PageWidget } from './PageWidget';
 import { SectionWidget } from './SectionWidget';
 import { SelectWidget } from './SelectWidget';
+import { TableWidget } from './TableWidget';
 import { TextInputWidget } from './TextInputWidget';
 
 /**
@@ -85,21 +88,18 @@ export function registerWidgets(): void {
     description: 'Boolean checkbox',
   });
 
-  // Data Display widgets (2 widgets)
-  // import { TableWidget } from './TableWidget';
-  // import { KPIWidget } from './KPIWidget';
-  //
-  // widgetRegistry.register('Table', TableWidget, {
-  //   displayName: 'Table',
-  //   category: 'data',
-  //   description: 'Data table with sorting/filtering',
-  // });
-  //
-  // widgetRegistry.register('KPI', KPIWidget, {
-  //   displayName: 'KPI',
-  //   category: 'data',
-  //   description: 'Key performance indicator display',
-  // });
+  // Data Display widgets (2 widgets - complete for MVP)
+  widgetRegistry.register('Table', TableWidget, {
+    displayName: 'Table',
+    category: 'data',
+    description: 'Data table with sorting/filtering',
+  });
+
+  widgetRegistry.register('KPI', KPIWidget, {
+    displayName: 'KPI',
+    category: 'data',
+    description: 'Key performance indicator display',
+  });
 
   // Dialogs & Feedback widgets (2 widgets)
   // import { ModalWidget } from './ModalWidget';
@@ -170,6 +170,8 @@ export type { DatePickerWidgetConfig } from './DatePickerWidget';
 export { DatePickerWidget } from './DatePickerWidget';
 export type { GridWidgetConfig } from './GridWidget';
 export { GridWidget } from './GridWidget';
+export type { KPIWidgetConfig } from './KPIWidget';
+export { KPIWidget } from './KPIWidget';
 
 /**
  * Re-export widget types
@@ -183,5 +185,7 @@ export type { SectionWidgetConfig } from './SectionWidget';
 export { SectionWidget } from './SectionWidget';
 export type { SelectOption, SelectWidgetConfig } from './SelectWidget';
 export { SelectWidget } from './SelectWidget';
+export type { TableWidgetConfig } from './TableWidget';
+export { TableWidget } from './TableWidget';
 export type { TextInputWidgetConfig } from './TextInputWidget';
 export { TextInputWidget } from './TextInputWidget';
