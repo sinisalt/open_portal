@@ -197,14 +197,14 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 ### Backend Work
 
 #### 1.1 Core APIs (Week 3-5)
-- [ ] Authentication endpoints
-- [x] `/ui/bootstrap` implementation (with tenant and branding info) - **Frontend completed via ISSUE-010-bootstrap-api** ⚠️ Backend pending
-- [ ] `/ui/branding` endpoint implementation ⚠️ **Frontend completed via ISSUE-012, backend pending**
-- [ ] `/ui/routes/resolve` implementation ⚠️ **Frontend completed via ISSUE-013-route-resolver, backend optional**
-- [ ] `/ui/pages/:pageId` implementation
-- [ ] Config storage schema
-- [ ] Branding storage schema (tenant_branding table)
-- [ ] Default branding configuration
+- [x] Authentication endpoints - **Completed via ISSUE-024** ✅
+- [x] `/ui/bootstrap` implementation (with tenant and branding info) - **Completed via ISSUE-025** ✅
+- [x] `/ui/branding` endpoint implementation - **Completed via ISSUE-025** ✅
+- [x] `/ui/routes/resolve` implementation - **Completed via ISSUE-025** ✅
+- [x] `/ui/pages/:pageId` implementation - **Completed via ISSUE-025** ✅
+- [x] Config storage schema - **Completed via ISSUE-025** ✅
+- [x] Branding storage schema (tenant_branding table) - **Completed via ISSUE-025** ✅
+- [x] Default branding configuration - **Completed via ISSUE-025** ✅
 
 #### 1.2 Actions & Validation (Week 5-7)
 - [ ] `/ui/actions/execute` endpoint
@@ -535,13 +535,32 @@ This document outlines the phased approach to implementing the OpenPortal platfo
   - All widgets registered in widget registry
   - Interactive demo page created
 
+### Phase 1.1 Backend: Core APIs - ✅ **100% Complete** (2/2 issues)
+- ✅ **ISSUE-024 Complete:** Authentication Endpoints
+  - POST /auth/login (with rate limiting and account lockout)
+  - POST /auth/logout
+  - POST /auth/refresh (token rotation)
+  - JWT token generation
+  - Refresh token management
+  - Comprehensive security features
+- ✅ **ISSUE-025 Complete:** UI Configuration Endpoints
+  - GET /ui/bootstrap (user, permissions, menu, defaults)
+  - GET /ui/branding (tenant branding configuration)
+  - GET /ui/routes/resolve (route to page mapping)
+  - GET /ui/pages/:pageId (full page configuration)
+  - ETag caching support (304 Not Modified)
+  - Permission-based filtering
+  - Tenant isolation
+  - Sample data seeding
+
 ---
 
-**Version:** 2.10  
+**Version:** 2.11  
 **Last Updated:** January 24, 2026  
-**Status:** Active Development - Phase 1.3 (Widget Implementation - **100% Complete** 🎉)
+**Status:** Active Development - Phase 1 (Backend APIs Complete, Frontend Widget System Complete)
 
 **Recent Updates:**
+- **January 24, 2026:** ✅ **ISSUE-025 Complete** - Backend UI Configuration Endpoints. Implemented all 4 core API endpoints (/ui/bootstrap, /ui/branding, /ui/routes/resolve, /ui/pages/:pageId) with ETag caching, permission filtering, tenant isolation, and comprehensive documentation. Ready for frontend integration.
 - **January 24, 2026:** ✅ **ISSUE-019 Complete** - Dialog & Feedback Widgets (ModalWidget, ToastWidget) with 33 new tests passing. All 12 MVP core widgets now complete! Phase 1.3 100% complete.
 - **January 24, 2026:** ✅ ISSUE-018 Complete - Data Display Widgets (TableWidget, KPIWidget) with formatting utilities (80 new tests passing)
 - **January 23, 2026:** ✅ ISSUE-017 Complete - Form Widgets (TextInput, Select, DatePicker, Checkbox) (132 tests passing)
