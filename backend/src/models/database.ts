@@ -307,17 +307,43 @@ class InMemoryDatabase {
   }
 
   getActionAuditLogsByUser(userId: string, limit = 100): ActionAuditLog[] {
-    return this.actionAuditLogs
-      .filter((log) => log.userId === userId)
-      .slice(-limit)
-      .reverse();
+    const result: ActionAuditLog[] = [];
+    if (limit <= 0) {
+      return result;
+    }
+
+    for (
+      let i = this.actionAuditLogs.length - 1;
+      i >= 0 && result.length < limit;
+      i -= 1
+    ) {
+      const log = this.actionAuditLogs[i];
+      if (log.userId === userId) {
+        result.push(log);
+      }
+    }
+
+    return result;
   }
 
   getActionAuditLogsByTenant(tenantId: string, limit = 100): ActionAuditLog[] {
-    return this.actionAuditLogs
-      .filter((log) => log.tenantId === tenantId)
-      .slice(-limit)
-      .reverse();
+    const result: ActionAuditLog[] = [];
+    if (limit <= 0) {
+      return result;
+    }
+
+    for (
+      let i = this.actionAuditLogs.length - 1;
+      i >= 0 && result.length < limit;
+      i -= 1
+    ) {
+      const log = this.actionAuditLogs[i];
+      if (log.tenantId === tenantId) {
+        result.push(log);
+      }
+    }
+
+    return result;
   }
 }
 
