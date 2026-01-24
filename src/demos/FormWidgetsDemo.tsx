@@ -6,16 +6,19 @@
  */
 
 import { useState } from 'react';
-import { CheckboxWidget, DatePickerWidget, SelectWidget } from '@/widgets';
+import { CheckboxWidget, DatePickerWidget, SelectWidget, TextInputWidget } from '@/widgets';
 import type {
   CheckboxWidgetConfig,
   DatePickerWidgetConfig,
   SelectWidgetConfig,
+  TextInputWidgetConfig,
 } from '@/widgets';
 
 export function FormWidgetsDemo() {
   // Form state
   const [formData, setFormData] = useState({
+    name: '',
+    email: '',
     country: '',
     birthDate: '',
     newsletter: false,
@@ -24,6 +27,25 @@ export function FormWidgetsDemo() {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   // Widget configurations
+  const nameConfig: TextInputWidgetConfig = {
+    id: 'name',
+    type: 'TextInput',
+    label: 'Full Name',
+    placeholder: 'Enter your full name',
+    helpText: 'First and last name',
+    required: true,
+  };
+
+  const emailConfig: TextInputWidgetConfig = {
+    id: 'email',
+    type: 'TextInput',
+    label: 'Email Address',
+    placeholder: 'you@example.com',
+    helpText: 'We will never share your email',
+    inputType: 'email',
+    required: true,
+  };
+
   const countryConfig: SelectWidgetConfig = {
     id: 'country',
     type: 'Select',
@@ -61,6 +83,20 @@ export function FormWidgetsDemo() {
   };
 
   // Event handlers
+  const handleNameChange = (value: unknown) => {
+    setFormData((prev) => ({ ...prev, name: value as string }));
+    if (errors.name) {
+      setErrors((prev) => ({ ...prev, name: '' }));
+    }
+  };
+
+  const handleEmailChange = (value: unknown) => {
+    setFormData((prev) => ({ ...prev, email: value as string }));
+    if (errors.email) {
+      setErrors((prev) => ({ ...prev, email: '' }));
+    }
+  };
+
   const handleCountryChange = (value: unknown) => {
     setFormData((prev) => ({ ...prev, country: value as string }));
     if (errors.country) {
@@ -85,6 +121,16 @@ export function FormWidgetsDemo() {
     // Simple validation
     const newErrors: Record<string, string> = {};
 
+    if (!formData.name) {
+      newErrors.name = 'Name is required';
+    }
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
     if (!formData.country) {
       newErrors.country = 'Country is required';
     }
@@ -108,12 +154,14 @@ export function FormWidgetsDemo() {
 
     // Form is valid
     alert(
-      `Form submitted successfully!\n\nCountry: ${formData.country}\nBirth Date: ${formData.birthDate}\nNewsletter: ${formData.newsletter}`
+      `Form submitted successfully!\n\nName: ${formData.name}\nEmail: ${formData.email}\nCountry: ${formData.country}\nBirth Date: ${formData.birthDate}\nNewsletter: ${formData.newsletter}`
     );
   };
 
   const handleReset = () => {
     setFormData({
+      name: '',
+      email: '',
       country: '',
       birthDate: '',
       newsletter: false,
@@ -127,11 +175,35 @@ export function FormWidgetsDemo() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">Form Widgets Demo</h1>
           <p className="text-muted-foreground">
-            Demonstration of SelectWidget, DatePickerWidget, and CheckboxWidget
+            Demonstration of all 4 form widgets: TextInput, Select, DatePicker, and Checkbox
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* TextInput Widget - Name */}
+          <TextInputWidget
+            config={nameConfig}
+            bindings={{
+              value: formData.name,
+              error: errors.name,
+            }}
+            events={{
+              onChange: handleNameChange,
+            }}
+          />
+
+          {/* TextInput Widget - Email */}
+          <TextInputWidget
+            config={emailConfig}
+            bindings={{
+              value: formData.email,
+              error: errors.email,
+            }}
+            events={{
+              onChange: handleEmailChange,
+            }}
+          />
+
           {/* Select Widget */}
           <SelectWidget
             config={countryConfig}

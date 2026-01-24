@@ -6,7 +6,7 @@
  *
  * Widget Categories:
  * - layout: Page structure and layout widgets (Page, Section, Grid, Card)
- * - form: Form input widgets (Select, DatePicker, Checkbox) - TextInput pending
+ * - form: Form input widgets (TextInput, Select, DatePicker, Checkbox)
  * - data: Data display widgets (Table, KPI)
  * - feedback: User feedback widgets (Modal, Toast)
  *
@@ -25,10 +25,11 @@ import { GridWidget } from './GridWidget';
 // Layout & Structure widgets (4 widgets)
 import { PageWidget } from './PageWidget';
 import { SectionWidget } from './SectionWidget';
-// Form Input widgets (3 widgets for now)
+// Form Input widgets (4 widgets)
 import { CheckboxWidget } from './CheckboxWidget';
 import { DatePickerWidget } from './DatePickerWidget';
 import { SelectWidget } from './SelectWidget';
+import { TextInputWidget } from './TextInputWidget';
 
 /**
  * Register all widgets
@@ -59,7 +60,13 @@ export function registerWidgets(): void {
     description: 'Content card container',
   });
 
-  // Form Input widgets (3 widgets implemented - TextInput pending)
+  // Form Input widgets (4 widgets - complete for MVP)
+  widgetRegistry.register('TextInput', TextInputWidget, {
+    displayName: 'Text Input',
+    category: 'form',
+    description: 'Single-line text input',
+  });
+
   widgetRegistry.register('Select', SelectWidget, {
     displayName: 'Select',
     category: 'form',
@@ -77,16 +84,6 @@ export function registerWidgets(): void {
     category: 'form',
     description: 'Boolean checkbox',
   });
-
-  // TextInput widget - NOT IMPLEMENTED YET
-  // ISSUE-014 was about Page Configuration Loader, not TextInput widget
-  // TextInput needs to be implemented in a future issue
-  // import { TextInputWidget } from './TextInputWidget';
-  // widgetRegistry.register('TextInput', TextInputWidget, {
-  //   displayName: 'Text Input',
-  //   category: 'form',
-  //   description: 'Single-line text input',
-  // });
 
   // Data Display widgets (2 widgets)
   // import { TableWidget } from './TableWidget';
@@ -172,6 +169,7 @@ export { PageWidget } from './PageWidget';
 export { SectionWidget } from './SectionWidget';
 export { GridWidget } from './GridWidget';
 export { CardWidget } from './CardWidget';
+export { TextInputWidget } from './TextInputWidget';
 export { SelectWidget } from './SelectWidget';
 export { DatePickerWidget } from './DatePickerWidget';
 export { CheckboxWidget } from './CheckboxWidget';
@@ -183,6 +181,7 @@ export type { PageWidgetConfig } from './PageWidget';
 export type { SectionWidgetConfig } from './SectionWidget';
 export type { GridWidgetConfig } from './GridWidget';
 export type { CardWidgetConfig } from './CardWidget';
+export type { TextInputWidgetConfig } from './TextInputWidget';
 export type { SelectWidgetConfig, SelectOption } from './SelectWidget';
 export type { DatePickerWidgetConfig } from './DatePickerWidget';
 export type { CheckboxWidgetConfig } from './CheckboxWidget';
