@@ -14,7 +14,7 @@ export class StaticDatasourceHandler implements DatasourceHandler<StaticDatasour
   /**
    * Return static data from configuration
    */
-  async fetch(config: StaticDatasourceConfig): Promise<any> {
+  async fetch(config: StaticDatasourceConfig): Promise<unknown> {
     const { config: staticConfig } = config;
     return staticConfig.data;
   }

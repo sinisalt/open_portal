@@ -535,7 +535,13 @@ export async function seedUiConfig(): Promise<void> {
                     columns: [
                       { id: 'user', label: 'User', field: 'userName', sortable: true },
                       { id: 'action', label: 'Action', field: 'action', sortable: true },
-                      { id: 'timestamp', label: 'Time', field: 'timestamp', format: 'date', sortable: true },
+                      {
+                        id: 'timestamp',
+                        label: 'Time',
+                        field: 'timestamp',
+                        format: 'date',
+                        sortable: true,
+                      },
                       { id: 'status', label: 'Status', field: 'status' },
                     ],
                     rowKey: 'id',
@@ -737,7 +743,8 @@ export async function seedUiConfig(): Promise<void> {
                           layoutProps: { span: 12 },
                           props: {
                             label: 'Subscribe to newsletter and product updates',
-                            helpText: 'We will send you occasional updates about new features and improvements.',
+                            helpText:
+                              'We will send you occasional updates about new features and improvements.',
                           },
                           bindings: {
                             value: '{{datasources.userProfile.data.newsletter}}',
@@ -1269,7 +1276,7 @@ export async function seedUiConfig(): Promise<void> {
           params: {
             currentPage: '{{event.page}}',
           },
-          then: {
+          onSuccess: {
             actionId: 'refreshListings',
           },
         },

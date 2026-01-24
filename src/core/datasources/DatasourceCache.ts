@@ -39,7 +39,7 @@ export class DatasourceCache {
   /**
    * Generate cache key for datasource
    */
-  private generateKey(datasourceId: string, params?: Record<string, any>): string {
+  private generateKey(datasourceId: string, params?: Record<string, unknown>): string {
     if (!params || Object.keys(params).length === 0) {
       return datasourceId;
     }
@@ -99,7 +99,7 @@ export class DatasourceCache {
   /**
    * Get cached data
    */
-  get<T = any>(datasourceId: string, params?: Record<string, any>): CacheEntry<T> | null {
+  get<T = unknown>(datasourceId: string, params?: Record<string, unknown>): CacheEntry<T> | null {
     const key = this.generateKey(datasourceId, params);
     const entry = this.cache.get(key);
 
@@ -129,11 +129,11 @@ export class DatasourceCache {
   /**
    * Set cached data
    */
-  set<T = any>(
+  set<T = unknown>(
     datasourceId: string,
     data: T,
     ttl?: number,
-    params?: Record<string, any>,
+    params?: Record<string, unknown>,
     etag?: string
   ): void {
     const key = this.generateKey(datasourceId, params);
@@ -161,7 +161,7 @@ export class DatasourceCache {
   /**
    * Mark cache entry as stale
    */
-  markStale(datasourceId: string, params?: Record<string, any>): void {
+  markStale(datasourceId: string, params?: Record<string, unknown>): void {
     const key = this.generateKey(datasourceId, params);
     const entry = this.cache.get(key);
 
@@ -173,7 +173,7 @@ export class DatasourceCache {
   /**
    * Invalidate (delete) cache entry
    */
-  invalidate(datasourceId: string, params?: Record<string, any>): boolean {
+  invalidate(datasourceId: string, params?: Record<string, unknown>): boolean {
     const key = this.generateKey(datasourceId, params);
     const deleted = this.cache.delete(key);
 
@@ -273,7 +273,7 @@ export class DatasourceCache {
   /**
    * Check if cache has entry
    */
-  has(datasourceId: string, params?: Record<string, any>): boolean {
+  has(datasourceId: string, params?: Record<string, unknown>): boolean {
     const key = this.generateKey(datasourceId, params);
     return this.cache.has(key);
   }

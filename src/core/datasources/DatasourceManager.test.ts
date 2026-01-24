@@ -61,11 +61,11 @@ describe('DatasourceManager', () => {
     });
 
     it('should throw error if handler not found', async () => {
-      const config: any = {
+      const config = {
         id: 'test-ds',
         type: 'unknown',
         config: {},
-      };
+      } as DatasourceConfig;
 
       await expect(manager.fetch(config)).rejects.toThrow(
         "No handler registered for type 'unknown'"

@@ -27,7 +27,7 @@ import { datasourceRegistry } from './DatasourceRegistry';
 /**
  * Internal state tracking
  */
-interface InternalState<T = any> extends Omit<DatasourceState<T>, 'refetch' | 'invalidate'> {
+interface InternalState<T = unknown> extends Omit<DatasourceState<T>, 'refetch' | 'invalidate'> {
   config: DatasourceConfig;
   intervalId?: NodeJS.Timeout;
   abortController?: AbortController;
@@ -50,7 +50,7 @@ export class DatasourceManager implements IDatasourceManager {
   /**
    * Fetch data from a datasource with fetch policy
    */
-  async fetch<T = any>(
+  async fetch<T = unknown>(
     config: DatasourceConfig,
     options?: DatasourceFetchOptions
   ): Promise<DatasourceFetchResult<T>> {
@@ -211,7 +211,7 @@ export class DatasourceManager implements IDatasourceManager {
         fromCache: false,
         fetchedAt: now,
       };
-    } catch (err: any) {
+    } catch (err: unknown) {
       // Update state with error
       state.loading = false;
       state.error = err;
@@ -250,7 +250,7 @@ export class DatasourceManager implements IDatasourceManager {
   /**
    * Get current state of a datasource
    */
-  getState<T = any>(datasourceId: string): DatasourceState<T> | undefined {
+  getState<T = unknown>(datasourceId: string): DatasourceState<T> | undefined {
     const internal = this.states.get(datasourceId);
     if (!internal) {
       return undefined;

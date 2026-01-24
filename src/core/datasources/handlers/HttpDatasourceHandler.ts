@@ -24,7 +24,7 @@ import type {
  * @param transform - Transform path (e.g., "data.results")
  * @returns Transformed data
  */
-function transformData(data: any, transform?: string): any {
+function transformData(data: unknown, transform?: string): unknown {
   if (!transform) {
     return data;
   }
@@ -47,7 +47,7 @@ function transformData(data: any, transform?: string): any {
  * @param params - Query parameters object
  * @returns Query string (without leading ?)
  */
-function buildQueryString(params: Record<string, any>): string {
+function buildQueryString(params: Record<string, unknown>): string {
   const searchParams = new URLSearchParams();
 
   for (const [key, value] of Object.entries(params)) {
@@ -89,7 +89,7 @@ export class HttpDatasourceHandler implements DatasourceHandler<HttpDatasourceCo
   /**
    * Fetch data from HTTP endpoint
    */
-  async fetch(config: HttpDatasourceConfig, signal?: AbortSignal): Promise<any> {
+  async fetch(config: HttpDatasourceConfig, signal?: AbortSignal): Promise<unknown> {
     const { config: httpConfig, transform } = config;
     const { url, method = 'GET', headers = {}, body, queryParams } = httpConfig;
 
@@ -132,7 +132,7 @@ export class HttpDatasourceHandler implements DatasourceHandler<HttpDatasourceCo
 
       // Parse response
       const contentType = response.headers.get('content-type');
-      let data: any;
+      let data: unknown;
 
       if (contentType?.includes('application/json')) {
         data = await response.json();
@@ -155,9 +155,9 @@ export class HttpDatasourceHandler implements DatasourceHandler<HttpDatasourceCo
       }
 
       return data;
-    } catch (err: any) {
+    } catch (err: unknown) {
       // Re-throw if already a DatasourceError
-      if (err.type && err.datasourceId) {
+      if (typeof err === 'object' && err !== null && 'type' in err && 'datasourceId' in err) {
         throw err;
       }
 
