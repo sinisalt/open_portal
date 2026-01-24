@@ -50,7 +50,6 @@ export const toastManager = {
         return sonnerToast.error(message, toastOptions);
       case 'warning':
         return sonnerToast.warning(message, toastOptions);
-      case 'info':
       default:
         return sonnerToast.info(message, toastOptions);
     }

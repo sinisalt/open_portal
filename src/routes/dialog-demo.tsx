@@ -1,6 +1,6 @@
 /**
  * Dialog Widgets Demo Page
- * 
+ *
  * Demonstrates Modal and Toast widgets with various configurations.
  */
 
@@ -8,9 +8,9 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import type { ModalWidgetConfig } from '@/widgets/ModalWidget';
 import { ModalWidget } from '@/widgets/ModalWidget';
 import { toastManager } from '@/widgets/ToastWidget';
-import type { ModalWidgetConfig } from '@/widgets/ModalWidget';
 
 export const Route = createFileRoute('/dialog-demo')({
   component: DialogDemoPage,
@@ -75,19 +75,44 @@ function DialogDemoPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex flex-wrap gap-4">
-            <Button onClick={() => { setModalSize('sm'); setModalOpen(true); }}>
+            <Button
+              onClick={() => {
+                setModalSize('sm');
+                setModalOpen(true);
+              }}
+            >
               Small Modal
             </Button>
-            <Button onClick={() => { setModalSize('md'); setModalOpen(true); }}>
+            <Button
+              onClick={() => {
+                setModalSize('md');
+                setModalOpen(true);
+              }}
+            >
               Medium Modal
             </Button>
-            <Button onClick={() => { setModalSize('lg'); setModalOpen(true); }}>
+            <Button
+              onClick={() => {
+                setModalSize('lg');
+                setModalOpen(true);
+              }}
+            >
               Large Modal
             </Button>
-            <Button onClick={() => { setModalSize('xl'); setModalOpen(true); }}>
+            <Button
+              onClick={() => {
+                setModalSize('xl');
+                setModalOpen(true);
+              }}
+            >
               Extra Large Modal
             </Button>
-            <Button onClick={() => { setModalSize('full'); setModalOpen(true); }}>
+            <Button
+              onClick={() => {
+                setModalSize('full');
+                setModalOpen(true);
+              }}
+            >
               Full Screen Modal
             </Button>
           </div>
@@ -110,25 +135,25 @@ function DialogDemoPage() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-4">
-            <Button 
+            <Button
               onClick={() => toastManager.success('Success!', 'This is a success message')}
               variant="default"
             >
               Success Toast
             </Button>
-            <Button 
+            <Button
               onClick={() => toastManager.error('Error!', 'This is an error message')}
               variant="destructive"
             >
               Error Toast
             </Button>
-            <Button 
+            <Button
               onClick={() => toastManager.warning('Warning!', 'This is a warning message')}
               variant="outline"
             >
               Warning Toast
             </Button>
-            <Button 
+            <Button
               onClick={() => toastManager.info('Info', 'This is an info message')}
               variant="secondary"
             >
@@ -137,7 +162,7 @@ function DialogDemoPage() {
           </div>
 
           <div className="mt-4">
-            <Button 
+            <Button
               onClick={() => {
                 toastManager.show({
                   message: 'Action Required',
@@ -168,9 +193,7 @@ function DialogDemoPage() {
       >
         <div className="space-y-4">
           <p>This is a {modalSize} modal.</p>
-          <p>
-            You can click the backdrop or press ESC to close this modal.
-          </p>
+          <p>You can click the backdrop or press ESC to close this modal.</p>
         </div>
       </ModalWidget>
 
