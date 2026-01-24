@@ -25,6 +25,10 @@ import { GridWidget } from './GridWidget';
 // Layout & Structure widgets (4 widgets)
 import { PageWidget } from './PageWidget';
 import { SectionWidget } from './SectionWidget';
+// Form Input widgets (3 widgets for now)
+import { CheckboxWidget } from './CheckboxWidget';
+import { DatePickerWidget } from './DatePickerWidget';
+import { SelectWidget } from './SelectWidget';
 
 /**
  * Register all widgets
@@ -55,34 +59,31 @@ export function registerWidgets(): void {
     description: 'Content card container',
   });
 
-  // Form Input widgets (4 widgets)
+  // Form Input widgets (3 widgets - TextInput to be added later)
+  widgetRegistry.register('Select', SelectWidget, {
+    displayName: 'Select',
+    category: 'form',
+    description: 'Dropdown selection',
+  });
+
+  widgetRegistry.register('DatePicker', DatePickerWidget, {
+    displayName: 'Date Picker',
+    category: 'form',
+    description: 'Date selection',
+  });
+
+  widgetRegistry.register('Checkbox', CheckboxWidget, {
+    displayName: 'Checkbox',
+    category: 'form',
+    description: 'Boolean checkbox',
+  });
+
+  // TextInput widget - to be implemented in ISSUE-014 or separate issue
   // import { TextInputWidget } from './TextInputWidget';
-  // import { SelectWidget } from './SelectWidget';
-  // import { DatePickerWidget } from './DatePickerWidget';
-  // import { CheckboxWidget } from './CheckboxWidget';
-  //
   // widgetRegistry.register('TextInput', TextInputWidget, {
   //   displayName: 'Text Input',
   //   category: 'form',
   //   description: 'Single-line text input',
-  // });
-  //
-  // widgetRegistry.register('Select', SelectWidget, {
-  //   displayName: 'Select',
-  //   category: 'form',
-  //   description: 'Dropdown selection',
-  // });
-  //
-  // widgetRegistry.register('DatePicker', DatePickerWidget, {
-  //   displayName: 'Date Picker',
-  //   category: 'form',
-  //   description: 'Date selection',
-  // });
-  //
-  // widgetRegistry.register('Checkbox', CheckboxWidget, {
-  //   displayName: 'Checkbox',
-  //   category: 'form',
-  //   description: 'Boolean checkbox',
   // });
 
   // Data Display widgets (2 widgets)
@@ -161,3 +162,25 @@ export function getWidgetRegistry() {
  * Re-export widget registry for convenience
  */
 export { widgetRegistry };
+
+/**
+ * Re-export widgets for direct usage
+ */
+export { PageWidget } from './PageWidget';
+export { SectionWidget } from './SectionWidget';
+export { GridWidget } from './GridWidget';
+export { CardWidget } from './CardWidget';
+export { SelectWidget } from './SelectWidget';
+export { DatePickerWidget } from './DatePickerWidget';
+export { CheckboxWidget } from './CheckboxWidget';
+
+/**
+ * Re-export widget types
+ */
+export type { PageWidgetConfig } from './PageWidget';
+export type { SectionWidgetConfig } from './SectionWidget';
+export type { GridWidgetConfig } from './GridWidget';
+export type { CardWidgetConfig } from './CardWidget';
+export type { SelectWidgetConfig, SelectOption } from './SelectWidget';
+export type { DatePickerWidgetConfig } from './DatePickerWidget';
+export type { CheckboxWidgetConfig } from './CheckboxWidget';
