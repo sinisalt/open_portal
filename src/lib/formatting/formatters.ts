@@ -162,7 +162,8 @@ export function formatDateValue(
     return '—';
   }
 
-  const { format = 'PP', locale: _locale } = options || {};
+  // TODO: Support date-fns locale by importing locale objects and wiring up options.locale
+  const { format = 'PP' } = options || {};
 
   try {
     const date = typeof value === 'string' || typeof value === 'number' ? new Date(value) : value;
