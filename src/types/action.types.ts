@@ -29,21 +29,11 @@ export enum ActionKind {
   // UI feedback actions
   SHOW_TOAST = 'showToast',
   SHOW_DIALOG = 'showDialog',
-  HIDE_DIALOG = 'hideDialog',
 
   // Chaining actions
   SEQUENCE = 'sequence',
   PARALLEL = 'parallel',
   CONDITIONAL = 'conditional',
-
-  // Form actions
-  VALIDATE_FORM = 'validateForm',
-  RESET_FORM = 'resetForm',
-  SUBMIT_FORM = 'submitForm',
-
-  // Data actions
-  REFRESH_DATASOURCE = 'refreshDatasource',
-  INVALIDATE_CACHE = 'invalidateCache',
 }
 
 /**

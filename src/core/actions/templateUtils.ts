@@ -30,7 +30,7 @@ export function getNestedValue(obj: unknown, path: string): unknown {
       return undefined;
     }
 
-    if (typeof current === 'object' && part in (current as Record<string, unknown>)) {
+    if (typeof current === 'object' && part in current) {
       current = (current as Record<string, unknown>)[part];
     } else {
       return undefined;

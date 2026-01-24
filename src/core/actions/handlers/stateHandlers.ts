@@ -52,7 +52,11 @@ export async function setStateHandler(
 }
 
 /**
- * Reset page state to initial values
+ * Reset page state
+ *
+ * Note: This action clears state values rather than resetting to initial values.
+ * True reset-to-initial-values functionality requires storing initial state snapshots,
+ * which will be implemented when page state management is enhanced.
  */
 export async function resetStateHandler(
   params: ResetStateActionParams,
@@ -62,14 +66,12 @@ export async function resetStateHandler(
     const { paths } = params;
 
     if (paths && paths.length > 0) {
-      // Reset specific paths
-      // Note: This would require storing initial state values
-      // For now, just clear the specified paths
+      // Clear specific state paths
       for (const path of paths) {
         context.setState(path, undefined, false);
       }
     } else {
-      // Reset all state
+      // Clear all state
       Object.keys(context.pageState).forEach(key => {
         delete context.pageState[key];
       });

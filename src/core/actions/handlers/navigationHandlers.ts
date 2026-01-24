@@ -96,22 +96,19 @@ export async function goBackHandler(
 
 /**
  * Reload the current page configuration
+ *
+ * Note: Currently both hard and soft reload perform full page reload.
+ * Soft reload (cache invalidation only) will be implemented when page
+ * config caching is added.
  */
 export async function reloadHandler(
   params: ReloadActionParams,
   _context: ActionContext
 ): Promise<ActionResult> {
   try {
-    const { hard } = params;
-
-    if (hard) {
-      // Force full page reload
-      window.location.reload();
-    } else {
-      // Soft reload - just refresh the current route
-      // This will be handled by the router/page loader
-      window.location.reload();
-    }
+    // Both hard and soft reload currently perform full page reload
+    // TODO: Implement soft reload with cache invalidation when page loader supports it
+    window.location.reload();
 
     return {
       success: true,

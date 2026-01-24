@@ -56,11 +56,9 @@ export class ActionExecutor implements IActionExecutor {
         if (this.enableLogging) {
           console.log(`[Action] Skipped "${action.id}" - condition not met:`, action.when);
         }
-        return this.createSuccessResult(
-          { skipped: true, reason: 'condition_not_met' },
-          startTime,
-          { skipped: true }
-        );
+        return this.createSuccessResult({ skipped: true, reason: 'condition_not_met' }, startTime, {
+          skipped: true,
+        });
       }
 
       // Resolve parameters with templates
@@ -197,8 +195,9 @@ export class ActionExecutor implements IActionExecutor {
           break;
         }
 
-        // Calculate delay with backoff
-        const delay = backoff === 'exponential' ? retryDelay * 2 ** attempt : retryDelay;
+        // Calculate delay with backoff (capped at 30 seconds)
+        const calculatedDelay = backoff === 'exponential' ? retryDelay * 2 ** attempt : retryDelay;
+        const delay = Math.min(calculatedDelay, 30000);
 
         // Wait before retry
         await this.sleep(delay, signal);
