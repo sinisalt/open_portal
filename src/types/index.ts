@@ -8,6 +8,10 @@
 export * from './action.types';
 // Bootstrap types
 export * from './bootstrap.types';
+// Branding types
+export * from './branding.types';
+// Form types
+export * from './form.types';
 // Page configuration types
 export * from './page.types';
 // Route types
