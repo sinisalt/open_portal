@@ -55,7 +55,7 @@ export class DatasourceManager implements IDatasourceManager {
     options?: DatasourceFetchOptions
   ): Promise<DatasourceFetchResult<T>> {
     const { id, fetchPolicy: configFetchPolicy, enabled = true } = config;
-    const { skipCache = false, signal, fetchPolicy: optionsFetchPolicy } = options || {};
+    const { signal, fetchPolicy: optionsFetchPolicy } = options || {};
 
     // Check if datasource is enabled
     if (!enabled) {

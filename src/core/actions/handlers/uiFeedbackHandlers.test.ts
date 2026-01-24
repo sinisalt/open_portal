@@ -256,8 +256,8 @@ describe('uiFeedbackHandlers', () => {
 
     describe('Parameter Validation', () => {
       it('should require title parameter', async () => {
-        // biome-ignore lint/suspicious/noExplicitAny: Testing invalid params
         const result = await showDialogHandler(
+          // biome-ignore lint/suspicious/noExplicitAny: Testing invalid params
           { message: 'Test message', variant: 'alert' } as any,
           mockContext
         );
@@ -267,8 +267,8 @@ describe('uiFeedbackHandlers', () => {
       });
 
       it('should require message parameter', async () => {
-        // biome-ignore lint/suspicious/noExplicitAny: Testing invalid params
         const result = await showDialogHandler(
+          // biome-ignore lint/suspicious/noExplicitAny: Testing invalid params
           { title: 'Test Title', variant: 'alert' } as any,
           mockContext
         );
