@@ -24,7 +24,9 @@ export class ActionExecutor implements IActionExecutor {
 
   constructor(options?: { enableLogging?: boolean }) {
     this.pendingActions = new Map();
-    this.enableLogging = options?.enableLogging ?? import.meta.env.DEV;
+    // Default to true in dev mode, false in production/test
+    const isDev = typeof process !== 'undefined' ? process.env.NODE_ENV === 'development' : false;
+    this.enableLogging = options?.enableLogging ?? isDev;
   }
 
   /**
@@ -93,17 +95,34 @@ export class ActionExecutor implements IActionExecutor {
           clearTimeout(timeoutId);
         }
 
-        // Log success
-        if (this.enableLogging) {
-          this.logSuccess(action, result, Date.now() - startTime);
-        }
+        // Log success or error based on result
+        if (result.success) {
+          if (this.enableLogging) {
+            this.logSuccess(action, result, Date.now() - startTime);
+          }
 
-        // Execute success handlers
-        if (result.success && action.onSuccess) {
-          const successActions = Array.isArray(action.onSuccess)
-            ? action.onSuccess
-            : [action.onSuccess];
-          await this.executeSequence(successActions, context, signal);
+          // Execute success handlers
+          if (action.onSuccess) {
+            const successActions = Array.isArray(action.onSuccess)
+              ? action.onSuccess
+              : [action.onSuccess];
+            await this.executeSequence(successActions, context, signal);
+          }
+        } else {
+          // Result indicates failure
+          if (this.enableLogging) {
+            this.logError(action, result.error!, Date.now() - startTime);
+          }
+
+          // Execute error handlers
+          if (action.onError) {
+            const errorActions = Array.isArray(action.onError) ? action.onError : [action.onError];
+            try {
+              await this.executeSequence(errorActions, context, signal);
+            } catch (handlerError) {
+              console.error('[Action] Error handler failed:', handlerError);
+            }
+          }
         }
 
         return result;
