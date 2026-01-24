@@ -21,8 +21,23 @@ export function getUserPermissionsFromRoles(roles: string[]): string[] {
       'admin.access',
       'admin.users.manage',
       'admin.settings.manage',
+      // Action permissions
+      'records.create',
+      'records.update',
+      'records.delete',
+      'records.bulkUpdate',
+      'records.bulkDelete',
+      'records.query',
     ],
-    user: ['dashboard.view', 'users.view', 'settings.view'],
+    user: [
+      'dashboard.view',
+      'users.view',
+      'settings.view',
+      // Action permissions
+      'records.create',
+      'records.update',
+      'records.query',
+    ],
   };
 
   const permissions = new Set<string>();

@@ -97,6 +97,28 @@ export interface MenuConfig {
 }
 
 /**
+ * Action Audit Log Entry
+ */
+export interface ActionAuditLog {
+  id: string;
+  actionId: string;
+  userId: string;
+  tenantId: string;
+  params: Record<string, unknown>;
+  context?: {
+    pageId?: string;
+    widgetId?: string;
+  };
+  success: boolean;
+  errorMessage?: string;
+  executionTimeMs: number;
+  ipAddress?: string;
+  userAgent?: string;
+  affectedRecords?: number;
+  createdAt: Date;
+}
+
+/**
  * In-Memory Database
  */
 class InMemoryDatabase {
@@ -107,6 +129,7 @@ class InMemoryDatabase {
   private routeConfigs: Map<string, RouteConfig> = new Map();
   private tenantBrandings: Map<string, TenantBranding> = new Map();
   private menuConfigs: Map<string, MenuConfig> = new Map();
+  private actionAuditLogs: ActionAuditLog[] = [];
 
   // Users
   getUsers(): User[] {
@@ -272,6 +295,29 @@ class InMemoryDatabase {
     const updated = { ...config, ...updates, updatedAt: new Date() };
     this.menuConfigs.set(id, updated);
     return updated;
+  }
+
+  // Action Audit Logs
+  getActionAuditLogs(): ActionAuditLog[] {
+    return this.actionAuditLogs;
+  }
+
+  addActionAuditLog(entry: ActionAuditLog): void {
+    this.actionAuditLogs.push(entry);
+  }
+
+  getActionAuditLogsByUser(userId: string, limit = 100): ActionAuditLog[] {
+    return this.actionAuditLogs
+      .filter((log) => log.userId === userId)
+      .slice(-limit)
+      .reverse();
+  }
+
+  getActionAuditLogsByTenant(tenantId: string, limit = 100): ActionAuditLog[] {
+    return this.actionAuditLogs
+      .filter((log) => log.tenantId === tenantId)
+      .slice(-limit)
+      .reverse();
   }
 }
 

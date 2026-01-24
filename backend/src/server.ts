@@ -6,7 +6,9 @@ import pinoHttp from 'pino-http';
 import { config } from './config/index.js';
 import { generalRateLimiter } from './middleware/rateLimiter.js';
 import { seedUsers } from './models/seed.js';
+import { registerActions } from './models/seedActions.js';
 import { seedUiConfig } from './models/seedUiConfig.js';
+import actionsRouter from './routes/actions.js';
 import authRouter from './routes/auth.js';
 import uiRouter from './routes/ui.js';
 
@@ -45,6 +47,7 @@ app.use(express.urlencoded({ extended: true }));
  */
 app.use('/auth', authRouter);
 app.use('/ui', uiRouter);
+app.use('/ui/actions', actionsRouter);
 
 /**
  * Health Check
@@ -85,6 +88,9 @@ const server = app.listen(config.port, async () => {
 
   // Seed UI configurations
   await seedUiConfig();
+
+  // Register action handlers
+  await registerActions();
 });
 
 /**
