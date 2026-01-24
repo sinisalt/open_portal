@@ -1,6 +1,7 @@
 import express from 'express';
 import { type AuthRequest, authenticateToken } from '../middleware/auth.js';
 import { UiConfigService } from '../services/uiConfigService.js';
+import { getUserPermissionsFromRoles } from '../utils/permissions.js';
 
 const router = express.Router();
 const uiConfigService = new UiConfigService();
@@ -164,36 +165,5 @@ router.get('/pages/:pageId', authenticateToken, (req: AuthRequest, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-/**
- * Helper function to get permissions from roles
- */
-function getUserPermissionsFromRoles(roles: string[]): string[] {
-  const rolePermissions: Record<string, string[]> = {
-    admin: [
-      'dashboard.view',
-      'users.view',
-      'users.create',
-      'users.edit',
-      'users.delete',
-      'settings.view',
-      'settings.edit',
-      'admin.access',
-      'admin.users.manage',
-      'admin.settings.manage',
-    ],
-    user: ['dashboard.view', 'users.view', 'settings.view'],
-  };
-
-  const permissions = new Set<string>();
-  for (const role of roles) {
-    const perms = rolePermissions[role] || [];
-    for (const perm of perms) {
-      permissions.add(perm);
-    }
-  }
-
-  return Array.from(permissions);
-}
 
 export default router;

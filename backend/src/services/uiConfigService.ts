@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import type { PageConfig } from '../models/database.js';
 import { db } from '../models/database.js';
+import { getUserPermissionsFromRoles } from '../utils/permissions.js';
 
 /**
  * UI Configuration Service
@@ -227,33 +228,7 @@ export class UiConfigService {
    * Get user permissions based on roles
    */
   private getUserPermissions(user: { roles: string[] }): string[] {
-    // In production, this would query a permissions table based on roles
-    // For now, we'll use a simple mapping
-    const rolePermissions: Record<string, string[]> = {
-      admin: [
-        'dashboard.view',
-        'users.view',
-        'users.create',
-        'users.edit',
-        'users.delete',
-        'settings.view',
-        'settings.edit',
-        'admin.access',
-        'admin.users.manage',
-        'admin.settings.manage',
-      ],
-      user: ['dashboard.view', 'users.view', 'settings.view'],
-    };
-
-    const permissions = new Set<string>();
-    for (const role of user.roles) {
-      const perms = rolePermissions[role] || [];
-      for (const perm of perms) {
-        permissions.add(perm);
-      }
-    }
-
-    return Array.from(permissions);
+    return getUserPermissionsFromRoles(user.roles);
   }
 
   /**
