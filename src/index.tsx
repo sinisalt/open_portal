@@ -6,9 +6,12 @@ import { AuthProvider } from './components/AuthProvider';
 import { initializeMsal } from './config/msalConfig';
 import { MenuProvider } from './contexts/MenuContext';
 import reportWebVitals from './reportWebVitals';
-
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
+import { registerWidgets } from './widgets';
+
+// Register all widgets
+registerWidgets();
 
 // Create router instance
 export const router = createRouter({

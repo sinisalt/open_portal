@@ -24,7 +24,7 @@ function ModalWorkflowsDemoPage() {
   const [selectedItem, setSelectedItem] = useState<Record<string, unknown> | null>(null);
   const [wizardData, setWizardData] = useState<Record<string, unknown> | null>(null);
 
-  // Modal Page Configuration - Image Picker Example
+  // Modal Page Configuration - Simple Example
   const imagePickerConfig: ModalPageWidgetConfig = {
     id: 'image-picker-modal',
     type: 'ModalPage',
@@ -46,34 +46,27 @@ function ModalWorkflowsDemoPage() {
       },
     ],
     pageConfig: {
-      id: 'image-gallery-page',
-      type: 'Page',
+      id: 'image-gallery-section',
+      type: 'Section',
+      title: 'Image Gallery',
       widgets: [
         {
-          id: 'gallery-grid',
-          type: 'Grid',
-          columns: 3,
-          gap: 'md',
-          widgets: [
-            {
-              id: 'card1',
-              type: 'Card',
-              title: 'Mountain View',
-              description: '1920x1080',
-            },
-            {
-              id: 'card2',
-              type: 'Card',
-              title: 'Ocean Sunset',
-              description: '1920x1080',
-            },
-            {
-              id: 'card3',
-              type: 'Card',
-              title: 'Forest Path',
-              description: '1920x1080',
-            },
-          ],
+          id: 'card1',
+          type: 'Card',
+          title: 'Mountain View',
+          description: '1920x1080 - Beautiful mountain landscape',
+        },
+        {
+          id: 'card2',
+          type: 'Card',
+          title: 'Ocean Sunset',
+          description: '1920x1080 - Stunning ocean sunset view',
+        },
+        {
+          id: 'card3',
+          type: 'Card',
+          title: 'Forest Path',
+          description: '1920x1080 - Peaceful forest path',
         },
       ],
     },
@@ -96,33 +89,14 @@ function ModalWorkflowsDemoPage() {
         description: 'Tell us about yourself',
         widgets: [
           {
-            id: 'firstName',
-            type: 'TextInput',
-            label: 'First Name',
-            placeholder: 'Enter your first name',
-            required: true,
-          },
-          {
-            id: 'lastName',
-            type: 'TextInput',
-            label: 'Last Name',
-            placeholder: 'Enter your last name',
-            required: true,
-          },
-          {
-            id: 'email',
-            type: 'TextInput',
-            label: 'Email',
-            placeholder: 'Enter your email',
-            required: true,
+            id: 'info-card',
+            type: 'Card',
+            title: 'Step 1: Personal Info',
+            description:
+              'In a real application, this would contain form fields for first name, last name, and email.',
           },
         ],
-        validate: data => {
-          if (!data.firstName || !data.lastName || !data.email) {
-            return 'All fields are required';
-          }
-          return true;
-        },
+        validate: () => true, // Always pass for demo
       },
       {
         id: 'step2',
@@ -130,14 +104,11 @@ function ModalWorkflowsDemoPage() {
         description: 'Set your preferences',
         widgets: [
           {
-            id: 'newsletter',
-            type: 'Checkbox',
-            label: 'Subscribe to newsletter',
-          },
-          {
-            id: 'notifications',
-            type: 'Checkbox',
-            label: 'Enable notifications',
+            id: 'prefs-card',
+            type: 'Card',
+            title: 'Step 2: Preferences',
+            description:
+              'In a real application, this would contain checkbox fields for newsletter subscription and notifications.',
           },
         ],
       },
@@ -147,18 +118,14 @@ function ModalWorkflowsDemoPage() {
         description: 'Review and confirm your information',
         widgets: [
           {
-            id: 'terms',
-            type: 'Checkbox',
-            label: 'I agree to the terms and conditions',
-            required: true,
+            id: 'confirm-card',
+            type: 'Card',
+            title: 'Step 3: Confirmation',
+            description:
+              'In a real application, this would show a summary and a terms & conditions checkbox.',
           },
         ],
-        validate: data => {
-          if (!data.terms) {
-            return 'You must agree to the terms and conditions';
-          }
-          return true;
-        },
+        validate: () => true, // Always pass for demo
       },
     ],
   };
