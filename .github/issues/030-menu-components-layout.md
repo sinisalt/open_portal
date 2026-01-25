@@ -1,4 +1,4 @@
-# Issue #042: Menu Components and Layout System
+# Issue #030: Menu Components and Layout System
 
 **Phase:** Phase 1.4 - Navigation & Menus  
 **Weeks:** 10-11  
@@ -7,7 +7,8 @@
 **Priority:** High  
 **Labels:** phase-1, frontend, menus, navigation, layout
 
-**Created:** January 25, 2026
+**Created:** January 25, 2026  
+**Note:** Originally numbered as #042, renumbered to #030 per issue reordering
 
 ## Description
 

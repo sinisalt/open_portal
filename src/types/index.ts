@@ -14,6 +14,8 @@ export * from './branding.types';
 export * from './datasource.types';
 // Form types
 export * from './form.types';
+// Menu types
+export * from './menu.types';
 // Page configuration types
 export * from './page.types';
 // Route types
