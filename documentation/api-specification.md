@@ -1340,5 +1340,422 @@ publish('user-activity', { action: 'click', button: 'save' });
 
 ---
 
-**Version:** 1.1
+## Configuration Governance APIs
+
+The Configuration Governance APIs provide version control, validation, deployment, and rollback capabilities for all configuration types (page, route, branding, menu).
+
+### POST /config/validate
+
+Validate a configuration against all applicable rules.
+
+**Request:**
+```json
+{
+  "configType": "page",
+  "config": {
+    "layout": { "type": "grid" },
+    "widgets": [
+      { "id": "widget-1", "type": "text" }
+    ]
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    {
+      "rule": "Naming Convention",
+      "message": "Field 'pageId' should match naming convention",
+      "path": "pageId"
+    }
+  ]
+}
+```
+
+### POST /config/versions
+
+Create a new configuration version.
+
+**Request:**
+```json
+{
+  "configType": "page",
+  "configId": "dashboard-page",
+  "config": {
+    "layout": { "type": "grid" },
+    "widgets": []
+  },
+  "environment": "dev",
+  "changeDescription": "Updated dashboard layout"
+}
+```
+
+**Response:**
+```json
+{
+  "id": "version-123",
+  "tenantId": "tenant-001",
+  "configType": "page",
+  "configId": "dashboard-page",
+  "version": "1.0.1",
+  "config": { ... },
+  "changeDescription": "Updated dashboard layout",
+  "changedBy": "user-123",
+  "deploymentStatus": "draft",
+  "environment": "dev",
+  "validationStatus": "passed",
+  "createdAt": "2026-01-25T12:00:00Z"
+}
+```
+
+### GET /config/versions
+
+List configuration versions with optional filters.
+
+**Query Parameters:**
+- `configType` (optional): Filter by config type (page, route, branding, menu)
+- `configId` (optional): Filter by config ID
+- `environment` (optional): Filter by environment (dev, staging, prod)
+
+**Response:**
+```json
+{
+  "versions": [
+    {
+      "id": "version-123",
+      "version": "1.0.1",
+      "deploymentStatus": "deployed",
+      "validationStatus": "passed",
+      ...
+    }
+  ]
+}
+```
+
+### GET /config/versions/:id
+
+Get a specific configuration version.
+
+**Response:**
+```json
+{
+  "id": "version-123",
+  "tenantId": "tenant-001",
+  "configType": "page",
+  "configId": "dashboard-page",
+  "version": "1.0.1",
+  "config": { ... },
+  "deploymentStatus": "deployed",
+  "validationStatus": "passed",
+  "createdAt": "2026-01-25T12:00:00Z"
+}
+```
+
+### GET /config/diff
+
+Get diff between two configuration versions.
+
+**Query Parameters:**
+- `fromVersion` (required): Source version ID
+- `toVersion` (required): Target version ID
+
+**Response:**
+```json
+{
+  "configType": "page",
+  "configId": "dashboard-page",
+  "fromVersion": "1.0.0",
+  "toVersion": "1.0.1",
+  "changes": [
+    {
+      "path": "widgets",
+      "type": "modified",
+      "oldValue": [...],
+      "newValue": [...]
+    },
+    {
+      "path": "layout.columns",
+      "type": "added",
+      "newValue": 3
+    }
+  ]
+}
+```
+
+### POST /config/deploy
+
+Deploy one or more configuration versions. (Admin only)
+
+**Request:**
+```json
+{
+  "versionIds": ["version-123", "version-124"],
+  "deploymentNotes": "Deploy dashboard and profile updates"
+}
+```
+
+**Response:**
+```json
+{
+  "id": "deployment-456",
+  "tenantId": "tenant-001",
+  "versionIds": ["version-123", "version-124"],
+  "environment": "dev",
+  "status": "deployed",
+  "deployedBy": "admin-user-001",
+  "deploymentNotes": "Deploy dashboard and profile updates",
+  "createdAt": "2026-01-25T12:00:00Z",
+  "deployedAt": "2026-01-25T12:00:05Z"
+}
+```
+
+### POST /config/rollback
+
+Rollback a deployment. (Admin only)
+
+**Request:**
+```json
+{
+  "deploymentId": "deployment-456"
+}
+```
+
+**Response:**
+```json
+{
+  "id": "deployment-789",
+  "status": "rolled_back",
+  "rollbackFromDeploymentId": "deployment-456",
+  "deployedAt": "2026-01-25T12:10:00Z"
+}
+```
+
+### POST /config/promote
+
+Promote a configuration to the next environment. (Admin only)
+
+**Request:**
+```json
+{
+  "versionId": "version-123",
+  "targetEnvironment": "staging"
+}
+```
+
+**Response:**
+```json
+{
+  "id": "version-234",
+  "tenantId": "tenant-001",
+  "configType": "page",
+  "configId": "dashboard-page",
+  "version": "1.0.0",
+  "environment": "staging",
+  "deploymentStatus": "draft",
+  "validationStatus": "passed",
+  "changeDescription": "Promoted from dev (version 1.0.1)",
+  "createdAt": "2026-01-25T12:15:00Z"
+}
+```
+
+**Promotion Rules:**
+- dev → staging → prod (must follow this path)
+- Cannot promote directly from dev to prod
+- Configuration is re-validated in target environment
+
+### GET /config/deployments
+
+List deployments with optional filters.
+
+**Query Parameters:**
+- `environment` (optional): Filter by environment
+- `status` (optional): Filter by status (pending, approved, deployed, rolled_back)
+
+**Response:**
+```json
+{
+  "deployments": [
+    {
+      "id": "deployment-456",
+      "environment": "prod",
+      "status": "deployed",
+      "deployedAt": "2026-01-25T12:00:00Z",
+      ...
+    }
+  ]
+}
+```
+
+### GET /config/deployments/:id
+
+Get a specific deployment.
+
+**Response:**
+```json
+{
+  "id": "deployment-456",
+  "tenantId": "tenant-001",
+  "versionIds": ["version-123"],
+  "environment": "prod",
+  "status": "deployed",
+  "deployedBy": "admin-user-001",
+  "deploymentNotes": "Production release",
+  "createdAt": "2026-01-25T12:00:00Z",
+  "deployedAt": "2026-01-25T12:00:05Z"
+}
+```
+
+### POST /config/approve
+
+Approve a pending deployment. (Admin only)
+
+**Request:**
+```json
+{
+  "deploymentId": "deployment-456"
+}
+```
+
+**Response:**
+```json
+{
+  "id": "deployment-456",
+  "status": "approved",
+  "approvedBy": "admin-user-001",
+  "approvedAt": "2026-01-25T12:00:00Z"
+}
+```
+
+### POST /config/reject
+
+Reject a pending deployment. (Admin only)
+
+**Request:**
+```json
+{
+  "deploymentId": "deployment-456"
+}
+```
+
+**Response:**
+```json
+{
+  "id": "deployment-456",
+  "status": "rejected"
+}
+```
+
+### GET /config/audit
+
+Get configuration audit trail.
+
+**Query Parameters:**
+- `configType` (optional): Filter by config type
+- `configId` (optional): Filter by config ID
+- `userId` (optional): Filter by user ID
+- `action` (optional): Filter by action (create, update, deploy, rollback, approve, reject)
+- `limit` (optional): Maximum number of entries to return
+
+**Response:**
+```json
+{
+  "entries": [
+    {
+      "id": "audit-123",
+      "tenantId": "tenant-001",
+      "configType": "page",
+      "configId": "dashboard-page",
+      "action": "deploy",
+      "versionId": "version-123",
+      "deploymentId": "deployment-456",
+      "userId": "admin-user-001",
+      "createdAt": "2026-01-25T12:00:00Z"
+    }
+  ]
+}
+```
+
+### GET /config/rules
+
+List validation rules. (Admin only)
+
+**Query Parameters:**
+- `configType` (optional): Filter by config type
+- `isActive` (optional): Filter by active status (true/false)
+
+**Response:**
+```json
+{
+  "rules": [
+    {
+      "id": "rule-001",
+      "name": "Page Configuration Schema",
+      "description": "Validates required fields for page configs",
+      "configType": "page",
+      "ruleType": "schema",
+      "severity": "error",
+      "isActive": true
+    }
+  ]
+}
+```
+
+### POST /config/rules
+
+Create a validation rule. (Admin only)
+
+**Request:**
+```json
+{
+  "name": "Custom Validation",
+  "description": "Validates custom fields",
+  "configType": "page",
+  "ruleType": "schema",
+  "rule": {
+    "required": ["customField"]
+  },
+  "severity": "warning"
+}
+```
+
+**Response:**
+```json
+{
+  "id": "rule-007",
+  "name": "Custom Validation",
+  "isActive": true,
+  "createdAt": "2026-01-25T12:00:00Z"
+}
+```
+
+### Configuration Governance Workflow
+
+**Development Workflow:**
+1. Developer creates/updates configuration locally
+2. System validates configuration (`POST /config/validate`)
+3. Developer creates version in dev environment (`POST /config/versions`)
+4. Admin reviews and deploys to dev (`POST /config/deploy`)
+5. If successful, promote to staging (`POST /config/promote`)
+6. QA team validates in staging
+7. Admin promotes to prod (`POST /config/promote`)
+8. Admin deploys to production (`POST /config/deploy`)
+
+**Rollback Workflow:**
+1. Issue detected in production
+2. Admin triggers rollback (`POST /config/rollback`)
+3. System reverts to previous deployment
+4. Audit trail records rollback action
+
+**Approval Workflow (Optional):**
+1. Developer creates deployment request (status: pending)
+2. Admin reviews deployment (`POST /config/approve` or `/config/reject`)
+3. If approved, deployment proceeds automatically or manually
+
+---
+
+**Version:** 1.2
 **Last Updated:** January 2026

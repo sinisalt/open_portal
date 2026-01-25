@@ -8,9 +8,11 @@ import { generalRateLimiter } from './middleware/rateLimiter.js';
 import { identifyTenant } from './middleware/tenant.js';
 import { seedTenants, seedUsers } from './models/seed.js';
 import { registerActions } from './models/seedActions.js';
+import { seedConfigGovernance } from './models/seedConfigGovernance.js';
 import { seedUiConfig } from './models/seedUiConfig.js';
 import actionsRouter from './routes/actions.js';
 import authRouter from './routes/auth.js';
+import configRouter from './routes/config.js';
 import tenantsRouter from './routes/tenants.js';
 import uiRouter from './routes/ui.js';
 import websocketRouter from './routes/websocket.js';
@@ -59,6 +61,7 @@ app.use('/auth', authRouter);
 app.use('/tenants', tenantsRouter);
 app.use('/ui', uiRouter);
 app.use('/ui/actions', actionsRouter);
+app.use('/config', configRouter);
 app.use('/ws', websocketRouter);
 
 /**
@@ -104,6 +107,9 @@ const server = app.listen(config.port, async () => {
 
   // Seed UI configurations
   await seedUiConfig();
+
+  // Seed configuration governance rules
+  await seedConfigGovernance();
 
   // Register action handlers
   await registerActions();
