@@ -19,8 +19,15 @@ export function WebSocketDemo() {
   const [inputText, setInputText] = useState('');
   const [topic, setTopic] = useState('demo-chat');
 
+  const getDefaultWsUrl = () => {
+    if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+      return 'wss://localhost:3001/ws';
+    }
+    return 'ws://localhost:3001/ws';
+  };
+
   // Get WebSocket URL from environment or default
-  const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:3001/ws';
+  const wsUrl = import.meta.env.VITE_WS_URL || getDefaultWsUrl();
 
   // Connect to WebSocket
   const { isConnected, lastMessage, error, publish } = useWebSocket({
