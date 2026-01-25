@@ -47,7 +47,7 @@ function compareDates(date1: unknown, date2: unknown): number {
  * @param message - Custom error message
  */
 export function validateDateRange(
-  endDateField: string,
+  _endDateField: string,
   startDateField: string,
   message?: string
 ): CrossFieldValidationRule {
@@ -431,7 +431,7 @@ export function getCrossFieldDependencies(rules: CrossFieldValidationRule[]): st
  * @param formData - Complete form data
  */
 export function executeCrossFieldValidation(
-  fieldName: string,
+  _fieldName: string,
   value: unknown,
   rules: CrossFieldValidationRule[],
   formData: Record<string, unknown>

@@ -330,7 +330,7 @@ describe('Cross-Field Validation System', () => {
     });
 
     it('should execute custom validation logic', () => {
-      const rule = createCrossFieldRule(['age'], (value, formData) => {
+      const rule = createCrossFieldRule(['age'], (_value, formData) => {
         const age = Number(formData.age);
         return age >= 18 ? true : 'Must be 18 or older';
       });
@@ -343,7 +343,7 @@ describe('Cross-Field Validation System', () => {
     it('should use default message when validation returns false', () => {
       const rule = createCrossFieldRule(
         ['field1'],
-        (value, formData) => {
+        (_value, _formData) => {
           return false;
         },
         'Custom error'
@@ -371,10 +371,10 @@ describe('Cross-Field Validation System', () => {
   describe('executeCrossFieldValidation', () => {
     it('should execute all rules and return success', () => {
       const rules: CrossFieldValidationRule[] = [
-        createCrossFieldRule(['age'], (value, formData) => {
+        createCrossFieldRule(['age'], (_value, formData) => {
           return Number(formData.age) >= 18 ? true : 'Must be 18+';
         }),
-        createCrossFieldRule(['country'], (value, formData) => {
+        createCrossFieldRule(['country'], (_value, formData) => {
           return formData.country === 'US' ? true : 'Must be US';
         }),
       ];
@@ -387,10 +387,10 @@ describe('Cross-Field Validation System', () => {
 
     it('should fail on first rule that fails', () => {
       const rules: CrossFieldValidationRule[] = [
-        createCrossFieldRule(['age'], (value, formData) => {
+        createCrossFieldRule(['age'], (_value, formData) => {
           return Number(formData.age) >= 18 ? true : 'Must be 18+';
         }),
-        createCrossFieldRule(['country'], (value, formData) => {
+        createCrossFieldRule(['country'], (_value, formData) => {
           return formData.country === 'US' ? true : 'Must be US';
         }),
       ];

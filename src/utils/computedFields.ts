@@ -90,7 +90,7 @@ export function resolveComputedExpression(
 ): string {
   const templatePattern = /\{\{([^}]+)\}\}/g;
 
-  return expression.replace(templatePattern, (match, path) => {
+  return expression.replace(templatePattern, (_match, path) => {
     const trimmedPath = path.trim();
     const value = getNestedValue(context, trimmedPath);
 
@@ -152,7 +152,6 @@ export function evaluateComputedExpression(expression: string): unknown {
 
   // Evaluate expression
   try {
-    // biome-ignore lint/security/noGlobalEval: Safe evaluation with sanitization
     const result = new Function(`'use strict'; return (${expression});`)();
     return result;
   } catch (error) {
@@ -235,7 +234,7 @@ export function getAffectedComputedFields(
     }
 
     // Check explicit dependencies
-    if (config.dependencies && config.dependencies.includes(fieldName)) {
+    if (config.dependencies?.includes(fieldName)) {
       affected.push(computedFieldName);
       continue;
     }

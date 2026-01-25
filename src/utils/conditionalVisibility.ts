@@ -152,7 +152,7 @@ export function evaluateExpression(expression: string, context: VisibilityContex
 export function resolveTemplateVariables(expression: string, context: VisibilityContext): string {
   const templatePattern = /\{\{([^}]+)\}\}/g;
 
-  return expression.replace(templatePattern, (match, path) => {
+  return expression.replace(templatePattern, (_match, path) => {
     const trimmedPath = path.trim();
     const value = getNestedValue(context, trimmedPath);
 
@@ -218,7 +218,6 @@ export function evaluateSafeExpression(expression: string): boolean {
   // Evaluate in isolated scope
   try {
     // Create a function that returns the expression result
-    // biome-ignore lint/security/noGlobalEval: Safe evaluation with sanitization
     const result = new Function(`'use strict'; return (${expression});`)();
     return Boolean(result);
   } catch (error) {
