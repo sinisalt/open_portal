@@ -1,4 +1,19 @@
 /**
+ * Tenant Model
+ */
+export interface Tenant {
+  id: string;
+  name: string;
+  subdomain?: string;
+  domain?: string;
+  isActive: boolean;
+  featureFlags: Record<string, boolean>;
+  metadata?: Record<string, unknown>;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+/**
  * User Model
  */
 export interface User {
@@ -122,6 +137,7 @@ export interface ActionAuditLog {
  * In-Memory Database
  */
 class InMemoryDatabase {
+  private tenants: Map<string, Tenant> = new Map();
   private users: Map<string, User> = new Map();
   private refreshTokens: Map<string, RefreshToken> = new Map();
   private auditLogs: AuditLogEntry[] = [];
@@ -130,6 +146,42 @@ class InMemoryDatabase {
   private tenantBrandings: Map<string, TenantBranding> = new Map();
   private menuConfigs: Map<string, MenuConfig> = new Map();
   private actionAuditLogs: ActionAuditLog[] = [];
+
+  // Tenants
+  getTenants(): Tenant[] {
+    return Array.from(this.tenants.values());
+  }
+
+  getTenantById(id: string): Tenant | undefined {
+    return this.tenants.get(id);
+  }
+
+  getTenantBySubdomain(subdomain: string): Tenant | undefined {
+    return this.getTenants().find((tenant) => tenant.subdomain === subdomain && tenant.isActive);
+  }
+
+  getTenantByDomain(domain: string): Tenant | undefined {
+    return this.getTenants().find((tenant) => tenant.domain === domain && tenant.isActive);
+  }
+
+  createTenant(tenant: Tenant): Tenant {
+    this.tenants.set(tenant.id, tenant);
+    return tenant;
+  }
+
+  updateTenant(id: string, updates: Partial<Tenant>): Tenant | undefined {
+    const tenant = this.tenants.get(id);
+    if (!tenant) {
+      return undefined;
+    }
+    const updated = { ...tenant, ...updates, updatedAt: new Date() };
+    this.tenants.set(id, updated);
+    return updated;
+  }
+
+  deleteTenant(id: string): boolean {
+    return this.tenants.delete(id);
+  }
 
   // Users
   getUsers(): User[] {

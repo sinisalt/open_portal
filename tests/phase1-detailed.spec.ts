@@ -126,7 +126,7 @@ test.describe('Phase 1 Detailed Testing - Frontend Login Flow', () => {
     await passwordInput.fill(ADMIN_PASSWORD);
 
     // Track network requests
-    const requests: any[] = [];
+    const requests: Array<{ url: string; method: string }> = [];
     page.on('request', request => {
       requests.push({
         url: request.url(),
@@ -134,7 +134,7 @@ test.describe('Phase 1 Detailed Testing - Frontend Login Flow', () => {
       });
     });
 
-    const responses: any[] = [];
+    const responses: Array<{ url: string; status: number }> = [];
     page.on('response', async response => {
       responses.push({
         url: response.url(),
