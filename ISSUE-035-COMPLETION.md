@@ -169,7 +169,7 @@ Added to `src/index.css`:
 ```
 
 #### Dependencies
-- Added: `recharts@^2.x` (React 19 compatible)
+- Added: `recharts` (React 19 compatible; exact version managed in package.json)
 - Size: ~36 packages, ~320KB minified
 
 ---
