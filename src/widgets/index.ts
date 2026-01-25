@@ -27,6 +27,8 @@ import { DatePickerWidget } from './DatePickerWidget';
 import { GridWidget } from './GridWidget';
 // Data Display widgets (2 widgets)
 import { KPIWidget } from './KPIWidget';
+// Navigation widgets (1 widget)
+import { MenuWidget } from './MenuWidget';
 // Dialogs & Feedback widgets (2 widgets)
 import { ModalWidget } from './ModalWidget';
 // Layout & Structure widgets (4 widgets)
@@ -117,6 +119,37 @@ export function registerWidgets(): void {
     description: 'Toast notification',
   });
 
+  // Navigation widgets (Menu variants)
+  widgetRegistry.register('Menu', MenuWidget, {
+    displayName: 'Menu',
+    category: 'navigation',
+    description: 'Configuration-driven menu widget',
+  });
+
+  widgetRegistry.register('TopMenu', MenuWidget, {
+    displayName: 'Top Menu',
+    category: 'navigation',
+    description: 'Horizontal navigation menu',
+  });
+
+  widgetRegistry.register('Sidebar', MenuWidget, {
+    displayName: 'Sidebar',
+    category: 'navigation',
+    description: 'Vertical sidebar navigation',
+  });
+
+  widgetRegistry.register('SideMenu', MenuWidget, {
+    displayName: 'Side Menu',
+    category: 'navigation',
+    description: 'Vertical sidebar navigation (alias)',
+  });
+
+  widgetRegistry.register('FooterMenu', MenuWidget, {
+    displayName: 'Footer Menu',
+    category: 'navigation',
+    description: 'Footer navigation menu',
+  });
+
   // Example: Lazy loading for heavy widgets
   // import { lazy } from 'react';
   //
@@ -172,6 +205,8 @@ export type { GridWidgetConfig } from './GridWidget';
 export { GridWidget } from './GridWidget';
 export type { KPIWidgetConfig } from './KPIWidget';
 export { KPIWidget } from './KPIWidget';
+export type { MenuPosition, MenuTheme, MenuVariant, MenuWidgetConfig } from './MenuWidget';
+export { MenuWidget } from './MenuWidget';
 export type { ModalAction, ModalWidgetConfig } from './ModalWidget';
 export { ModalWidget } from './ModalWidget';
 
