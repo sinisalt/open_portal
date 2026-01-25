@@ -1,5 +1,51 @@
 /**
  * ChartWidget Type Definitions
+ *
+ * This file defines the type system for the ChartWidget, which provides configuration-driven
+ * data visualization capabilities using Recharts library.
+ *
+ * ## Architecture Overview
+ *
+ * The type system follows a hierarchical structure:
+ *
+ * 1. **Base Configuration** (`BaseChartConfig`)
+ *    - Common properties shared across all chart types (title, dimensions, series, axes, etc.)
+ *    - Provides the foundation for chart-specific configurations
+ *
+ * 2. **Chart-Specific Configurations**
+ *    - `LineChartConfig` - Line charts with curves and dots
+ *    - `BarChartConfig` - Vertical/horizontal bar charts with stacking
+ *    - `PieChartConfig` - Pie/donut charts with percentages
+ *    - `AreaChartConfig` - Area charts with fills and stacking
+ *    - `ScatterChartConfig` - Scatter plots with custom shapes
+ *    Each extends `BaseChartConfig` and adds type-specific properties
+ *
+ * 3. **Supporting Types**
+ *    - `AxisConfig` - X/Y axis configuration (labels, grid, formatting)
+ *    - `LegendConfig` - Legend display and positioning
+ *    - `TooltipConfig` - Interactive tooltip settings
+ *    - `ChartTheme` - Color schemes and styling
+ *    - `ChartSeries` - Data series definitions with bindings
+ *
+ * 4. **Widget Integration** (`ChartWidgetConfig`)
+ *    - Extends OpenPortal's `BaseWidgetConfig`
+ *    - Contains the chart configuration via the `chart` property
+ *    - Integrates with widget system's config/bindings/events pattern
+ *
+ * ## Usage Pattern
+ *
+ * ```typescript
+ * const config: ChartWidgetConfig = {
+ *   id: 'my-chart',
+ *   type: 'Chart',
+ *   chart: {
+ *     type: 'line',  // Determines which ChartConfig type is used
+ *     series: [...],
+ *     xAxis: {...},
+ *     yAxis: {...}
+ *   }
+ * };
+ * ```
  */
 
 import type { BaseWidgetConfig } from '@/types/widget.types';
