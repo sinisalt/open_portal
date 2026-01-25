@@ -1,4 +1,4 @@
-import type { Response, NextFunction } from 'express';
+import type { NextFunction, Response } from 'express';
 import { identifyTenant, type TenantRequest } from '../middleware/tenant';
 import type { Tenant } from '../models/database';
 import { db } from '../models/database';

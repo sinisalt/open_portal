@@ -1,5 +1,11 @@
 import { randomUUID } from 'node:crypto';
-import type { MenuConfig, PageConfig, RouteConfig, Tenant, TenantBranding } from '../models/database.js';
+import type {
+  MenuConfig,
+  PageConfig,
+  RouteConfig,
+  Tenant,
+  TenantBranding,
+} from '../models/database.js';
 import { db } from '../models/database.js';
 
 /**

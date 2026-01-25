@@ -191,16 +191,21 @@ router.patch('/:id', authenticateToken, (req: AuthRequest, res) => {
 
     const updated = db.updateTenant(id, updates);
 
+    if (!updated) {
+      res.status(500).json({ error: 'Failed to update tenant' });
+      return;
+    }
+
     res.json({
-      id: updated!.id,
-      name: updated!.name,
-      subdomain: updated!.subdomain,
-      domain: updated!.domain,
-      isActive: updated!.isActive,
-      featureFlags: updated!.featureFlags,
-      metadata: updated!.metadata,
-      createdAt: updated!.createdAt,
-      updatedAt: updated!.updatedAt,
+      id: updated.id,
+      name: updated.name,
+      subdomain: updated.subdomain,
+      domain: updated.domain,
+      isActive: updated.isActive,
+      featureFlags: updated.featureFlags,
+      metadata: updated.metadata,
+      createdAt: updated.createdAt,
+      updatedAt: updated.updatedAt,
     });
   } catch (error) {
     console.error('Error updating tenant:', error);

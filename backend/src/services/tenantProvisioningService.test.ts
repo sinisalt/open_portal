@@ -1,5 +1,5 @@
-import { TenantProvisioningService } from '../services/tenantProvisioningService';
 import { db } from '../models/database';
+import { TenantProvisioningService } from '../services/tenantProvisioningService';
 
 describe('TenantProvisioningService', () => {
   let service: TenantProvisioningService;
@@ -80,9 +80,14 @@ describe('TenantProvisioningService', () => {
       expect(branding?.version).toBe('1.0.0');
       expect(branding?.config).toBeDefined();
 
-      const config = branding!.config as any;
+      if (!branding) {
+        throw new Error('Branding should be defined');
+      }
+
+      const config = branding.config as Record<string, unknown>;
       expect(config.logos).toBeDefined();
-      expect(config.logos.primary).toEqual({
+      const logos = config.logos as Record<string, unknown>;
+      expect(logos.primary).toEqual({
         url: '/default-logo.svg',
         altText: 'Logo',
         width: 180,
@@ -131,21 +136,31 @@ describe('TenantProvisioningService', () => {
       expect(adminMenu?.tenantId).toBe(tenant.id);
       expect(adminMenu?.role).toBe('admin');
 
-      const adminConfig = adminMenu!.config as any;
-      expect(adminConfig.items).toHaveLength(3);
-      expect(adminConfig.items[0].id).toBe('home');
-      expect(adminConfig.items[1].id).toBe('dashboard');
-      expect(adminConfig.items[2].id).toBe('settings');
+      if (!adminMenu) {
+        throw new Error('Admin menu should be defined');
+      }
+
+      const adminConfig = adminMenu.config as Record<string, unknown>;
+      const adminItems = adminConfig.items as Array<{ id: string }>;
+      expect(adminItems).toHaveLength(3);
+      expect(adminItems[0].id).toBe('home');
+      expect(adminItems[1].id).toBe('dashboard');
+      expect(adminItems[2].id).toBe('settings');
 
       const userMenu = db.getMenuConfigByTenantAndRole(tenant.id, 'user');
       expect(userMenu).toBeDefined();
       expect(userMenu?.tenantId).toBe(tenant.id);
       expect(userMenu?.role).toBe('user');
 
-      const userConfig = userMenu!.config as any;
-      expect(userConfig.items).toHaveLength(2);
-      expect(userConfig.items[0].id).toBe('home');
-      expect(userConfig.items[1].id).toBe('dashboard');
+      if (!userMenu) {
+        throw new Error('User menu should be defined');
+      }
+
+      const userConfig = userMenu.config as Record<string, unknown>;
+      const userItems = userConfig.items as Array<{ id: string }>;
+      expect(userItems).toHaveLength(2);
+      expect(userItems[0].id).toBe('home');
+      expect(userItems[1].id).toBe('dashboard');
     });
 
     it('should create default page configurations', async () => {
@@ -165,7 +180,11 @@ describe('TenantProvisioningService', () => {
       expect(homePageConfig?.isActive).toBe(true);
       expect(homePageConfig?.permissions).toEqual([]);
 
-      const config = homePageConfig!.config as any;
+      if (!homePageConfig) {
+        throw new Error('Home page config should be defined');
+      }
+
+      const config = homePageConfig.config as Record<string, unknown>;
       expect(config.title).toBe('Welcome');
       expect(config.layout).toBe('default');
       expect(config.sections).toEqual([]);

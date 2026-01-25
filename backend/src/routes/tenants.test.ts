@@ -1,11 +1,11 @@
-import request from 'supertest';
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import request from 'supertest';
 import { config } from '../config/index';
 import { authenticateToken } from '../middleware/auth';
-import tenantsRouter from '../routes/tenants';
 import type { Tenant } from '../models/database';
 import { db } from '../models/database';
+import tenantsRouter from '../routes/tenants';
 
 // Create test app
 const app = express();
@@ -37,7 +37,7 @@ const generateToken = (user: typeof mockAdminUser | typeof mockRegularUser) => {
       tenantId: user.tenantId,
     },
     config.jwtSecret,
-    { expiresIn: '1h' }
+    { expiresIn: '1h' },
   );
 };
 
