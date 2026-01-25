@@ -1,4 +1,4 @@
-# Issue #038: Monitoring and Observability
+# Issue #040: Monitoring and Observability
 
 **Phase:** Phase 4 - Scale & Governance  
 **Weeks:** 27-28  

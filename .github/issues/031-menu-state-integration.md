@@ -1,4 +1,4 @@
-# Issue #041: Menu State Management and Bootstrap Integration
+# Issue #040: Menu State Management and Bootstrap Integration
 
 **Phase:** Phase 1.4 - Navigation & Menus  
 **Weeks:** 11-12  
@@ -11,7 +11,7 @@
 
 ## Description
 
-Implement menu state management system and integrate menu components with the Bootstrap API to enable dynamic, permission-filtered, server-driven menu rendering. This issue focuses on the state management, data fetching, and integration layers that connect the menu components (from Issue #040) with the backend configuration APIs.
+Implement menu state management system and integrate menu components with the Bootstrap API to enable dynamic, permission-filtered, server-driven menu rendering. This issue focuses on the state management, data fetching, and integration layers that connect the menu components (from Issue #042) with the backend configuration APIs.
 
 The system must support:
 - Fetching menu configuration from `/ui/bootstrap` API
@@ -422,10 +422,10 @@ export async function handlePostActionMenuRefresh(
   - #010 (Bootstrap API) - menu data source
   - #011 (User Context) - user permissions
   - #013 (Route Resolver) - navigation
-  - #040 (Menu Components) - UI components
+  - #042 (Menu Components) - UI components
   
 - **Blocks:**
-  - #042 (Menu Widget System) - needs state management
+  - #041 (Menu Widget System) - needs state management
 
 - **npm packages:**
   - @tanstack/react-store (already installed)

@@ -1,4 +1,4 @@
-# Issue #031: Advanced Table Features (Pagination, Sorting, Filtering)
+# Issue #040: Advanced Table Features (Pagination, Sorting, Filtering)
 
 **Phase:** Phase 3 - Data & Realtime  
 **Weeks:** 17-18  

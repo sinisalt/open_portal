@@ -1,4 +1,4 @@
-# Issue #032: Chart Widgets and Data Visualization
+# Issue #041: Chart Widgets and Data Visualization
 
 **Phase:** Phase 3 - Data & Realtime  
 **Weeks:** 18-19  

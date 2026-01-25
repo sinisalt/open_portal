@@ -1,4 +1,4 @@
-# Issue #040: Menu Components and Layout System
+# Issue #042: Menu Components and Layout System
 
 **Phase:** Phase 1.4 - Navigation & Menus  
 **Weeks:** 10-11  
@@ -283,8 +283,8 @@ const iconMap = {
   - #013 (Route Resolver) - for navigation
   
 - **Blocks:**
-  - #041 (Menu State Management) - needs these components
-  - #042 (Menu Widget System) - needs base components
+  - #040 (Menu State Management) - needs these components
+  - #041 (Menu Widget System) - needs base components
 
 - **shadcn/ui components:**
   - navigation-menu
@@ -378,7 +378,7 @@ describe('SideMenu', () => {
 
 ## Migration Path
 
-This issue implements the presentation layer only. Issue #041 will add:
+This issue implements the presentation layer only. Issue #040 will add:
 - Bootstrap API integration
 - Menu data fetching
 - Dynamic menu refresh

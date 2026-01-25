@@ -1,4 +1,4 @@
-# Issue #042: Menu Widget System - Configuration-Driven Menus
+# Issue #041: Menu Widget System - Configuration-Driven Menus
 
 **Phase:** Phase 1.4 - Navigation & Menus  
 **Weeks:** 12  
@@ -14,9 +14,9 @@
 Implement menu widgets that integrate with the widget registry system, enabling menus to be defined and configured through the page configuration JSON (same pattern as other widgets). This makes menus configuration-driven and allows them to be embedded in pages, not just in the global layout.
 
 This issue completes the menu management trinity:
-- Issue #040: Base menu components (UI layer)
-- Issue #041: State management and API integration (data layer)
-- Issue #042: Widget integration (configuration layer) ✅ This issue
+- Issue #042: Base menu components (UI layer)
+- Issue #040: State management and API integration (data layer)
+- Issue #041: Widget integration (configuration layer) ✅ This issue
 
 ## Acceptance Criteria
 
@@ -473,8 +473,8 @@ describe('MenuWidget', () => {
 
 - **Depends on:**
   - #015 (Widget Registry) - widget registration
-  - #040 (Menu Components) - UI components
-  - #041 (Menu State) - state management
+  - #042 (Menu Components) - UI components
+  - #040 (Menu State) - state management
   
 - **npm packages:**
   - None (uses existing dependencies)

@@ -2,7 +2,7 @@
 
 **Created:** January 25, 2026  
 **Status:** Planning Complete - Ready for Implementation  
-**Issues:** #040, #041, #042  
+**Issues:** #030, #031, #032  
 **Estimated Effort:** 12 days
 
 ## Overview
@@ -24,7 +24,7 @@ The platform already has backend support for menus:
 
 The solution is implemented across three issues, each addressing a specific layer:
 
-### Layer 1: Presentation (ISSUE-040) - Menu Components
+### Layer 1: Presentation (ISSUE-030) - Menu Components
 **Effort:** 5 days
 
 Build the UI components for rendering menus:
@@ -40,7 +40,7 @@ Build the UI components for rendering menus:
 - Lucide React for icons
 - Responsive design (mobile drawer)
 
-### Layer 2: State & Integration (ISSUE-041) - Menu State Management
+### Layer 2: State & Integration (ISSUE-031) - Menu State Management
 **Effort:** 4 days
 
 Implement state management and API integration:
@@ -56,7 +56,7 @@ Implement state management and API integration:
 - Session storage for menu caching
 - LocalStorage for UI preferences
 
-### Layer 3: Configuration (ISSUE-042) - Menu Widget System
+### Layer 3: Configuration (ISSUE-032) - Menu Widget System
 **Effort:** 3 days
 
 Create menu widgets for the widget registry:
@@ -271,18 +271,18 @@ About Us  |  Contact  |  Privacy  |  Terms
 
 ## Implementation Timeline
 
-### Week 10 (5 days) - ISSUE-040
+### Week 10 (5 days) - ISSUE-030
 - Day 1-2: TopMenu component (horizontal navigation with dropdowns)
 - Day 2-3: SideMenu component (vertical sidebar with icons, collapsible)
 - Day 3-4: FooterMenu component, Header component
 - Day 4-5: Responsive behavior, mobile drawer, tests
 
-### Week 11 (4 days) - ISSUE-041
+### Week 11 (4 days) - ISSUE-031
 - Day 1-2: Menu state management (TanStack Store), Bootstrap API integration
 - Day 2-3: Dynamic menu refresh, navigation handlers
 - Day 3-4: Permission filtering, state persistence, tests
 
-### Week 12 (3 days) - ISSUE-042
+### Week 12 (3 days) - ISSUE-032
 - Day 1-2: MenuWidget implementation, widget registry integration
 - Day 2-3: Configuration schema, dynamic bindings, tests, documentation
 
@@ -378,7 +378,7 @@ About Us  |  Contact  |  Privacy  |  Terms
 
 ## Next Steps
 
-1. ✅ Create issue files (ISSUE-040, ISSUE-041, ISSUE-042) - **DONE**
+1. ✅ Create issue files (ISSUE-030, ISSUE-031, ISSUE-032) - **DONE**
 2. ✅ Update roadmap with Phase 1.4 - **DONE**
 3. ✅ Update issues README - **DONE**
 4. ⏳ Assign issues to team members

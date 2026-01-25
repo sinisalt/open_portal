@@ -34,7 +34,7 @@ You correctly identified that **menu management frontend implementation was miss
 
 ## Solution: 3 Issues Created
 
-### ISSUE-040: Menu Components and Layout System (5 days)
+### ISSUE-030: Menu Components and Layout System (5 days)
 **File:** `.github/issues/040-menu-components-layout.md`
 
 Implements the UI layer for menu rendering:
@@ -79,7 +79,7 @@ Implements the UI layer for menu rendering:
 
 ---
 
-### ISSUE-041: Menu State Management and Bootstrap Integration (4 days)
+### ISSUE-031: Menu State Management and Bootstrap Integration (4 days)
 **File:** `.github/issues/041-menu-state-integration.md`
 
 Implements the state management and API integration layer:
@@ -124,7 +124,7 @@ Implements the state management and API integration layer:
 
 ---
 
-### ISSUE-042: Menu Widget System (3 days)
+### ISSUE-032: Menu Widget System (3 days)
 **File:** `.github/issues/042-menu-widget-system.md`
 
 Implements configuration-driven menu widgets:
@@ -317,7 +317,7 @@ About Us  |  Contact  |  Privacy Policy  |  Terms of Service
 
 ## Implementation Timeline
 
-### Week 10 (5 days) - ISSUE-040
+### Week 10 (5 days) - ISSUE-030
 - **Day 1-2:** TopMenu component
   - Horizontal layout
   - Dropdown submenus
@@ -339,7 +339,7 @@ About Us  |  Contact  |  Privacy Policy  |  Terms of Service
 
 ---
 
-### Week 11 (4 days) - ISSUE-041
+### Week 11 (4 days) - ISSUE-031
 - **Day 1-2:** State management + API integration
   - TanStack Store setup
   - Bootstrap API integration
@@ -357,7 +357,7 @@ About Us  |  Contact  |  Privacy Policy  |  Terms of Service
 
 ---
 
-### Week 12 (3 days) - ISSUE-042
+### Week 12 (3 days) - ISSUE-032
 - **Day 1-2:** MenuWidget implementation
   - Widget component
   - Registry integration
@@ -431,9 +431,9 @@ Phase 1: Core Platform
   ├─ 1.2: Routing & Page Loading 🚀 60% Complete
   ├─ 1.3: Widget Registry & Core Widgets ✅ 100% Complete
   ├─ 1.4: Menu Management ⏳ 0% Complete (NEW)
-  │    ├─ ISSUE-040: Menu Components (5 days)
-  │    ├─ ISSUE-041: Menu State & Integration (4 days)
-  │    └─ ISSUE-042: Menu Widget System (3 days)
+  │    ├─ ISSUE-030: Menu Components (5 days)
+  │    ├─ ISSUE-031: Menu State & Integration (4 days)
+  │    └─ ISSUE-032: Menu Widget System (3 days)
   ├─ 1.5: Data Layer ⏳ Pending
   ├─ 1.6: Action Engine ⏳ Pending
   └─ 1.7: Form Handling ⏳ Pending
@@ -506,9 +506,9 @@ Phase 1: Core Platform
    ```
 
 ### Implementation Order
-1. **Week 10:** ISSUE-040 (Components) - Build UI layer
-2. **Week 11:** ISSUE-041 (State & Integration) - Connect to API
-3. **Week 12:** ISSUE-042 (Widget System) - Make configuration-driven
+1. **Week 10:** ISSUE-030 (Components) - Build UI layer
+2. **Week 11:** ISSUE-031 (State & Integration) - Connect to API
+3. **Week 12:** ISSUE-032 (Widget System) - Make configuration-driven
 
 ---
 
@@ -551,4 +551,4 @@ For implementation questions, refer to:
 ---
 
 **Status:** ✅ Planning Complete - Ready for Implementation  
-**Next Milestone:** Begin ISSUE-040 (Week 10)
+**Next Milestone:** Begin ISSUE-030 (Week 10)
