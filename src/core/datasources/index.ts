@@ -17,12 +17,18 @@ export {
   StaticDatasourceHandler,
   staticDatasourceHandler,
 } from './handlers/StaticDatasourceHandler';
+export {
+  WebSocketDatasourceHandler,
+  websocketDatasourceHandler,
+} from './handlers/WebSocketDatasourceHandler';
 
 // Register default handlers
 import { datasourceRegistry } from './DatasourceRegistry';
 import { httpDatasourceHandler } from './handlers/HttpDatasourceHandler';
 import { staticDatasourceHandler } from './handlers/StaticDatasourceHandler';
+import { websocketDatasourceHandler } from './handlers/WebSocketDatasourceHandler';
 
-// Auto-register HTTP and Static handlers
+// Auto-register HTTP, Static, and WebSocket handlers
 datasourceRegistry.register('http', httpDatasourceHandler);
 datasourceRegistry.register('static', staticDatasourceHandler);
+datasourceRegistry.register('websocket', websocketDatasourceHandler);
