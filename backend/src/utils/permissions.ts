@@ -28,6 +28,11 @@ export function getUserPermissionsFromRoles(roles: string[]): string[] {
       'records.bulkUpdate',
       'records.bulkDelete',
       'records.query',
+      // Items/Listings permissions
+      'items.view',
+      'items.create',
+      'items.update',
+      'items.delete',
     ],
     user: [
       'dashboard.view',
@@ -37,6 +42,8 @@ export function getUserPermissionsFromRoles(roles: string[]): string[] {
       'records.create',
       'records.update',
       'records.query',
+      // Items/Listings permissions
+      'items.view',
     ],
   };
 

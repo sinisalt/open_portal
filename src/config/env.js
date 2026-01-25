@@ -7,7 +7,7 @@ const getEnv = () => {
   // In tests, use process.env or globals
   if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test') {
     return {
-      VITE_API_URL: process.env.VITE_API_URL || 'http://localhost:3001/v1',
+      VITE_API_URL: process.env.VITE_API_URL || 'http://localhost:4000',
       MODE: 'test',
     };
   }
@@ -20,7 +20,7 @@ const getEnv = () => {
   } catch (_e) {
     // Fallback for any other context
     return {
-      VITE_API_URL: 'http://localhost:3001/v1',
+      VITE_API_URL: 'http://localhost:4000',
       MODE: 'development',
     };
   }

@@ -11,7 +11,7 @@
 import { env } from '../config/env';
 import * as tokenManager from './tokenManager';
 
-const API_BASE_URL = env.VITE_API_URL || 'http://localhost:3001/v1';
+const API_BASE_URL = env.VITE_API_URL || 'http://localhost:4000';
 
 /**
  * Login with username/email and password
@@ -26,7 +26,7 @@ export async function login(email, password, rememberMe = false) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ username: email, password, rememberMe }),
   });
 
   if (!response.ok) {

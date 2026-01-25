@@ -12,7 +12,7 @@ import { env } from '../config/env';
 import * as authService from './authService';
 import * as tokenManager from './tokenManager';
 
-const API_BASE_URL = env.VITE_API_URL || 'http://localhost:3001/v1';
+const API_BASE_URL = env.VITE_API_URL || 'http://localhost:4000';
 
 // Queue for requests waiting for token refresh
 let isRefreshing = false;
