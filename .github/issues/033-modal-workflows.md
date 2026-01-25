@@ -1,4 +1,4 @@
-# Issue #030: Modal Workflows and Multi-step Modals
+# Issue #042: Modal Workflows and Multi-step Modals
 
 **Phase:** Phase 2 - Forms & Workflows  
 **Weeks:** 13-14  

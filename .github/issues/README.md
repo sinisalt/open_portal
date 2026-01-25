@@ -96,6 +96,13 @@ Each issue file contains:
 | [#027](027-sample-configurations.md) | Sample Page Configurations (Dashboard, Profile, Listings) | 5 days | High | Backend |
 | [#028](028-phase1-integration-testing.md) | Phase 1 Integration Testing and Documentation | 5 days | Critical | Full-stack |
 
+#### Menu Management (Weeks 10-12) - NEW
+| Issue | Title | Effort | Priority | Component |
+|-------|-------|--------|----------|-----------|
+| [#030](030-menu-components-layout.md) | Menu Components and Layout System | 5 days | High | Frontend |
+| [#031](031-menu-state-integration.md) | Menu State Management and Bootstrap Integration | 4 days | High | Frontend |
+| [#032](032-menu-widget-system.md) | Menu Widget System - Configuration-Driven Menus | 3 days | Medium | Frontend |
+
 **Total Estimated Effort:** ~95 days (parallelizable across team)
 
 **Phase 1 Success Criteria:**
@@ -113,7 +120,7 @@ Each issue file contains:
 | Issue | Title | Effort | Priority | Component |
 |-------|-------|--------|----------|-----------|
 | [#029](029-advanced-form-features.md) | Advanced Form Features (Conditional Fields, Cross-field Validation) | 5 days | Medium | Frontend |
-| [#030](030-modal-workflows.md) | Modal Workflows and Multi-step Modals | 5 days | Medium | Frontend |
+| [#033](033-modal-workflows.md) | Modal Workflows and Multi-step Modals | 5 days | Medium | Frontend |
 
 **Additional Phase 2 Work (Not Yet Detailed):**
 - Complex validation (Week 12-13)
@@ -133,9 +140,9 @@ Each issue file contains:
 
 | Issue | Title | Effort | Priority | Component |
 |-------|-------|--------|----------|-----------|
-| [#031](031-advanced-table.md) | Advanced Table Features (Pagination, Sorting, Filtering) | 6 days | Medium | Frontend |
-| [#032](032-chart-widgets.md) | Chart Widgets and Data Visualization | 6 days | Medium | Frontend |
-| [#033](033-websocket-integration.md) | WebSocket Integration and Real-time Updates | 8 days | Medium | Frontend + Backend |
+| [#034](034-advanced-table.md) | Advanced Table Features (Pagination, Sorting, Filtering) | 6 days | Medium | Frontend |
+| [#035](035-chart-widgets.md) | Chart Widgets and Data Visualization | 6 days | Medium | Frontend |
+| [#036](036-websocket-integration.md) | WebSocket Integration and Real-time Updates | 8 days | Medium | Frontend + Backend |
 
 **Additional Phase 3 Work (Not Yet Detailed):**
 - Data refresh policies (Week 21-22)
@@ -153,11 +160,11 @@ Each issue file contains:
 
 | Issue | Title | Effort | Priority | Component |
 |-------|-------|--------|----------|-----------|
-| [#034](034-multi-tenancy.md) | Multi-Tenancy Implementation | 6 days | Medium | Full-stack |
-| [#035](035-config-governance.md) | Configuration Governance and Versioning | 6 days | Medium | Backend + Tools |
-| [#036](036-developer-tools.md) | Developer Tools (Config Editor and Debugger) | 8 days | Medium | Tools |
-| [#037](037-performance-optimization.md) | Performance Optimization and Code Splitting | 5 days | High | Frontend |
-| [#038](038-monitoring-observability.md) | Monitoring and Observability | 5 days | High | Full-stack |
+| [#037](037-multi-tenancy.md) | Multi-Tenancy Implementation | 6 days | Medium | Full-stack |
+| [#038](038-config-governance.md) | Configuration Governance and Versioning | 6 days | Medium | Backend + Tools |
+| [#039](039-developer-tools.md) | Developer Tools (Config Editor and Debugger) | 8 days | Medium | Tools |
+| [#040](040-performance-optimization.md) | Performance Optimization and Code Splitting | 5 days | High | Frontend |
+| [#041](041-monitoring-observability.md) | Monitoring and Observability | 5 days | High | Full-stack |
 
 **Phase 4 Success Criteria:**
 - ✓ System supports multiple tenants
@@ -173,7 +180,7 @@ Each issue file contains:
 
 | Issue | Title | Effort | Priority | Component |
 |-------|-------|--------|----------|-----------|
-| [#039](039-production-launch.md) | Production Launch Preparation | 10 days | Critical | Full-stack |
+| [#042](042-production-launch.md) | Production Launch Preparation | 10 days | Critical | Full-stack |
 
 **Additional Phase 5 Activities (Not Yet Detailed):**
 - Staged rollout
