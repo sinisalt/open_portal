@@ -22,7 +22,9 @@ router.get('/stats', authenticateToken, (_req, res) => {
       totalTopics: stats.length,
       totalSubscribers: stats.reduce((sum, topic) => sum + topic.subscribers, 0),
     });
-  } catch (_error) {
+  } catch (error) {
+    // Log error for debugging
+    console.error('Failed to get WebSocket stats:', error);
     res.status(500).json({ error: 'Failed to get WebSocket stats' });
   }
 });
@@ -36,11 +38,11 @@ router.post('/publish', authenticateToken, (req, res) => {
     const { topic, data } = req.body;
 
     if (!topic) {
-      return res.status(400).json({ error: 'Topic is required' });
+      return res.status(400).json({ error: 'Missing required field: topic' });
     }
 
     if (!data) {
-      return res.status(400).json({ error: 'Data is required' });
+      return res.status(400).json({ error: 'Missing required field: data' });
     }
 
     websocketServer.publish(topic, data);

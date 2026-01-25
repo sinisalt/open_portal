@@ -9,7 +9,7 @@
  * - Authentication via JWT token
  */
 
-import { tokenManager } from '@/services/tokenManager';
+import { getAccessToken } from '@/services/tokenManager';
 import type {
   DatasourceErrorType,
   DatasourceHandler,
@@ -560,11 +560,7 @@ export class WebSocketDatasourceHandler implements DatasourceHandler<WebSocketDa
       });
     } catch (err: unknown) {
       const errorMessage =
-        err instanceof Error
-          ? err.message
-          : typeof err === 'string'
-            ? err
-            : 'Unknown error';
+        err instanceof Error ? err.message : typeof err === 'string' ? err : 'Unknown error';
 
       throw createDatasourceError(
         'UNKNOWN_ERROR',

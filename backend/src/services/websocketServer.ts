@@ -398,6 +398,11 @@ export class WebSocketServerManager {
    * Generate unique message ID
    */
   private generateMessageId(): string {
+    // Use crypto.randomUUID() for guaranteed uniqueness (Node.js 15+)
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    // Fallback for older Node.js versions
     return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
   }
 
