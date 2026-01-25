@@ -1,10 +1,62 @@
 import { randomUUID } from 'node:crypto';
 import bcrypt from 'bcrypt';
 import pino from 'pino';
-import type { User } from './database.js';
+import type { Tenant, User } from './database.js';
 import { db } from './database.js';
 
 const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
+
+/**
+ * Seed test tenants into the database
+ */
+export async function seedTenants(): Promise<void> {
+  const tenants: Tenant[] = [
+    {
+      id: 'tenant-001',
+      name: 'Default Tenant',
+      subdomain: 'app',
+      domain: 'localhost',
+      isActive: true,
+      featureFlags: {
+        darkMode: true,
+        notifications: true,
+        analytics: true,
+        websockets: true,
+      },
+      metadata: {
+        industry: 'Technology',
+        size: 'small',
+      },
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: 'tenant-002',
+      name: 'Acme Corporation',
+      subdomain: 'acme',
+      domain: 'acme.example.com',
+      isActive: true,
+      featureFlags: {
+        darkMode: true,
+        notifications: true,
+        analytics: false,
+        websockets: true,
+      },
+      metadata: {
+        industry: 'Manufacturing',
+        size: 'large',
+      },
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
+
+  for (const tenant of tenants) {
+    db.createTenant(tenant);
+  }
+
+  logger.info(`Seeded ${tenants.length} test tenants`);
+}
 
 /**
  * Seed test users into the database

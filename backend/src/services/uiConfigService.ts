@@ -37,6 +37,9 @@ export class UiConfigService {
       return null;
     }
 
+    // Get tenant details
+    const tenant = db.getTenantById(user.tenantId);
+
     // Get tenant branding version
     const branding = db.getTenantBrandingByTenantId(user.tenantId);
 
@@ -49,6 +52,12 @@ export class UiConfigService {
       ? this.filterMenuByPermissions(menuConfig.config, this.getUserPermissions(user))
       : { items: [] };
 
+    // Get tenant-specific feature flags
+    const tenantFeatureFlags = tenant?.featureFlags || {};
+    const roleBasedFlags = {
+      analytics: user.roles.includes('admin'),
+    };
+
     return {
       user: {
         id: user.id,
@@ -60,7 +69,7 @@ export class UiConfigService {
       permissions: this.getUserPermissions(user),
       tenant: {
         id: user.tenantId,
-        name: 'OpenPortal', // In production, this would come from tenant data
+        name: tenant?.name || 'OpenPortal',
         brandingVersion: branding?.version || '1.0.0',
       },
       menu,
@@ -69,9 +78,8 @@ export class UiConfigService {
         theme: 'light',
       },
       featureFlags: {
-        darkMode: true,
-        notifications: true,
-        analytics: user.roles.includes('admin'),
+        ...tenantFeatureFlags,
+        ...roleBasedFlags,
       },
     };
   }

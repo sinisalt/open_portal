@@ -5,11 +5,13 @@ import pino from 'pino';
 import pinoHttp from 'pino-http';
 import { config } from './config/index.js';
 import { generalRateLimiter } from './middleware/rateLimiter.js';
-import { seedUsers } from './models/seed.js';
+import { identifyTenant } from './middleware/tenant.js';
+import { seedTenants, seedUsers } from './models/seed.js';
 import { registerActions } from './models/seedActions.js';
 import { seedUiConfig } from './models/seedUiConfig.js';
 import actionsRouter from './routes/actions.js';
 import authRouter from './routes/auth.js';
+import tenantsRouter from './routes/tenants.js';
 import uiRouter from './routes/ui.js';
 import websocketRouter from './routes/websocket.js';
 import { websocketServer } from './services/websocketServer.js';
@@ -45,9 +47,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /**
+ * Tenant Identification
+ * Identifies tenant from subdomain, domain, or header
+ */
+app.use(identifyTenant);
+
+/**
  * Routes
  */
 app.use('/auth', authRouter);
+app.use('/tenants', tenantsRouter);
 app.use('/ui', uiRouter);
 app.use('/ui/actions', actionsRouter);
 app.use('/ws', websocketRouter);
@@ -89,7 +98,8 @@ const server = app.listen(config.port, async () => {
   // Initialize WebSocket server
   websocketServer.initialize(server);
 
-  // Seed database with test users
+  // Seed database with test tenants and users
+  await seedTenants();
   await seedUsers();
 
   // Seed UI configurations
