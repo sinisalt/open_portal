@@ -95,6 +95,199 @@ Get available OAuth providers.
 }
 ```
 
+## Tenant Management APIs
+
+### GET /tenants
+List all tenants (admin only).
+
+**Headers:**
+```
+Authorization: Bearer <accessToken>
+```
+
+**Response:**
+```json
+{
+  "tenants": [
+    {
+      "id": "tenant-001",
+      "name": "Default Tenant",
+      "subdomain": "app",
+      "domain": "localhost",
+      "isActive": true,
+      "featureFlags": {
+        "darkMode": true,
+        "notifications": true,
+        "analytics": true,
+        "websockets": true
+      },
+      "metadata": {
+        "industry": "Technology",
+        "size": "small"
+      },
+      "createdAt": "2026-01-25T21:32:30.201Z",
+      "updatedAt": "2026-01-25T21:32:30.201Z"
+    }
+  ]
+}
+```
+
+### GET /tenants/:id
+Get tenant details.
+
+**Headers:**
+```
+Authorization: Bearer <accessToken>
+```
+
+**Response:**
+```json
+{
+  "id": "tenant-001",
+  "name": "Default Tenant",
+  "subdomain": "app",
+  "domain": "localhost",
+  "isActive": true,
+  "featureFlags": {
+    "darkMode": true,
+    "notifications": true,
+    "analytics": true,
+    "websockets": true
+  },
+  "metadata": {
+    "industry": "Technology",
+    "size": "small"
+  },
+  "createdAt": "2026-01-25T21:32:30.201Z",
+  "updatedAt": "2026-01-25T21:32:30.201Z"
+}
+```
+
+### POST /tenants
+Create a new tenant (admin only).
+
+**Headers:**
+```
+Authorization: Bearer <accessToken>
+```
+
+**Request:**
+```json
+{
+  "name": "Acme Corporation",
+  "subdomain": "acme",
+  "domain": "acme.example.com",
+  "featureFlags": {
+    "darkMode": true,
+    "notifications": true,
+    "analytics": false,
+    "websockets": true
+  },
+  "metadata": {
+    "industry": "Manufacturing",
+    "size": "large"
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "id": "tenant-002",
+  "name": "Acme Corporation",
+  "subdomain": "acme",
+  "domain": "acme.example.com",
+  "isActive": true,
+  "featureFlags": {
+    "darkMode": true,
+    "notifications": true,
+    "analytics": false,
+    "websockets": true
+  },
+  "metadata": {
+    "industry": "Manufacturing",
+    "size": "large"
+  },
+  "createdAt": "2026-01-25T21:33:07.576Z",
+  "updatedAt": "2026-01-25T21:33:07.576Z"
+}
+```
+
+### PATCH /tenants/:id
+Update tenant (admin only).
+
+**Headers:**
+```
+Authorization: Bearer <accessToken>
+```
+
+**Request:**
+```json
+{
+  "name": "Acme Corporation Updated",
+  "featureFlags": {
+    "analytics": true
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "id": "tenant-002",
+  "name": "Acme Corporation Updated",
+  "subdomain": "acme",
+  "domain": "acme.example.com",
+  "isActive": true,
+  "featureFlags": {
+    "darkMode": true,
+    "notifications": true,
+    "analytics": true,
+    "websockets": true
+  },
+  "metadata": {
+    "industry": "Manufacturing",
+    "size": "large"
+  },
+  "createdAt": "2026-01-25T21:32:30.201Z",
+  "updatedAt": "2026-01-25T21:33:12.308Z"
+}
+```
+
+### DELETE /tenants/:id
+Deactivate tenant (admin only).
+
+**Headers:**
+```
+Authorization: Bearer <accessToken>
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Tenant deactivated successfully"
+}
+```
+
+## Tenant Identification
+
+The system supports multiple methods for identifying the tenant context:
+
+1. **X-Tenant-ID Header** (Highest Priority)
+   ```
+   X-Tenant-ID: tenant-002
+   ```
+
+2. **Subdomain** (Second Priority)
+   - Request to `acme.example.com` resolves to tenant with `subdomain: "acme"`
+
+3. **Domain** (Third Priority)
+   - Request to `acme.example.com` resolves to tenant with `domain: "acme.example.com"`
+
+4. **Default Fallback** (Lowest Priority)
+   - Falls back to default tenant (`tenant-001`) if no match found
+
 ## UI Bootstrap API
 
 ### GET /ui/bootstrap
