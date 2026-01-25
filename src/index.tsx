@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { AuthProvider } from './components/AuthProvider';
 import { initializeMsal } from './config/msalConfig';
+import { MenuProvider } from './contexts/MenuContext';
 import reportWebVitals from './reportWebVitals';
 
 // Import the generated route tree
@@ -27,7 +28,9 @@ if (authProvider === 'msal') {
     root.render(
       <React.StrictMode>
         <AuthProvider>
-          <RouterProvider router={router} />
+          <MenuProvider>
+            <RouterProvider router={router} />
+          </MenuProvider>
         </AuthProvider>
       </React.StrictMode>
     );
@@ -36,7 +39,9 @@ if (authProvider === 'msal') {
   root.render(
     <React.StrictMode>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <MenuProvider>
+          <RouterProvider router={router} />
+        </MenuProvider>
       </AuthProvider>
     </React.StrictMode>
   );
