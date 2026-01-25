@@ -263,7 +263,8 @@ export function getParentGroupIds(
 
     if (item.children && item.children.length > 0) {
       const found = getParentGroupIds(item.children, itemId, [...parentIds, item.id]);
-      if (found.length > parentIds.length || item.children.some(child => child.id === itemId)) {
+      // If we found the item in children, return the accumulated parent IDs
+      if (found.length > 0) {
         return found;
       }
     }

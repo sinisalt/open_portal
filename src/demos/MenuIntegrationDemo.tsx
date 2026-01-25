@@ -4,6 +4,7 @@
  * Demonstration of menu state integration with Bootstrap API
  */
 
+import { useMemo } from 'react';
 import { ConnectedHeader } from '@/components/menus/Header/ConnectedHeader';
 import { ConnectedSideMenu } from '@/components/menus/SideMenu/ConnectedSideMenu';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,6 +14,27 @@ import { useBootstrap } from '@/hooks/useBootstrap';
 export function MenuIntegrationDemo() {
   const { data: bootstrap, loading, error } = useBootstrap();
   const menuState = useMenuContext();
+
+  // Memoize the menu data transformation to avoid recalculating on every render
+  const menuDataPreview = useMemo(() => {
+    return JSON.stringify(
+      {
+        topMenu: menuState.topMenu.map(item => ({
+          id: item.id,
+          label: item.label,
+          route: item.route,
+        })),
+        sideMenu: menuState.sideMenu.map(item => ({
+          id: item.id,
+          label: item.label,
+          route: item.route,
+          children: item.children?.length,
+        })),
+      },
+      null,
+      2
+    );
+  }, [menuState.topMenu, menuState.sideMenu]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -152,23 +174,7 @@ export function MenuIntegrationDemo() {
                 </CardHeader>
                 <CardContent>
                   <pre className="overflow-auto rounded-lg bg-muted p-4 text-xs">
-                    {JSON.stringify(
-                      {
-                        topMenu: menuState.topMenu.map(item => ({
-                          id: item.id,
-                          label: item.label,
-                          route: item.route,
-                        })),
-                        sideMenu: menuState.sideMenu.map(item => ({
-                          id: item.id,
-                          label: item.label,
-                          route: item.route,
-                          children: item.children?.length,
-                        })),
-                      },
-                      null,
-                      2
-                    )}
+                    {menuDataPreview}
                   </pre>
                 </CardContent>
               </Card>

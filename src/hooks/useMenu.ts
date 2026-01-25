@@ -101,6 +101,8 @@ export function useMenu(options: UseMenuOptions = {}): UseMenuReturn {
 
   // Get menu context
   const menuContext = useMenuContext();
+  const { setMenus, topMenu, sideMenu, footerMenu, expandedGroupIds, setActiveItem, toggleGroup } =
+    menuContext;
 
   // Get bootstrap data
   const { data: bootstrap, permissions, refresh: refreshBootstrap } = useBootstrap();
@@ -124,9 +126,9 @@ export function useMenu(options: UseMenuOptions = {}): UseMenuReturn {
       };
 
       // Update menu context
-      menuContext.setMenus(filteredMenus);
+      setMenus(filteredMenus);
     }
-  }, [bootstrap, permissions, menuContext]);
+  }, [bootstrap, permissions, setMenus]);
 
   /**
    * Auto-sync active item with current route
@@ -139,25 +141,35 @@ export function useMenu(options: UseMenuOptions = {}): UseMenuReturn {
     const currentPath = router.state.location.pathname;
 
     // Find menu item matching current route
-    const allItems = [...menuContext.topMenu, ...menuContext.sideMenu, ...menuContext.footerMenu];
+    const allItems = [...topMenu, ...sideMenu, ...footerMenu];
     const activeItem = findMenuItemByRoute(allItems, currentPath);
 
     if (activeItem) {
       // Set active item
-      menuContext.setActiveItem(activeItem.id);
+      setActiveItem(activeItem.id);
 
       // Auto-expand parent groups in side menu
       if (type === 'side' || !type) {
-        const parentIds = getParentGroupIds(menuContext.sideMenu, activeItem.id);
+        const parentIds = getParentGroupIds(sideMenu, activeItem.id);
         // Expand all parent groups
         for (const parentId of parentIds) {
-          if (!menuContext.expandedGroupIds.includes(parentId)) {
-            menuContext.toggleGroup(parentId);
+          if (!expandedGroupIds.includes(parentId)) {
+            toggleGroup(parentId);
           }
         }
       }
     }
-  }, [router.state.location.pathname, menuContext, type, autoSyncActiveItem]);
+  }, [
+    router.state.location.pathname,
+    topMenu,
+    sideMenu,
+    footerMenu,
+    expandedGroupIds,
+    setActiveItem,
+    toggleGroup,
+    type,
+    autoSyncActiveItem,
+  ]);
 
   /**
    * Refresh menus from bootstrap
@@ -169,26 +181,26 @@ export function useMenu(options: UseMenuOptions = {}): UseMenuReturn {
   // Get items for specified menu type
   const items =
     type === 'top'
-      ? menuContext.topMenu
+      ? topMenu
       : type === 'side'
-        ? menuContext.sideMenu
+        ? sideMenu
         : type === 'footer'
-          ? menuContext.footerMenu
+          ? footerMenu
           : // If no type specified, return all items
-            [...menuContext.topMenu, ...menuContext.sideMenu, ...menuContext.footerMenu];
+            [...topMenu, ...sideMenu, ...footerMenu];
 
   return {
     items,
     activeItemId: menuContext.activeItemId,
-    expandedGroupIds: menuContext.expandedGroupIds,
+    expandedGroupIds,
     sidebarCollapsed: menuContext.sidebarCollapsed,
     mobileMenuOpen: menuContext.mobileMenuOpen,
     loading: menuContext.loading,
     error: menuContext.error,
 
     // Actions
-    setActiveItem: menuContext.setActiveItem,
-    toggleGroup: menuContext.toggleGroup,
+    setActiveItem,
+    toggleGroup,
     toggleSidebar: menuContext.toggleSidebar,
     toggleMobileMenu: menuContext.toggleMobileMenu,
     expandAll: menuContext.expandAll,
