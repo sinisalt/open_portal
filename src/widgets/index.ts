@@ -29,6 +29,8 @@ import { GridWidget } from './GridWidget';
 import { KPIWidget } from './KPIWidget';
 // Navigation widgets (1 widget)
 import { MenuWidget } from './MenuWidget';
+// Modal Workflow widgets
+import { ModalPageWidget } from './ModalPageWidget';
 // Dialogs & Feedback widgets (2 widgets)
 import { ModalWidget } from './ModalWidget';
 // Layout & Structure widgets (4 widgets)
@@ -38,6 +40,7 @@ import { SelectWidget } from './SelectWidget';
 import { TableWidget } from './TableWidget';
 import { TextInputWidget } from './TextInputWidget';
 import { ToastWidget } from './ToastWidget';
+import { WizardWidget } from './WizardWidget';
 
 /**
  * Register all widgets
@@ -117,6 +120,19 @@ export function registerWidgets(): void {
     displayName: 'Toast',
     category: 'feedback',
     description: 'Toast notification',
+  });
+
+  // Modal Workflow widgets
+  widgetRegistry.register('ModalPage', ModalPageWidget, {
+    displayName: 'Modal Page',
+    category: 'workflow',
+    description: 'Full page configuration in modal with data passing',
+  });
+
+  widgetRegistry.register('Wizard', WizardWidget, {
+    displayName: 'Wizard',
+    category: 'workflow',
+    description: 'Multi-step wizard modal',
   });
 
   // Navigation widgets (Menu variants)
@@ -207,9 +223,15 @@ export type { KPIWidgetConfig } from './KPIWidget';
 export { KPIWidget } from './KPIWidget';
 export type { MenuPosition, MenuTheme, MenuVariant, MenuWidgetConfig } from './MenuWidget';
 export { MenuWidget } from './MenuWidget';
+export type {
+  ModalInputData,
+  ModalOutputData,
+  ModalPageWidgetConfig,
+  ModalWorkflowEvents,
+} from './ModalPageWidget';
+export { ModalPageWidget } from './ModalPageWidget';
 export type { ModalAction, ModalWidgetConfig } from './ModalWidget';
 export { ModalWidget } from './ModalWidget';
-
 /**
  * Re-export widget types
  */
@@ -234,3 +256,5 @@ export type {
   ToastWidgetConfig,
 } from './ToastWidget';
 export { ToastWidget, toastManager } from './ToastWidget';
+export type { WizardEvents, WizardState, WizardStep, WizardWidgetConfig } from './WizardWidget';
+export { WizardWidget } from './WizardWidget';
