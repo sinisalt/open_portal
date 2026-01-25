@@ -15,14 +15,14 @@ import {
   YAxis,
 } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import type { BarChartConfig } from '../types';
+import type { BarChartConfig } from './types';
 import {
   formatTick,
   formatTooltipValue,
   getChartDimensions,
   getLegendProps,
   getSeriesColor,
-} from '../utils';
+} from './utils';
 
 interface BarChartProps {
   config: BarChartConfig;

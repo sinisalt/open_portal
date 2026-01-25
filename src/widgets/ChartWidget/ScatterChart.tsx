@@ -15,14 +15,14 @@ import {
   YAxis,
 } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import type { ScatterChartConfig } from '../types';
+import type { ScatterChartConfig } from './types';
 import {
   formatTick,
   formatTooltipValue,
   getChartDimensions,
   getLegendProps,
   getSeriesColor,
-} from '../utils';
+} from './utils';
 
 interface ScatterChartProps {
   config: ScatterChartConfig;

@@ -13,14 +13,14 @@ import {
   type TooltipProps,
 } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import type { PieChartConfig } from '../types';
+import type { PieChartConfig } from './types';
 import {
   formatTooltipValue,
   getChartDimensions,
   getLegendProps,
   getSeriesColor,
   transformPieData,
-} from '../utils';
+} from './utils';
 
 interface PieChartProps {
   config: PieChartConfig;
