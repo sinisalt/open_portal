@@ -122,6 +122,21 @@ const filterableTableConfig: TableWidgetConfig = {
       filterable: true,
       filter: { type: 'number' },
     },
+    {
+      id: 'joinDate',
+      label: 'Join Date',
+      field: 'joinDate',
+      format: 'date',
+      filterable: true,
+      filter: { type: 'date' },
+    },
+    {
+      id: 'activePeriod',
+      label: 'Active Period',
+      field: 'activePeriod',
+      filterable: true,
+      filter: { type: 'dateRange' },
+    },
   ],
   rowKey: 'id',
   sorting: {
@@ -136,6 +151,31 @@ const filterableTableConfig: TableWidgetConfig = {
   config={filterableTableConfig} 
   bindings={{ value: users }} 
 />
+```
+
+### Date and Date Range Filters
+
+Date filters use a calendar picker for easy date selection:
+
+```typescript
+// Single date filter
+{
+  id: 'joinDate',
+  label: 'Join Date',
+  field: 'joinDate',
+  format: 'date',
+  filterable: true,
+  filter: { type: 'date' },
+}
+
+// Date range filter
+{
+  id: 'activePeriod',
+  label: 'Active Period',
+  field: 'activePeriod',
+  filterable: true,
+  filter: { type: 'dateRange' },
+}
 ```
 
 ## Table with Row Selection

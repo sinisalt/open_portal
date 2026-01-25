@@ -19,6 +19,7 @@ import {
   useReactTable,
   type VisibilityState,
 } from '@tanstack/react-table';
+import { format, parseISO } from 'date-fns';
 import {
   ArrowDown,
   ArrowUp,
@@ -32,6 +33,7 @@ import {
 import Papa from 'papaparse';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
@@ -245,6 +247,53 @@ export function TableWidget({ config, bindings, events }: WidgetProps<TableWidge
                               ))}
                             </SelectContent>
                           </Select>
+                        ) : col.filter?.type === 'date' ? (
+                          <div>
+                            <Calendar
+                              mode="single"
+                              selected={
+                                column.getFilterValue()
+                                  ? parseISO(column.getFilterValue() as string)
+                                  : undefined
+                              }
+                              onSelect={date => {
+                                column.setFilterValue(
+                                  date ? format(date, 'yyyy-MM-dd') : undefined
+                                );
+                              }}
+                              className="rounded-md border"
+                            />
+                          </div>
+                        ) : col.filter?.type === 'dateRange' ? (
+                          <div>
+                            <Calendar
+                              mode="range"
+                              selected={
+                                column.getFilterValue()
+                                  ? {
+                                      from: parseISO(
+                                        (column.getFilterValue() as { from: string; to: string })
+                                          .from
+                                      ),
+                                      to: parseISO(
+                                        (column.getFilterValue() as { from: string; to: string }).to
+                                      ),
+                                    }
+                                  : undefined
+                              }
+                              onSelect={range => {
+                                if (range?.from && range?.to) {
+                                  column.setFilterValue({
+                                    from: format(range.from, 'yyyy-MM-dd'),
+                                    to: format(range.to, 'yyyy-MM-dd'),
+                                  });
+                                } else {
+                                  column.setFilterValue(undefined);
+                                }
+                              }}
+                              className="rounded-md border"
+                            />
+                          </div>
                         ) : (
                           <Input
                             placeholder={`Filter ${col.label}...`}
@@ -277,6 +326,24 @@ export function TableWidget({ config, bindings, events }: WidgetProps<TableWidge
         },
         enableSorting: sorting?.enabled && col.sortable !== false,
         enableHiding: columnConfig?.visibility !== false && col.defaultVisible !== false,
+        // Add custom filter function for date filters
+        ...(col.filter?.type === 'date' && {
+          filterFn: (row, columnId, filterValue) => {
+            const cellValue = row.getValue(columnId) as string;
+            if (!cellValue || !filterValue) return true;
+            const cellDate = new Date(cellValue).toISOString().split('T')[0];
+            return cellDate === filterValue;
+          },
+        }),
+        ...(col.filter?.type === 'dateRange' && {
+          filterFn: (row, columnId, filterValue) => {
+            const cellValue = row.getValue(columnId) as string;
+            if (!cellValue || !filterValue) return true;
+            const cellDate = new Date(cellValue).toISOString().split('T')[0];
+            const { from, to } = filterValue as { from: string; to: string };
+            return cellDate >= from && cellDate <= to;
+          },
+        }),
         meta: {
           align: col.align,
           width: col.width,

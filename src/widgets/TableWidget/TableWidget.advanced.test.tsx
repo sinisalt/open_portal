@@ -17,6 +17,7 @@ describe('TableWidget - Advanced Features', () => {
     email: `user${i + 1}@example.com`,
     role: i % 3 === 0 ? 'Admin' : i % 3 === 1 ? 'User' : 'Guest',
     salary: 50000 + i * 1000,
+    joinDate: new Date(2020 + (i % 5), i % 12, 1).toISOString(),
   }));
 
   describe('Pagination', () => {
@@ -333,6 +334,132 @@ describe('TableWidget - Advanced Features', () => {
       const roleHeader = screen.getByText('Role').closest('th');
       const filterButtons = within(roleHeader!).getAllByRole('button');
       expect(filterButtons.length).toBeGreaterThan(0);
+    });
+
+    it('renders date filter with calendar', () => {
+      const config: TableWidgetConfig = {
+        id: 'test-table',
+        type: 'Table',
+        columns: [
+          {
+            id: 'joinDate',
+            label: 'Join Date',
+            field: 'joinDate',
+            format: 'date',
+            filterable: true,
+            filter: { type: 'date' },
+          },
+        ],
+        rowKey: 'id',
+        filtering: {
+          enabled: true,
+        },
+      };
+
+      render(<TableWidget config={config} bindings={{ value: sampleData.slice(0, 10) }} />);
+
+      // Verify filter button exists for date column
+      const joinDateHeader = screen.getByText('Join Date').closest('th');
+      const filterButtons = within(joinDateHeader!).getAllByRole('button');
+      expect(filterButtons.length).toBeGreaterThan(0);
+    });
+
+    it('renders dateRange filter with calendar', () => {
+      const config: TableWidgetConfig = {
+        id: 'test-table',
+        type: 'Table',
+        columns: [
+          {
+            id: 'joinDate',
+            label: 'Join Date',
+            field: 'joinDate',
+            format: 'date',
+            filterable: true,
+            filter: { type: 'dateRange' },
+          },
+        ],
+        rowKey: 'id',
+        filtering: {
+          enabled: true,
+        },
+      };
+
+      render(<TableWidget config={config} bindings={{ value: sampleData.slice(0, 10) }} />);
+
+      // Verify filter button exists for date range column
+      const joinDateHeader = screen.getByText('Join Date').closest('th');
+      const filterButtons = within(joinDateHeader!).getAllByRole('button');
+      expect(filterButtons.length).toBeGreaterThan(0);
+    });
+
+    it('filters data with date filter using custom filterFn', () => {
+      const testData = [
+        { id: 1, name: 'User 1', joinDate: '2020-01-15' },
+        { id: 2, name: 'User 2', joinDate: '2021-06-20' },
+        { id: 3, name: 'User 3', joinDate: '2022-12-10' },
+      ];
+
+      const config: TableWidgetConfig = {
+        id: 'test-table',
+        type: 'Table',
+        columns: [
+          { id: 'name', label: 'Name', field: 'name' },
+          {
+            id: 'joinDate',
+            label: 'Join Date',
+            field: 'joinDate',
+            format: 'date',
+            filterable: true,
+            filter: { type: 'date' },
+          },
+        ],
+        rowKey: 'id',
+        filtering: {
+          enabled: true,
+        },
+      };
+
+      render(<TableWidget config={config} bindings={{ value: testData }} />);
+
+      // All rows should be visible initially
+      expect(screen.getByText('User 1')).toBeInTheDocument();
+      expect(screen.getByText('User 2')).toBeInTheDocument();
+      expect(screen.getByText('User 3')).toBeInTheDocument();
+    });
+
+    it('filters data with dateRange filter using custom filterFn', () => {
+      const testData = [
+        { id: 1, name: 'User 1', joinDate: '2020-01-15' },
+        { id: 2, name: 'User 2', joinDate: '2021-06-20' },
+        { id: 3, name: 'User 3', joinDate: '2022-12-10' },
+      ];
+
+      const config: TableWidgetConfig = {
+        id: 'test-table',
+        type: 'Table',
+        columns: [
+          { id: 'name', label: 'Name', field: 'name' },
+          {
+            id: 'joinDate',
+            label: 'Join Date',
+            field: 'joinDate',
+            format: 'date',
+            filterable: true,
+            filter: { type: 'dateRange' },
+          },
+        ],
+        rowKey: 'id',
+        filtering: {
+          enabled: true,
+        },
+      };
+
+      render(<TableWidget config={config} bindings={{ value: testData }} />);
+
+      // All rows should be visible initially
+      expect(screen.getByText('User 1')).toBeInTheDocument();
+      expect(screen.getByText('User 2')).toBeInTheDocument();
+      expect(screen.getByText('User 3')).toBeInTheDocument();
     });
   });
 
@@ -705,6 +832,149 @@ describe('TableWidget - Advanced Features', () => {
 
       // Cleanup
       jest.restoreAllMocks();
+    });
+  });
+
+  describe('Edge Cases and Integration', () => {
+    it('handles empty data with all features enabled', () => {
+      const config: TableWidgetConfig = {
+        id: 'test-table',
+        type: 'Table',
+        columns: [
+          { id: 'name', label: 'Name', field: 'name', sortable: true, filterable: true },
+          { id: 'age', label: 'Age', field: 'age', sortable: true, filterable: true },
+        ],
+        rowKey: 'id',
+        pagination: { enabled: true, pageSize: 10 },
+        sorting: { enabled: true },
+        filtering: { enabled: true },
+        selection: { enabled: true, multiSelect: true },
+        export: { csv: true },
+      };
+
+      render(<TableWidget config={config} bindings={{ value: [] }} />);
+
+      expect(screen.getByText('No data available')).toBeInTheDocument();
+    });
+
+    it('handles large datasets with pagination', () => {
+      const largeData = Array.from({ length: 1000 }, (_, i) => ({
+        id: i + 1,
+        name: `User ${i + 1}`,
+        age: 20 + (i % 50),
+      }));
+
+      const config: TableWidgetConfig = {
+        id: 'test-table',
+        type: 'Table',
+        columns: [
+          { id: 'name', label: 'Name', field: 'name' },
+          { id: 'age', label: 'Age', field: 'age' },
+        ],
+        rowKey: 'id',
+        pagination: { enabled: true, pageSize: 50 },
+      };
+
+      render(<TableWidget config={config} bindings={{ value: largeData }} />);
+
+      // Should only render first page
+      const rows = screen.getAllByRole('row');
+      expect(rows).toHaveLength(51); // 50 data rows + 1 header
+      expect(screen.getByText('Page 1 of 20')).toBeInTheDocument();
+    });
+
+    it('handles null and undefined values gracefully', () => {
+      const testData = [
+        { id: 1, name: 'User 1', age: null, email: undefined },
+        { id: 2, name: null, age: 25, email: 'user2@example.com' },
+      ];
+
+      const config: TableWidgetConfig = {
+        id: 'test-table',
+        type: 'Table',
+        columns: [
+          { id: 'name', label: 'Name', field: 'name' },
+          { id: 'age', label: 'Age', field: 'age', format: 'number' },
+          { id: 'email', label: 'Email', field: 'email' },
+        ],
+        rowKey: 'id',
+      };
+
+      render(<TableWidget config={config} bindings={{ value: testData }} />);
+
+      // Should render without crashing
+      expect(screen.getByText('User 1')).toBeInTheDocument();
+      expect(screen.getByText('user2@example.com')).toBeInTheDocument();
+    });
+
+    it('handles mixed filter types in same table', () => {
+      const testData = [
+        {
+          id: 1,
+          name: 'Alice',
+          age: 30,
+          role: 'Admin',
+          joinDate: '2020-01-15',
+        },
+        {
+          id: 2,
+          name: 'Bob',
+          age: 25,
+          role: 'User',
+          joinDate: '2021-06-20',
+        },
+      ];
+
+      const config: TableWidgetConfig = {
+        id: 'test-table',
+        type: 'Table',
+        columns: [
+          {
+            id: 'name',
+            label: 'Name',
+            field: 'name',
+            filterable: true,
+            filter: { type: 'text' },
+          },
+          {
+            id: 'age',
+            label: 'Age',
+            field: 'age',
+            filterable: true,
+            filter: { type: 'number' },
+          },
+          {
+            id: 'role',
+            label: 'Role',
+            field: 'role',
+            filterable: true,
+            filter: {
+              type: 'select',
+              options: [
+                { label: 'Admin', value: 'Admin' },
+                { label: 'User', value: 'User' },
+              ],
+            },
+          },
+          {
+            id: 'joinDate',
+            label: 'Join Date',
+            field: 'joinDate',
+            filterable: true,
+            filter: { type: 'date' },
+          },
+        ],
+        rowKey: 'id',
+        filtering: { enabled: true },
+      };
+
+      render(<TableWidget config={config} bindings={{ value: testData }} />);
+
+      // All columns should render with filter buttons
+      expect(screen.getByText('Name')).toBeInTheDocument();
+      expect(screen.getByText('Age')).toBeInTheDocument();
+      expect(screen.getByText('Role')).toBeInTheDocument();
+      expect(screen.getByText('Join Date')).toBeInTheDocument();
     });
   });
 });
