@@ -169,7 +169,7 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 **Issues 015-019 updated January 23, 2026 to reflect shadcn/ui approach.**
 **Registry system completed January 23, 2026 with 61 passing tests.**
 
-#### 1.4 Action Engine (Week 7-8)
+#### 1.6 Action Engine (Week 7-8)
 - [ ] Action execution framework
 - [ ] Core action types:
   - `executeAction`
@@ -180,14 +180,23 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - [ ] Error handling
 - [ ] Action chaining (sequence, parallel)
 
-#### 1.5 Form Handling (Week 8-9)
+#### 1.7 Form Handling (Week 8-9)
 - [ ] Form state management
 - [ ] Client-side validation
 - [ ] Server-side validation integration
 - [ ] Form submission handling
 - [ ] Error display
 
-#### 1.6 Data Layer (Week 9-10)
+#### 1.4 Menu Management (Week 10-12)
+- [ ] Menu components (TopMenu, SideMenu, FooterMenu, Header) - **ISSUE-040**
+- [ ] Menu state management (TanStack Store) - **ISSUE-041**
+- [ ] Bootstrap API integration for menus - **ISSUE-041**
+- [ ] Dynamic menu refresh - **ISSUE-041**
+- [ ] Menu widgets (configuration-driven) - **ISSUE-042**
+- [ ] Responsive menu layouts - **ISSUE-040**
+- [ ] Logo/branding integration - **ISSUE-040**
+
+#### 1.5 Data Layer (Week 9-10)
 - [ ] Datasource system
 - [ ] HTTP datasource implementation
 - [ ] Fetch policy enforcement
@@ -512,8 +521,6 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 - ✅ Deep linking support - **COMPLETE** (TanStack Router built-in)
 - ✅ Route guards (ISSUE-013-route-resolver) - **COMPLETE**
 
-**Note:** Phase 0.5 inserted to migrate technology stack before Phase 1 continues. See ADR-012 for rationale.
-
 ### Phase 1.3: Widget Registry & Core Widgets - ✅ **100% Complete** 🎉
 - ✅ **ISSUE-015 Complete:** Widget Registry System (61/61 tests passing)
   - Widget registry with type-safe registration
@@ -548,6 +555,28 @@ This document outlines the phased approach to implementing the OpenPortal platfo
   - Integrated Sonner for toast notifications
   - All widgets registered in widget registry
   - Interactive demo page created
+
+### Phase 1.4: Menu Management - ⏳ **0% Complete** (0/3 issues complete)
+- ⏳ **ISSUE-040 Pending:** Menu Components and Layout System
+  - TopMenu component (horizontal navigation with dropdowns)
+  - SideMenu component (vertical sidebar with icons, collapsible)
+  - FooterMenu component (horizontal footer links)
+  - Header component (logo, branding, top menu integration)
+  - Responsive behavior (mobile hamburger, drawer)
+  - shadcn/ui components (navigation-menu, dropdown-menu, sheet)
+- ⏳ **ISSUE-041 Pending:** Menu State Management and Bootstrap Integration
+  - Menu state management (TanStack Store)
+  - Bootstrap API integration for menus
+  - Dynamic menu refresh on navigation
+  - Permission-based filtering (client-side validation)
+  - Menu persistence (localStorage)
+  - Multiple menu instances (top, side, footer)
+- ⏳ **ISSUE-042 Pending:** Menu Widget System
+  - MenuWidget (configuration-driven menus)
+  - Widget registry integration
+  - Configuration schema for menus
+  - Dynamic bindings for menu items
+  - Visibility policies for menu widgets
 
 ### Phase 1.1 Backend: Core APIs - ✅ **100% Complete** (2/2 issues)
 - ✅ **ISSUE-024 Complete:** Authentication Endpoints
@@ -606,11 +635,12 @@ This document outlines the phased approach to implementing the OpenPortal platfo
 
 ---
 
-**Version:** 2.13  
-**Last Updated:** January 24, 2026  
+**Version:** 2.14  
+**Last Updated:** January 25, 2026  
 **Status:** Active Development - Phase 1 (85% Complete - Core Infrastructure Ready)
 
 **Recent Updates:**
+- **January 25, 2026:** 📋 **Menu Management Issues Created** - Added ISSUE-040 (Menu Components), ISSUE-041 (Menu State & Integration), and ISSUE-042 (Menu Widget System) to address missing frontend menu functionality. Backend menu API already exists in `/ui/bootstrap` endpoint. New Phase 1.4 covers top menu (horizontal with dropdowns), side menu (vertical with icons, collapsible), footer menu, and responsive layouts. Total effort: 12 days across 3 issues.
 - **January 24, 2026:** ✅ **ISSUE-028 Complete** - Phase 1 Integration Testing and Documentation. Executed comprehensive testing of Phase 1 features with backend API testing (10/16 passed, 62.5%), frontend E2E testing (2/2 passed, 100%), and complete documentation with screenshots. Created test automation scripts and comprehensive 28KB test report. Identified known issues: listings page config missing widgets, rate limiting too aggressive for testing. Phase 1 Status: 85% complete, core infrastructure ready for Phase 1.3 continuation.
 - **January 24, 2026:** ✅ **ISSUE-027 Complete** - Sample Page Configurations (Dashboard, Profile, Listings). Created comprehensive page configurations demonstrating all 12 MVP widgets with datasources, actions, menus, and routes. Includes 16KB documentation guide with API structures and best practices.
 - **January 24, 2026:** ✅ **ISSUE-026 Complete** - Backend Actions Execution Endpoint. Implemented POST /ui/actions/execute and GET /ui/actions/audit endpoints with action handler framework, 6 core CRUD handlers, validation, permissions, rate limiting, and audit logging.

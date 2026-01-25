@@ -96,6 +96,13 @@ Each issue file contains:
 | [#027](027-sample-configurations.md) | Sample Page Configurations (Dashboard, Profile, Listings) | 5 days | High | Backend |
 | [#028](028-phase1-integration-testing.md) | Phase 1 Integration Testing and Documentation | 5 days | Critical | Full-stack |
 
+#### Menu Management (Weeks 10-12) - NEW
+| Issue | Title | Effort | Priority | Component |
+|-------|-------|--------|----------|-----------|
+| [#040](040-menu-components-layout.md) | Menu Components and Layout System | 5 days | High | Frontend |
+| [#041](041-menu-state-integration.md) | Menu State Management and Bootstrap Integration | 4 days | High | Frontend |
+| [#042](042-menu-widget-system.md) | Menu Widget System - Configuration-Driven Menus | 3 days | Medium | Frontend |
+
 **Total Estimated Effort:** ~95 days (parallelizable across team)
 
 **Phase 1 Success Criteria:**
