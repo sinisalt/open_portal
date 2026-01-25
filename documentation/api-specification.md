@@ -1759,3 +1759,24 @@ Create a validation rule. (Admin only)
 
 **Version:** 1.2
 **Last Updated:** January 2026
+
+## Changelog
+
+### v1.2 (January 2026)
+- Added Configuration Governance APIs for version control, validation, and deployment management
+- Documented configuration versioning endpoints (`/config/versions`, `/config/validate`)
+- Documented deployment and promotion endpoints (`/config/deploy`, `/config/promote`, `/config/rollback`)
+- Documented approval workflow endpoints (`/config/approve`, `/config/reject`)
+- Added configuration audit trail endpoint (`/config/audit`)
+- Added validation rules management endpoints (`/config/rules`)
+- Documented environment lifecycle semantics across dev, staging, and production
+- Added detailed configuration governance, rollback, and approval workflows
+- Added configuration diff comparison endpoint (`/config/diff`)
+
+### v1.1 (January 2026)
+- Initial public API specification for core authentication, configuration, and data access endpoints
+- Documented authentication endpoints (login, logout, refresh)
+- Documented UI configuration endpoints (bootstrap, branding, routes, pages)
+- Documented tenant management APIs
+- Documented action execution endpoints
+- Documented WebSocket real-time communication APIs

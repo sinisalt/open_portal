@@ -255,7 +255,22 @@ export class ConfigGovernanceService {
 
     // Get the latest version
     const latestVersion = versions[0].version;
-    const [major, minor, patch] = latestVersion.split('.').map(Number);
+    const parts = latestVersion.split('.');
+
+    // Ensure we have major, minor, and patch parts
+    while (parts.length < 3) {
+      parts.push('0');
+    }
+
+    const [majorStr, minorStr, patchStr] = parts;
+    const major = Number(majorStr);
+    const minor = Number(minorStr);
+    const patch = Number(patchStr);
+
+    // Fallback to initial semantic version if parsing fails
+    if (Number.isNaN(major) || Number.isNaN(minor) || Number.isNaN(patch)) {
+      return '1.0.0';
+    }
 
     // Increment patch version
     return `${major}.${minor}.${patch + 1}`;
@@ -494,10 +509,16 @@ export class ConfigGovernanceService {
 
     // Create audit entry
     if (updated) {
+      // Get config types from the deployment's versions
+      const versionIds = updated.versionIds;
+      const versions = versionIds.map((id) => db.getConfigVersionById(id)).filter(Boolean);
+      const configType: 'page' | 'route' | 'branding' | 'menu' =
+        versions.length > 0 && versions[0]?.configType ? versions[0].configType : 'page';
+
       this.addAuditEntry({
         id: randomUUID(),
         tenantId: updated.tenantId,
-        configType: 'page', // Generic for deployment approval
+        configType, // Use actual config type from deployment
         configId: deploymentId,
         action: 'approve',
         deploymentId,
@@ -524,10 +545,16 @@ export class ConfigGovernanceService {
 
     // Create audit entry
     if (updated) {
+      // Get config types from the deployment's versions
+      const versionIds = updated.versionIds;
+      const versions = versionIds.map((id) => db.getConfigVersionById(id)).filter(Boolean);
+      const configType: 'page' | 'route' | 'branding' | 'menu' =
+        versions.length > 0 && versions[0]?.configType ? versions[0].configType : 'page';
+
       this.addAuditEntry({
         id: randomUUID(),
         tenantId: updated.tenantId,
-        configType: 'page', // Generic for deployment rejection
+        configType, // Use actual config type from deployment
         configId: deploymentId,
         action: 'reject',
         deploymentId,

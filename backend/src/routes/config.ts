@@ -474,7 +474,14 @@ router.get('/audit', authenticateToken, (req: AuthRequest, res) => {
     if (configId) filters.configId = configId as string;
     if (userId) filters.userId = userId as string;
     if (action) filters.action = action as string;
-    if (limit) filters.limit = Number.parseInt(limit as string, 10);
+    if (limit !== undefined) {
+      const parsedLimit = Number.parseInt(limit as string, 10);
+      if (Number.isNaN(parsedLimit) || parsedLimit <= 0) {
+        res.status(400).json({ error: 'limit must be a positive integer' });
+        return;
+      }
+      filters.limit = parsedLimit;
+    }
 
     const auditTrail = configService.getAuditTrail(filters);
     res.json({ entries: auditTrail });
