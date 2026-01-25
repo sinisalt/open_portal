@@ -20,7 +20,7 @@ describe('authService', () => {
   describe('login', () => {
     it('should login successfully and store tokens', async () => {
       const mockResponse = {
-        accessToken: 'mock-access-token',
+        token: 'mock-access-token',
         refreshToken: 'mock-refresh-token',
         expiresIn: 3600,
         user: { id: '1', email: 'test@example.com', name: 'Test User' },
@@ -38,7 +38,11 @@ describe('authService', () => {
         expect.objectContaining({
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: 'test@example.com', password: 'password123' }),
+          body: JSON.stringify({
+            username: 'test@example.com',
+            password: 'password123',
+            rememberMe: false,
+          }),
         })
       );
 
@@ -49,7 +53,7 @@ describe('authService', () => {
 
     it('should store tokens in localStorage when rememberMe is true', async () => {
       const mockResponse = {
-        accessToken: 'mock-access-token',
+        token: 'mock-access-token',
         refreshToken: 'mock-refresh-token',
         expiresIn: 3600,
         user: { id: '1', email: 'test@example.com', name: 'Test User' },
