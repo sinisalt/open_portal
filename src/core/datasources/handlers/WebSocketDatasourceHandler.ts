@@ -559,9 +559,16 @@ export class WebSocketDatasourceHandler implements DatasourceHandler<WebSocketDa
         }
       });
     } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : typeof err === 'string'
+            ? err
+            : 'Unknown error';
+
       throw createDatasourceError(
         'UNKNOWN_ERROR',
-        `WebSocket datasource fetch failed: ${err?.message || 'Unknown error'}`,
+        `WebSocket datasource fetch failed: ${errorMessage}`,
         config.id,
         err
       );
