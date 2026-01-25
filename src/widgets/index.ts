@@ -21,6 +21,8 @@
 
 import { widgetRegistry } from '@/core/registry/WidgetRegistry';
 import { CardWidget } from './CardWidget';
+// Data Visualization widgets
+import { ChartWidget } from './ChartWidget';
 // Form Input widgets (4 widgets)
 import { CheckboxWidget } from './CheckboxWidget';
 import { DatePickerWidget } from './DatePickerWidget';
@@ -109,6 +111,12 @@ export function registerWidgets(): void {
     description: 'Key performance indicator display',
   });
 
+  widgetRegistry.register('Chart', ChartWidget, {
+    displayName: 'Chart',
+    category: 'data',
+    description: 'Data visualization chart (line, bar, pie, area, scatter)',
+  });
+
   // Dialogs & Feedback widgets (2 widgets - complete for MVP)
   widgetRegistry.register('Modal', ModalWidget, {
     displayName: 'Modal',
@@ -166,17 +174,6 @@ export function registerWidgets(): void {
     description: 'Footer navigation menu',
   });
 
-  // Example: Lazy loading for heavy widgets
-  // import { lazy } from 'react';
-  //
-  // const ChartWidget = lazy(() => import('./ChartWidget'));
-  // widgetRegistry.register('Chart', ChartWidget, {
-  //   displayName: 'Chart',
-  //   category: 'data',
-  //   description: 'Data visualization chart',
-  //   lazy: true,
-  // });
-
   // Log registration summary in development
   if (process.env.NODE_ENV !== 'production') {
     const stats = widgetRegistry.getStats();
@@ -213,6 +210,16 @@ export { widgetRegistry };
 
 export type { CardWidgetConfig } from './CardWidget';
 export { CardWidget } from './CardWidget';
+export type {
+  AreaChartConfig,
+  BarChartConfig,
+  ChartConfig,
+  ChartWidgetConfig,
+  LineChartConfig,
+  PieChartConfig,
+  ScatterChartConfig,
+} from './ChartWidget';
+export { ChartWidget } from './ChartWidget';
 export type { CheckboxWidgetConfig } from './CheckboxWidget';
 export { CheckboxWidget } from './CheckboxWidget';
 export type { DatePickerWidgetConfig } from './DatePickerWidget';
