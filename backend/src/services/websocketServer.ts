@@ -231,23 +231,26 @@ export class WebSocketServerManager {
       });
     }
 
-    const topicData = this.topics.get(topic)!;
-    topicData.subscribers.add(ws);
-    topicData.presenceCount = topicData.subscribers.size;
-    ws.subscribedTopics?.add(topic);
+    const topicData = this.topics.get(topic);
 
-    logger.info(`User ${ws.username} subscribed to topic: ${topic}`);
+    if (topicData) {
+      topicData.subscribers.add(ws);
+      topicData.presenceCount = topicData.subscribers.size;
+      ws.subscribedTopics?.add(topic);
 
-    // Notify client of successful subscription
-    this.sendMessage(ws, {
-      type: WSMessageType.SUBSCRIBED,
-      topic,
-      data: { presenceCount: topicData.presenceCount },
-      timestamp: Date.now(),
-    });
+      logger.info(`User ${ws.username} subscribed to topic: ${topic}`);
 
-    // Broadcast presence update to all subscribers
-    this.broadcastPresence(topic);
+      // Notify client of successful subscription
+      this.sendMessage(ws, {
+        type: WSMessageType.SUBSCRIBED,
+        topic,
+        data: { presenceCount: topicData.presenceCount },
+        timestamp: Date.now(),
+      });
+
+      // Broadcast presence update to all subscribers
+      this.broadcastPresence(topic);
+    }
   }
 
   /**

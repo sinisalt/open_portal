@@ -96,7 +96,7 @@ class WebSocketConnection {
 
     try {
       // Add authentication token to URL
-      const token = tokenManager.getAccessToken();
+      const token = getAccessToken();
       if (!token) {
         throw new Error('No authentication token available');
       }

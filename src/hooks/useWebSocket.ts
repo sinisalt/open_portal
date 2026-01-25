@@ -101,6 +101,9 @@ export function useWebSocket(options: UseWebSocketOptions): WebSocketState {
         unsubscribeRef.current = null;
       }
     };
+    // Note: onConnect, onDisconnect, onError are intentionally not in dependency array
+    // as they are not used in the effect body for this implementation
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url, topic, enabled, onMessage]);
 
   // Publish function
