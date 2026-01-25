@@ -11,6 +11,8 @@ import { seedUiConfig } from './models/seedUiConfig.js';
 import actionsRouter from './routes/actions.js';
 import authRouter from './routes/auth.js';
 import uiRouter from './routes/ui.js';
+import websocketRouter from './routes/websocket.js';
+import { websocketServer } from './services/websocketServer.js';
 
 const logger = pino({ level: config.logLevel });
 const app = express();
@@ -48,6 +50,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/auth', authRouter);
 app.use('/ui', uiRouter);
 app.use('/ui/actions', actionsRouter);
+app.use('/ws', websocketRouter);
 
 /**
  * Health Check
@@ -83,6 +86,9 @@ const server = app.listen(config.port, async () => {
   logger.info(`Environment: ${config.nodeEnv}`);
   logger.info(`CORS origin: ${config.corsOrigin}`);
 
+  // Initialize WebSocket server
+  websocketServer.initialize(server);
+
   // Seed database with test users
   await seedUsers();
 
@@ -98,6 +104,7 @@ const server = app.listen(config.port, async () => {
  */
 process.on('SIGTERM', () => {
   logger.info('SIGTERM received, shutting down gracefully');
+  websocketServer.close();
   server.close(() => {
     logger.info('Server closed');
     process.exit(0);
@@ -106,6 +113,7 @@ process.on('SIGTERM', () => {
 
 process.on('SIGINT', () => {
   logger.info('SIGINT received, shutting down gracefully');
+  websocketServer.close();
   server.close(() => {
     logger.info('Server closed');
     process.exit(0);

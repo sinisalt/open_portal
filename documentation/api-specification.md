@@ -856,5 +856,296 @@ wss://api.example.com/v1/ui/ws?token=<accessToken>
 
 ---
 
-**Version:** 1.0
+## WebSocket API
+
+### WebSocket Connection
+
+**Endpoint:** `ws://api.example.com/ws?token={jwt_token}`
+
+**Authentication:**
+- JWT token must be provided as a query parameter
+- Token is validated on connection
+- Connection is rejected if token is invalid or expired
+
+**Message Format:**
+All messages are JSON with the following structure:
+```json
+{
+  "type": "message_type",
+  "topic": "optional_topic",
+  "data": {},
+  "timestamp": 1234567890,
+  "messageId": "unique_id"
+}
+```
+
+### Message Types
+
+#### Client to Server
+
+**1. SUBSCRIBE**
+Subscribe to a topic to receive messages.
+
+```json
+{
+  "type": "subscribe",
+  "topic": "dashboard-updates"
+}
+```
+
+**Response:**
+```json
+{
+  "type": "subscribed",
+  "topic": "dashboard-updates",
+  "data": {
+    "presenceCount": 5
+  },
+  "timestamp": 1234567890
+}
+```
+
+**2. UNSUBSCRIBE**
+Unsubscribe from a topic.
+
+```json
+{
+  "type": "unsubscribe",
+  "topic": "dashboard-updates"
+}
+```
+
+**Response:**
+```json
+{
+  "type": "unsubscribed",
+  "topic": "dashboard-updates",
+  "timestamp": 1234567890
+}
+```
+
+**3. PUBLISH**
+Publish a message to a topic.
+
+```json
+{
+  "type": "publish",
+  "topic": "user-activity",
+  "data": {
+    "action": "update",
+    "resourceId": "123"
+  }
+}
+```
+
+**4. PING**
+Heartbeat to keep connection alive.
+
+```json
+{
+  "type": "ping"
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pong",
+  "timestamp": 1234567890
+}
+```
+
+#### Server to Client
+
+**1. MESSAGE**
+Message published to a subscribed topic.
+
+```json
+{
+  "type": "message",
+  "topic": "dashboard-updates",
+  "data": {
+    "metric": "sales",
+    "value": 12345
+  },
+  "timestamp": 1234567890,
+  "messageId": "msg-abc-123"
+}
+```
+
+**2. PRESENCE**
+Presence update for a topic (subscriber count changes).
+
+```json
+{
+  "type": "presence",
+  "topic": "dashboard-updates",
+  "data": {
+    "presenceCount": 6
+  },
+  "timestamp": 1234567890
+}
+```
+
+**3. ERROR**
+Error message from server.
+
+```json
+{
+  "type": "error",
+  "data": {
+    "error": "Subscription failed"
+  },
+  "timestamp": 1234567890
+}
+```
+
+### WebSocket HTTP Endpoints
+
+#### GET /ws/stats
+Get WebSocket server statistics.
+
+**Authentication:** Required (Bearer token)
+
+**Response:**
+```json
+{
+  "topics": [
+    {
+      "topic": "dashboard-updates",
+      "subscribers": 5
+    },
+    {
+      "topic": "notifications",
+      "subscribers": 12
+    }
+  ],
+  "totalTopics": 2,
+  "totalSubscribers": 17
+}
+```
+
+#### POST /ws/publish
+Publish a message to a topic via HTTP.
+
+**Authentication:** Required (Bearer token)
+
+**Request:**
+```json
+{
+  "topic": "notifications",
+  "data": {
+    "title": "New Alert",
+    "message": "System update completed"
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Message published to topic: notifications"
+}
+```
+
+### Topic Naming Conventions
+
+Topics should follow a hierarchical naming pattern:
+- `<scope>:<resource>:<action>` - e.g., `dashboard:sales:update`
+- `<resource>:<id>` - e.g., `user:123`
+- Special topics:
+  - `<topic>:presence` - Presence updates for a topic (automatic)
+
+### Connection Management
+
+**Reconnection:**
+- Client should implement exponential backoff for reconnection
+- Recommended: Start with 1s delay, max 30s delay
+- Max reconnection attempts: 10
+
+**Heartbeat:**
+- Server pings clients every 30 seconds
+- Client should respond with pong or connection will be terminated
+- Client can also send ping messages for keep-alive
+
+**Message Queuing:**
+- Messages sent during disconnection should be queued (max 100 messages)
+- Queue is flushed when connection is re-established
+- Older messages are dropped when queue is full
+
+### Usage Examples
+
+#### JavaScript/TypeScript Client
+
+```typescript
+// Connect with authentication
+const token = getAccessToken();
+const ws = new WebSocket(`ws://api.example.com/ws?token=${token}`);
+
+ws.onopen = () => {
+  // Subscribe to topic
+  ws.send(JSON.stringify({
+    type: 'subscribe',
+    topic: 'dashboard-updates'
+  }));
+};
+
+ws.onmessage = (event) => {
+  const message = JSON.parse(event.data);
+  
+  if (message.type === 'message') {
+    console.log('Received:', message.data);
+  }
+};
+
+ws.onerror = (error) => {
+  console.error('WebSocket error:', error);
+};
+
+ws.onclose = () => {
+  // Implement reconnection logic
+  setTimeout(() => reconnect(), 1000);
+};
+```
+
+#### Using WebSocket Datasource
+
+```typescript
+// Configuration
+const config: WebSocketDatasourceConfig = {
+  id: 'dashboard-ws',
+  type: 'websocket',
+  config: {
+    url: 'ws://api.example.com/ws',
+    reconnect: true,
+    reconnectDelay: 1000,
+    onMessage: (data) => {
+      console.log('Message received:', data);
+    },
+    onOpen: () => {
+      console.log('Connected');
+    },
+    onClose: () => {
+      console.log('Disconnected');
+    }
+  }
+};
+
+// Using the hook
+const { isConnected, lastMessage, publish, subscribe } = useWebSocket({
+  url: 'ws://api.example.com/ws',
+  topic: 'dashboard-updates',
+  onMessage: (data) => {
+    console.log('Update:', data);
+  }
+});
+
+// Publish message
+publish('user-activity', { action: 'click', button: 'save' });
+```
+
+---
+
+**Version:** 1.1
 **Last Updated:** January 2026
