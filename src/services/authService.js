@@ -37,8 +37,9 @@ export async function login(email, password, rememberMe = false) {
   const data = await response.json();
 
   // Use token manager to store tokens
+  // Backend returns 'token' field, but we store it as 'accessToken' internally
   tokenManager.storeTokens(
-    data.accessToken,
+    data.token, // Backend returns 'token' not 'accessToken'
     data.refreshToken,
     data.expiresIn,
     data.user,
