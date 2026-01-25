@@ -30,7 +30,7 @@ import {
   Settings2,
 } from 'lucide-react';
 import Papa from 'papaparse';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -65,6 +65,11 @@ import { cn } from '@/lib/utils';
 import type { WidgetProps } from '@/types/widget.types';
 import type { TableColumn, TableWidgetConfig } from './types';
 
+// Helper function to extract column metadata with proper typing
+function getColumnMeta<T extends Record<string, unknown>>(meta: unknown): T | undefined {
+  return meta as T | undefined;
+}
+
 export function TableWidget({ config, bindings, events }: WidgetProps<TableWidgetConfig>) {
   const {
     columns: columnConfigs,
@@ -88,6 +93,12 @@ export function TableWidget({ config, bindings, events }: WidgetProps<TableWidge
   const rawData = bindings?.value;
   const data: Record<string, unknown>[] = Array.isArray(rawData) ? rawData : [];
 
+  // Use ref for events to avoid rebuilding columns on every render
+  const eventsRef = useRef(events);
+  useEffect(() => {
+    eventsRef.current = events;
+  }, [events]);
+
   // State management
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -103,7 +114,8 @@ export function TableWidget({ config, bindings, events }: WidgetProps<TableWidge
     pageSize: pagination?.pageSize || 10,
   });
 
-  // Initialize column visibility from config
+  // Initialize column visibility from config (only on mount)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only run on mount to preserve user customizations
   useEffect(() => {
     const initialVisibility: VisibilityState = {};
     columnConfigs.forEach(col => {
@@ -112,7 +124,7 @@ export function TableWidget({ config, bindings, events }: WidgetProps<TableWidge
       }
     });
     setColumnVisibility(initialVisibility);
-  }, [columnConfigs]);
+  }, []);
 
   // Notify parent of state changes
   useEffect(() => {
@@ -292,8 +304,8 @@ export function TableWidget({ config, bindings, events }: WidgetProps<TableWidge
                 <DropdownMenuItem
                   key={action.id}
                   onClick={() => {
-                    if (events?.onRowAction) {
-                      events.onRowAction({ action: action.actionId, row: row.original });
+                    if (eventsRef.current?.onRowAction) {
+                      eventsRef.current.onRowAction({ action: action.actionId, row: row.original });
                     }
                   }}
                 >
@@ -309,7 +321,7 @@ export function TableWidget({ config, bindings, events }: WidgetProps<TableWidge
     }
 
     return cols;
-  }, [columnConfigs, sorting, filtering, selection, rowActions, columnConfig, events]);
+  }, [columnConfigs, sorting, filtering, selection, rowActions, columnConfig]);
 
   // Create table instance with all features
   const table = useReactTable({
@@ -393,9 +405,13 @@ export function TableWidget({ config, bindings, events }: WidgetProps<TableWidge
     (format: 'csv') => {
       if (format === 'csv') {
         const rows = table.getRowModel().rows;
+        // Map column IDs back to labels from original config
         const headers = columns
           .filter(col => col.id !== 'select' && col.id !== 'actions')
-          .map(col => (col.header as string) || col.id);
+          .map(col => {
+            const configCol = columnConfigs.find(c => c.id === col.id);
+            return configCol?.label || col.id;
+          });
 
         const csvData = rows.map(row =>
           columns
@@ -420,7 +436,7 @@ export function TableWidget({ config, bindings, events }: WidgetProps<TableWidge
         URL.revokeObjectURL(url);
       }
     },
-    [table, columns, exportConfig]
+    [table, columns, exportConfig, columnConfigs]
   );
 
   // Loading state
@@ -577,9 +593,11 @@ export function TableWidget({ config, bindings, events }: WidgetProps<TableWidge
             {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map(header => {
-                  const align = (header.column.columnDef.meta as { align?: string })?.align;
-                  const width = (header.column.columnDef.meta as { width?: number | string })
-                    ?.width;
+                  const meta = getColumnMeta<{ align?: string; width?: number | string }>(
+                    header.column.columnDef.meta
+                  );
+                  const align = meta?.align;
+                  const width = meta?.width;
 
                   return (
                     <TableHead
@@ -625,7 +643,8 @@ export function TableWidget({ config, bindings, events }: WidgetProps<TableWidge
                     }}
                   >
                     {row.getVisibleCells().map(cell => {
-                      const align = (cell.column.columnDef.meta as { align?: string })?.align;
+                      const meta = getColumnMeta<{ align?: string }>(cell.column.columnDef.meta);
+                      const align = meta?.align;
 
                       return (
                         <TableCell

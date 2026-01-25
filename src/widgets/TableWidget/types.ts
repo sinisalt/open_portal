@@ -26,8 +26,11 @@ export interface ColumnFormatOptions {
 
 /**
  * Filter types for columns
+ *
+ * Note: Additional filter types (e.g. date-based filters) will be added here
+ * when they are fully supported by the TableWidget implementation.
  */
-export type FilterType = 'text' | 'number' | 'select' | 'date' | 'dateRange';
+export type FilterType = 'text' | 'number' | 'select';
 
 /**
  * Filter configuration for a column
