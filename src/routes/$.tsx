@@ -1,17 +1,19 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
+import { DynamicPage } from '@/components/DynamicPage';
+import * as tokenManager from '@/services/tokenManager';
 
 export const Route = createFileRoute('/$')({
-  component: NotFoundComponent,
+  component: DynamicPageRoute,
+  beforeLoad: async () => {
+    // Require authentication
+    if (!tokenManager.isAuthenticated()) {
+      throw redirect({ to: '/login', search: { redirect: '/' } });
+    }
+  },
 });
 
-function NotFoundComponent() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-6xl font-bold text-muted-foreground mb-4">404</h1>
-      <p className="text-xl mb-8">Page not found</p>
-      <Link to="/" className="text-primary hover:underline">
-        Go back home
-      </Link>
-    </div>
-  );
+function DynamicPageRoute() {
+  // The DynamicPage component will handle loading the page config
+  // based on the current route path
+  return <DynamicPage />;
 }
