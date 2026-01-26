@@ -48,9 +48,12 @@ export class UiConfigService {
     const menuConfig = db.getMenuConfigByTenantAndRole(user.tenantId, primaryRole);
 
     // Filter menu items by permissions
-    const menu = menuConfig
+    const menuConfigData = menuConfig
       ? this.filterMenuByPermissions(menuConfig.config, this.getUserPermissions(user))
       : { items: [] };
+
+    // Extract just the items array for the frontend (frontend expects MenuItem[])
+    const menu = (menuConfigData as { items?: unknown[] }).items || [];
 
     // Get tenant-specific feature flags
     const tenantFeatureFlags = tenant?.featureFlags || {};
@@ -192,13 +195,14 @@ export class UiConfigService {
   }
 
   /**
-   * Filter menu items by user permissions
+   * Filter menu items by user permissions and transform to frontend format
    */
   private filterMenuByPermissions(menuConfig: unknown, userPermissions: string[]): unknown {
     const config = menuConfig as {
       items?: Array<{
         permissions?: string[];
         children?: Array<{ permissions?: string[] }>;
+        path?: string;
         [key: string]: unknown;
       }>;
     };
@@ -206,6 +210,21 @@ export class UiConfigService {
     if (!config.items) {
       return menuConfig;
     }
+
+    // Transform item to match frontend MenuItem interface (path -> route)
+    const transformItem = (item: Record<string, unknown>): Record<string, unknown> => {
+      const transformed = { ...item };
+      // Rename 'path' to 'route' for frontend compatibility
+      if (item.path) {
+        transformed.route = item.path;
+        delete (transformed as { path?: unknown }).path;
+      }
+      // Recursively transform children
+      if (item.children && Array.isArray(item.children)) {
+        transformed.children = item.children.map(transformItem);
+      }
+      return transformed;
+    };
 
     const filteredItems = config.items
       .filter((item) => {
@@ -215,19 +234,7 @@ export class UiConfigService {
         }
         return true;
       })
-      .map((item) => {
-        // Filter children as well
-        if (item.children) {
-          const filteredChildren = item.children.filter((child) => {
-            if (child.permissions && child.permissions.length > 0) {
-              return child.permissions.some((perm) => userPermissions.includes(perm));
-            }
-            return true;
-          });
-          return { ...item, children: filteredChildren };
-        }
-        return item;
-      });
+      .map((item) => transformItem(item));
 
     return { ...config, items: filteredItems };
   }

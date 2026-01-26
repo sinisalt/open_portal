@@ -61,7 +61,7 @@ export function useBootstrap() {
         data: null,
         loading: false,
         error: errorMessage,
-        loaded: false,
+        loaded: true, // Mark as attempted to prevent infinite retry loop
       });
 
       // If it's an authentication error, clear tokens

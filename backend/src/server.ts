@@ -28,10 +28,24 @@ const app = express();
 /**
  * Security Middleware
  */
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' }, // Allow cross-origin requests from frontend
+  }),
+);
+
+// Improved CORS: allow multiple comma-separated origins
+const allowedOrigins = (config.corsOrigin || '').split(',').map(o => o.trim()).filter(Boolean);
 app.use(
   cors({
-    origin: config.corsOrigin,
+    origin: (origin, callback) => {
+      // Allow same-origin requests (no origin header) and allowed origins
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS blocked for origin: ${origin}`));
+      }
+    },
     credentials: true,
   }),
 );
