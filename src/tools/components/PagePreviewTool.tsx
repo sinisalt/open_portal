@@ -278,7 +278,7 @@ export function PagePreviewTool() {
                       key={mode.value}
                       variant={previewMode === mode.value ? 'default' : 'outline'}
                       size="sm"
-                      onClick={() => setPreviewMode(mode.value as any)}
+                      onClick={() => setPreviewMode(mode.value as typeof previewMode)}
                       title={mode.label}
                     >
                       <Icon className="h-4 w-4" />
