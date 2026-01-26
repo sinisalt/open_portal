@@ -1,6 +1,6 @@
 /**
  * Error Tracking Service
- * 
+ *
  * Captures and reports frontend errors, similar to Sentry
  */
 
@@ -47,20 +47,17 @@ class ErrorTracker {
    */
   private initializeGlobalHandlers(): void {
     // Catch unhandled errors
-    window.addEventListener('error', (event) => {
+    window.addEventListener('error', event => {
       this.captureError(event.error || new Error(event.message), {
         tags: { type: 'unhandled' },
       });
     });
 
     // Catch unhandled promise rejections
-    window.addEventListener('unhandledrejection', (event) => {
-      this.captureError(
-        new Error(`Unhandled Promise Rejection: ${event.reason}`),
-        {
-          tags: { type: 'unhandled-promise' },
-        }
-      );
+    window.addEventListener('unhandledrejection', event => {
+      this.captureError(new Error(`Unhandled Promise Rejection: ${event.reason}`), {
+        tags: { type: 'unhandled-promise' },
+      });
     });
 
     // Console error interception (optional)
@@ -136,10 +133,7 @@ class ErrorTracker {
   /**
    * Capture React error boundary error
    */
-  captureReactError(
-    error: Error,
-    errorInfo: { componentStack?: string }
-  ): string {
+  captureReactError(error: Error, errorInfo: { componentStack?: string }): string {
     if (!this.enabled) return '';
 
     const errorEvent: ErrorEvent = {
@@ -196,7 +190,7 @@ class ErrorTracker {
         ...errorEvent,
         error: undefined, // Don't send Error object (not serializable)
       });
-      
+
       navigator.sendBeacon(endpoint, data);
     } else {
       // Fallback to fetch
@@ -290,7 +284,7 @@ class ErrorTracker {
     recent: ErrorEvent[];
   } {
     const byLevel: Record<string, number> = {};
-    
+
     for (const error of this.errors) {
       byLevel[error.level] = (byLevel[error.level] || 0) + 1;
     }

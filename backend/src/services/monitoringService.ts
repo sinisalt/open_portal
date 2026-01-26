@@ -1,6 +1,6 @@
 /**
  * Monitoring Service
- * 
+ *
  * Provides centralized monitoring, metrics collection, and observability
  * for the OpenPortal backend.
  */
@@ -50,19 +50,19 @@ class MetricsCollector {
    */
   recordMetric(metric: Metric): void {
     const { name, value, labels = {}, timestamp = new Date() } = metric;
-    
+
     const key = this.getMetricKey(name, labels);
     const existing = this.metrics.get(key) || [];
-    
+
     existing.push({ name, value, labels, timestamp });
-    
+
     // Keep only last 1000 metrics per key
     if (existing.length > 1000) {
       existing.shift();
     }
-    
+
     this.metrics.set(key, existing);
-    
+
     logger.debug({ metric: { name, value, labels } }, 'Metric recorded');
   }
 
@@ -72,16 +72,16 @@ class MetricsCollector {
   recordRequest(responseTime: number, statusCode: number): void {
     this.requestCount++;
     this.responseTimes.push(responseTime);
-    
+
     if (statusCode >= 400) {
       this.errorCount++;
     }
-    
+
     // Keep only last 1000 response times
     if (this.responseTimes.length > 1000) {
       this.responseTimes.shift();
     }
-    
+
     this.recordMetric({
       name: 'http_request',
       value: responseTime,
@@ -100,9 +100,10 @@ class MetricsCollector {
    * Get current health metrics
    */
   getHealthMetrics(): HealthMetrics {
-    const avgResponseTime = this.responseTimes.length > 0
-      ? this.responseTimes.reduce((a, b) => a + b, 0) / this.responseTimes.length
-      : 0;
+    const avgResponseTime =
+      this.responseTimes.length > 0
+        ? this.responseTimes.reduce((a, b) => a + b, 0) / this.responseTimes.length
+        : 0;
 
     return {
       uptime: (Date.now() - this.startTime) / 1000,
@@ -217,10 +218,10 @@ class AlertManager {
 
           // Trigger alert
           alert.lastTriggered = Date.now();
-          
+
           logger[alert.severity === 'critical' || alert.severity === 'error' ? 'error' : 'warn'](
             { alertId: alert.id, name: alert.name, severity: alert.severity },
-            alert.message
+            alert.message,
           );
 
           // Call handlers
@@ -259,9 +260,8 @@ export function initializeDefaultAlerts(): void {
     id: 'high-error-rate',
     name: 'High Error Rate',
     condition: (metrics) => {
-      const errorRate = metrics.requests.total > 0
-        ? metrics.requests.errors / metrics.requests.total
-        : 0;
+      const errorRate =
+        metrics.requests.total > 0 ? metrics.requests.errors / metrics.requests.total : 0;
       return errorRate > 0.1; // 10% error rate
     },
     message: 'Error rate exceeds 10%',

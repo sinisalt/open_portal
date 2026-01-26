@@ -1,19 +1,21 @@
 /**
  * Audit Middleware
- * 
+ *
  * Automatically logs all authenticated actions for audit trail
  */
 
-import type { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Response } from 'express';
 import { auditLogger, extractRequestInfo } from '../services/auditService.js';
+import type { AuthRequest } from './auth.js';
 
 /**
  * Audit middleware - logs all authenticated requests
  */
-export function auditMiddleware(req: Request, res: Response, next: NextFunction): void {
+export function auditMiddleware(req: AuthRequest, res: Response, next: NextFunction): void {
   // Only audit authenticated requests (skip health checks and public endpoints)
   if (!req.user || req.path === '/health') {
-    return next();
+    next();
+    return;
   }
 
   const startTime = Date.now();
@@ -22,7 +24,7 @@ export function auditMiddleware(req: Request, res: Response, next: NextFunction)
   const originalJson = res.json.bind(res);
   let responseData: unknown;
 
-  res.json = function (data: unknown) {
+  res.json = (data: unknown) => {
     responseData = data;
     return originalJson(data);
   };
@@ -52,9 +54,10 @@ export function auditMiddleware(req: Request, res: Response, next: NextFunction)
         query: req.query,
         // Only log body for certain actions (avoid logging sensitive data)
         body: shouldLogBody(action) ? sanitizeBody(req.body) : undefined,
-        error: !success && typeof responseData === 'object' && responseData !== null
-          ? (responseData as { error?: string }).error
-          : undefined,
+        error:
+          !success && typeof responseData === 'object' && responseData !== null
+            ? (responseData as { error?: string }).error
+            : undefined,
       },
     });
   });
@@ -125,13 +128,13 @@ function extractResourceId(path: string): string | undefined {
 function shouldLogBody(action: string): boolean {
   // Don't log sensitive authentication data
   if (action.startsWith('auth.')) return false;
-  
+
   // Log config changes
   if (action.startsWith('config.')) return true;
-  
+
   // Log user/tenant changes
   if (action.startsWith('user.') || action.startsWith('tenant.')) return true;
-  
+
   return false;
 }
 
@@ -142,7 +145,7 @@ function sanitizeBody(body: unknown): unknown {
   if (!body || typeof body !== 'object') return body;
 
   const sanitized = { ...body } as Record<string, unknown>;
-  
+
   // Remove sensitive fields
   const sensitiveFields = [
     'password',

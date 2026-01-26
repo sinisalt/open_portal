@@ -7,11 +7,11 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { initializeMsal } from './config/msalConfig';
 import { MenuProvider } from './contexts/MenuContext';
 import reportWebVitals from './reportWebVitals';
+// Import the generated route tree
+import { routeTree } from './routeTree.gen';
 import { analyticsTracker } from './services/analyticsTracker';
 import { errorTracker } from './services/errorTracker';
 import { performanceMonitor } from './services/performanceMonitor';
-// Import the generated route tree
-import { routeTree } from './routeTree.gen';
 import { registerWidgets } from './widgets';
 
 // Register all widgets
@@ -59,7 +59,7 @@ if (authProvider === 'msal') {
 }
 
 // Enable performance monitoring
-reportWebVitals((metric) => {
+reportWebVitals(metric => {
   // Send to performance monitor
   if (import.meta.env.DEV) {
     console.log('[Web Vitals]', metric);

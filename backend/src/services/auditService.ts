@@ -1,6 +1,6 @@
 /**
  * Audit Logging Service
- * 
+ *
  * Tracks all user actions, configuration changes, and security events
  * for compliance and security auditing.
  */
@@ -100,7 +100,7 @@ class AuditLogger {
           correlationId: auditLog.correlationId,
         },
       },
-      `Audit: ${auditLog.action} on ${auditLog.resource}`
+      `Audit: ${auditLog.action} on ${auditLog.resource}`,
     );
 
     // In production, send to audit storage
@@ -123,25 +123,25 @@ class AuditLogger {
     let results = [...this.logs];
 
     if (filters.userId) {
-      results = results.filter(log => log.userId === filters.userId);
+      results = results.filter((log) => log.userId === filters.userId);
     }
     if (filters.tenantId) {
-      results = results.filter(log => log.tenantId === filters.tenantId);
+      results = results.filter((log) => log.tenantId === filters.tenantId);
     }
     if (filters.action) {
-      results = results.filter(log => log.action === filters.action);
+      results = results.filter((log) => log.action === filters.action);
     }
     if (filters.resource) {
-      results = results.filter(log => log.resource === filters.resource);
+      results = results.filter((log) => log.resource === filters.resource);
     }
     if (filters.startDate) {
-      results = results.filter(log => log.timestamp >= filters.startDate);
+      results = results.filter((log) => log.timestamp >= filters.startDate!);
     }
     if (filters.endDate) {
-      results = results.filter(log => log.timestamp <= filters.endDate);
+      results = results.filter((log) => log.timestamp <= filters.endDate!);
     }
     if (filters.success !== undefined) {
-      results = results.filter(log => log.success === filters.success);
+      results = results.filter((log) => log.success === filters.success);
     }
 
     // Sort by timestamp descending (newest first)
@@ -155,11 +155,7 @@ class AuditLogger {
   /**
    * Get audit statistics
    */
-  getStats(filters?: {
-    startDate?: Date;
-    endDate?: Date;
-    tenantId?: string;
-  }): {
+  getStats(filters?: { startDate?: Date; endDate?: Date; tenantId?: string }): {
     totalLogs: number;
     byAction: Record<string, number>;
     byResource: Record<string, number>;
@@ -168,13 +164,13 @@ class AuditLogger {
     let logs = [...this.logs];
 
     if (filters?.startDate) {
-      logs = logs.filter(log => log.timestamp >= filters.startDate);
+      logs = logs.filter((log) => log.timestamp >= filters.startDate!);
     }
     if (filters?.endDate) {
-      logs = logs.filter(log => log.timestamp <= filters.endDate);
+      logs = logs.filter((log) => log.timestamp <= filters.endDate!);
     }
     if (filters?.tenantId) {
-      logs = logs.filter(log => log.tenantId === filters.tenantId);
+      logs = logs.filter((log) => log.tenantId === filters.tenantId);
     }
 
     const byAction: Record<string, number> = {};
@@ -200,13 +196,13 @@ class AuditLogger {
    */
   clearOldLogs(beforeDate: Date): number {
     const originalLength = this.logs.length;
-    this.logs = this.logs.filter(log => log.timestamp >= beforeDate);
+    this.logs = this.logs.filter((log) => log.timestamp >= beforeDate);
     const removed = originalLength - this.logs.length;
-    
+
     if (removed > 0) {
       logger.info({ removed, beforeDate }, 'Cleared old audit logs');
     }
-    
+
     return removed;
   }
 

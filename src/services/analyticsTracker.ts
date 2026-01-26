@@ -1,6 +1,6 @@
 /**
  * User Analytics Service
- * 
+ *
  * Privacy-first analytics tracking for user behavior and feature usage
  */
 
@@ -146,7 +146,11 @@ class AnalyticsTracker {
   /**
    * Track widget interaction
    */
-  trackWidgetInteraction(widgetType: string, action: string, metadata?: Record<string, unknown>): void {
+  trackWidgetInteraction(
+    widgetType: string,
+    action: string,
+    metadata?: Record<string, unknown>
+  ): void {
     this.track('widget_interact', {
       widgetType,
       action,
@@ -252,12 +256,12 @@ class AnalyticsTracker {
    */
   private getOrCreateSessionId(): string {
     let sessionId = sessionStorage.getItem('analytics-session-id');
-    
+
     if (!sessionId) {
       sessionId = `session_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
       sessionStorage.setItem('analytics-session-id', sessionId);
     }
-    
+
     return sessionId;
   }
 
@@ -352,7 +356,7 @@ class AnalyticsTracker {
 
     for (const event of this.events) {
       byEvent[event.event] = (byEvent[event.event] || 0) + 1;
-      
+
       if (event.event === 'page_view' && event.properties?.path) {
         const page = event.properties.path as string;
         byPage[page] = (byPage[page] || 0) + 1;
@@ -384,7 +388,7 @@ class AnalyticsTracker {
    */
   setEnabled(enabled: boolean): void {
     this.enabled = enabled;
-    
+
     if (!enabled) {
       this.flush(); // Flush remaining events before disabling
     }

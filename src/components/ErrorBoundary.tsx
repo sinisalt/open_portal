@@ -1,10 +1,10 @@
 /**
  * Error Boundary Component
- * 
+ *
  * Catches React errors and reports them to the error tracker
  */
 
-import React, { Component, type ErrorInfo, type ReactNode } from 'react';
+import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { errorTracker } from '../services/errorTracker';
 
 interface Props {
@@ -84,24 +84,25 @@ export class ErrorBoundary extends Component<Props, State> {
                 strokeWidth="2"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                role="img"
+                aria-label="Error icon"
               >
+                <title>Error</title>
                 <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
             </div>
-            
+
             <h2 className="mt-4 text-xl font-semibold text-center text-gray-900">
               Something went wrong
             </h2>
-            
+
             <p className="mt-2 text-sm text-center text-gray-600">
               We've been notified of this error and will look into it.
             </p>
 
             {import.meta.env.DEV && this.state.error && (
               <div className="mt-4 p-3 bg-gray-100 rounded text-xs overflow-auto max-h-40">
-                <p className="font-semibold text-red-600">
-                  {this.state.error.message}
-                </p>
+                <p className="font-semibold text-red-600">{this.state.error.message}</p>
                 {this.state.error.stack && (
                   <pre className="mt-2 text-gray-700 whitespace-pre-wrap">
                     {this.state.error.stack}
@@ -112,14 +113,18 @@ export class ErrorBoundary extends Component<Props, State> {
 
             <div className="mt-6 flex gap-3">
               <button
+                type="button"
                 onClick={this.handleReset}
                 className="flex-1 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 Try again
               </button>
-              
+
               <button
-                onClick={() => window.location.href = '/'}
+                type="button"
+                onClick={() => {
+                  window.location.assign('/');
+                }}
                 className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500"
               >
                 Go home

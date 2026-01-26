@@ -1,12 +1,12 @@
 /**
  * Monitoring Routes
- * 
+ *
  * API endpoints for accessing monitoring data, metrics, and audit logs
  */
 
 import express, { type Request, type Response } from 'express';
-import { alertManager, metricsCollector } from '../services/monitoringService.js';
 import { auditLogger } from '../services/auditService.js';
+import { alertManager, metricsCollector } from '../services/monitoringService.js';
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ const router = express.Router();
  */
 router.get('/health', (_req: Request, res: Response) => {
   const metrics = metricsCollector.getHealthMetrics();
-  
+
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
@@ -31,19 +31,16 @@ router.get('/health', (_req: Request, res: Response) => {
 router.get('/metrics', (_req: Request, res: Response) => {
   const metrics = metricsCollector.getHealthMetrics();
   const allMetrics = metricsCollector.getAllMetrics();
-  
-  const summary: Record<string, unknown> = {
-    health: metrics,
-    customMetrics: {},
-  };
+
+  const customMetrics: Record<string, unknown> = {};
 
   // Summarize custom metrics
   for (const [key, values] of allMetrics.entries()) {
     if (values.length > 0) {
       const latest = values[values.length - 1];
       const avg = values.reduce((sum, m) => sum + m.value, 0) / values.length;
-      
-      summary.customMetrics[key] = {
+
+      customMetrics[key] = {
         latest: latest.value,
         average: Math.round(avg * 100) / 100,
         count: values.length,
@@ -52,7 +49,10 @@ router.get('/metrics', (_req: Request, res: Response) => {
     }
   }
 
-  res.json(summary);
+  res.json({
+    health: metrics,
+    customMetrics,
+  });
 });
 
 /**
@@ -69,16 +69,7 @@ router.get('/alerts', (_req: Request, res: Response) => {
  * Query audit logs
  */
 router.get('/audit', (req: Request, res: Response) => {
-  const {
-    userId,
-    tenantId,
-    action,
-    resource,
-    startDate,
-    endDate,
-    success,
-    limit,
-  } = req.query;
+  const { userId, tenantId, action, resource, startDate, endDate, success, limit } = req.query;
 
   const filters = {
     userId: userId as string | undefined,
@@ -92,7 +83,7 @@ router.get('/audit', (req: Request, res: Response) => {
   };
 
   const logs = auditLogger.query(filters);
-  
+
   res.json({
     logs,
     count: logs.length,
@@ -114,7 +105,7 @@ router.get('/audit/stats', (req: Request, res: Response) => {
   };
 
   const stats = auditLogger.getStats(filters);
-  
+
   res.json({
     stats,
     filters,
@@ -136,7 +127,7 @@ router.get('/dashboard', (_req: Request, res: Response) => {
     audit: auditStats,
     alerts: {
       total: alerts.length,
-      active: alerts.filter(a => a.lastTriggered).length,
+      active: alerts.filter((a) => a.lastTriggered).length,
     },
   });
 });

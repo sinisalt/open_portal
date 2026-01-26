@@ -1,6 +1,6 @@
 /**
  * Monitoring Middleware
- * 
+ *
  * Tracks HTTP requests, response times, and collects metrics
  */
 
@@ -12,9 +12,10 @@ import { metricsCollector } from '../services/monitoringService.js';
  */
 export function correlationId(req: Request, _res: Response, next: NextFunction): void {
   // Use existing correlation ID from headers or generate new one
-  const correlationId = req.headers['x-correlation-id'] as string ||
+  const correlationId =
+    (req.headers['x-correlation-id'] as string) ||
     `req_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-  
+
   req.correlationId = correlationId;
   next();
 }

@@ -1,10 +1,10 @@
 /**
  * Performance Monitoring Service
- * 
+ *
  * Tracks Core Web Vitals and custom performance metrics
  */
 
-import { onCLS, onFID, onFCP, onLCP, onTTFB, type Metric } from 'web-vitals';
+import { getCLS, getFCP, getFID, getLCP, getTTFB, type Metric } from 'web-vitals';
 
 export interface PerformanceMetric {
   name: string;
@@ -46,19 +46,19 @@ class PerformanceMonitor {
    */
   private initializeWebVitals(): void {
     // Cumulative Layout Shift
-    onCLS(this.handleWebVital.bind(this));
-    
+    getCLS(this.handleWebVital.bind(this));
+
     // First Input Delay
-    onFID(this.handleWebVital.bind(this));
-    
+    getFID(this.handleWebVital.bind(this));
+
     // First Contentful Paint
-    onFCP(this.handleWebVital.bind(this));
-    
+    getFCP(this.handleWebVital.bind(this));
+
     // Largest Contentful Paint
-    onLCP(this.handleWebVital.bind(this));
-    
+    getLCP(this.handleWebVital.bind(this));
+
     // Time to First Byte
-    onTTFB(this.handleWebVital.bind(this));
+    getTTFB(this.handleWebVital.bind(this));
   }
 
   /**
@@ -186,7 +186,7 @@ class PerformanceMonitor {
 
     // Send to backend analytics endpoint
     const endpoint = `${import.meta.env.VITE_API_URL}/monitoring/metrics`;
-    
+
     // Use sendBeacon for better reliability
     if (navigator.sendBeacon) {
       const data = JSON.stringify({
@@ -195,7 +195,7 @@ class PerformanceMonitor {
         url: window.location.href,
         userAgent: navigator.userAgent,
       });
-      
+
       navigator.sendBeacon(endpoint, data);
     } else {
       // Fallback to fetch
@@ -237,7 +237,7 @@ class PerformanceMonitor {
     customMetrics: Record<string, { avg: number; count: number }>;
   } {
     const webVitals: Record<string, { value: number; rating: string }> = {};
-    
+
     // Get latest value for each Web Vital
     for (const metric of this.metrics) {
       if (!webVitals[metric.name] || metric.timestamp > webVitals[metric.name].value) {
