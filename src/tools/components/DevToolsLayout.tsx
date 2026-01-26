@@ -92,7 +92,8 @@ export function DevToolsLayout() {
                 key={tool.id}
                 to={tool.path}
                 className={cn(
-                  'flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-medium transition-colors whitespace-nowrap',
+                  'flex items-center gap-2 whitespace-nowrap',
+                  'border-b-2 px-4 py-3 text-sm font-medium transition-colors',
                   isActive
                     ? 'border-primary text-primary'
                     : 'border-transparent text-muted-foreground hover:border-border hover:text-foreground'
