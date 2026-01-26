@@ -129,12 +129,14 @@ function shouldLogBody(action: string): boolean {
   // Don't log sensitive authentication data
   if (action.startsWith('auth.')) return false;
 
-  // Log config changes
-  if (action.startsWith('config.')) return true;
-
-  // Log user/tenant changes
-  if (action.startsWith('user.') || action.startsWith('tenant.')) return true;
-
+  // Log config/user/tenant changes
+  if (
+    action.startsWith('config.') ||
+    action.startsWith('user.') ||
+    action.startsWith('tenant.')
+  ) {
+    return true;
+  }
   return false;
 }
 
