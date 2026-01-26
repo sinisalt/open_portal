@@ -212,12 +212,24 @@ class ErrorTracker {
    * Get error context
    */
   private getContext(): ErrorEvent['context'] {
-    return {
+    const userId = sessionStorage.getItem('error-tracker-user-id') || undefined;
+    const tenantId = sessionStorage.getItem('error-tracker-tenant-id') || undefined;
+
+    const context: ErrorEvent['context'] = {
       url: window.location.href,
       userAgent: navigator.userAgent,
       route: window.location.pathname,
-      // Note: userId and tenantId should be set from auth context
     };
+
+    if (userId) {
+      context.userId = userId;
+    }
+
+    if (tenantId) {
+      context.tenantId = tenantId;
+    }
+
+    return context;
   }
 
   /**
