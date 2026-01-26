@@ -32,9 +32,17 @@ export function WidgetDocsBrowser() {
   // Get all registered widgets
   const registeredWidgets = useMemo(() => {
     const widgets = widgetRegistry.getAll();
-    return Object.entries(widgets).map(([type, component]) => ({
+    
+    // Handle case where registry returns empty or malformed result
+    if (!widgets || !(widgets instanceof Map) || widgets.size === 0) {
+      console.warn('[WidgetDocsBrowser] Widget registry returned empty or invalid result:', widgets);
+      return [];
+    }
+    
+    // Convert Map to array of widget metadata
+    return Array.from(widgets.entries()).map(([type, definition]) => ({
       type,
-      component,
+      component: definition.component,
       category: getWidgetCategory(type),
       description: getWidgetDescription(type),
       props: getWidgetProps(type),
@@ -114,6 +122,11 @@ export function WidgetDocsBrowser() {
             <p className="text-sm font-medium text-foreground">
               {filteredWidgets.length} Widget{filteredWidgets.length !== 1 ? 's' : ''} Found
             </p>
+            {registeredWidgets.length === 0 && (
+              <p className="mt-2 text-xs text-muted-foreground">
+                No widgets registered. The widget registry may be empty or not yet initialized.
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             {filteredWidgets.map(widget => (
