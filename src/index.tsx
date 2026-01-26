@@ -3,9 +3,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { AuthProvider } from './components/AuthProvider';
+import ErrorBoundary from './components/ErrorBoundary';
 import { initializeMsal } from './config/msalConfig';
 import { MenuProvider } from './contexts/MenuContext';
 import reportWebVitals from './reportWebVitals';
+import { analyticsTracker } from './services/analyticsTracker';
+import { errorTracker } from './services/errorTracker';
+import { performanceMonitor } from './services/performanceMonitor';
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
 import { registerWidgets } from './widgets';
@@ -30,27 +34,43 @@ if (authProvider === 'msal') {
   initializeMsal().then(() => {
     root.render(
       <React.StrictMode>
-        <AuthProvider>
-          <MenuProvider>
-            <RouterProvider router={router} />
-          </MenuProvider>
-        </AuthProvider>
+        <ErrorBoundary>
+          <AuthProvider>
+            <MenuProvider>
+              <RouterProvider router={router} />
+            </MenuProvider>
+          </AuthProvider>
+        </ErrorBoundary>
       </React.StrictMode>
     );
   });
 } else {
   root.render(
     <React.StrictMode>
-      <AuthProvider>
-        <MenuProvider>
-          <RouterProvider router={router} />
-        </MenuProvider>
-      </AuthProvider>
+      <ErrorBoundary>
+        <AuthProvider>
+          <MenuProvider>
+            <RouterProvider router={router} />
+          </MenuProvider>
+        </AuthProvider>
+      </ErrorBoundary>
     </React.StrictMode>
   );
 }
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// Enable performance monitoring
+reportWebVitals((metric) => {
+  // Send to performance monitor
+  if (import.meta.env.DEV) {
+    console.log('[Web Vitals]', metric);
+  }
+});
+
+// Log initialization
+if (import.meta.env.DEV) {
+  console.log('[Monitoring] Services initialized:', {
+    errorTracking: errorTracker !== undefined,
+    performance: performanceMonitor !== undefined,
+    analytics: analyticsTracker !== undefined,
+  });
+}
