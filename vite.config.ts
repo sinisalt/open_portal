@@ -39,7 +39,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Advanced manual chunking strategy for better code splitting
-        manualChunks: (id) => {
+        manualChunks: id => {
           // Core React libraries (critical, loaded first)
           if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
             return 'react-vendor';
@@ -70,10 +70,7 @@ export default defineConfig({
           }
 
           // Form libraries (react-hook-form, zod)
-          if (
-            id.includes('node_modules/react-hook-form') ||
-            id.includes('node_modules/zod')
-          ) {
+          if (id.includes('node_modules/react-hook-form') || id.includes('node_modules/zod')) {
             return 'form-libs';
           }
 

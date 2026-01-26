@@ -44,7 +44,9 @@ function analyzeBuildDirectory() {
   const assetsDir = path.join(buildDir, 'assets');
 
   if (!fs.existsSync(buildDir)) {
-    console.error(`${colors.red}Build directory not found. Run 'npm run build' first.${colors.reset}`);
+    console.error(
+      `${colors.red}Build directory not found. Run 'npm run build' first.${colors.reset}`
+    );
     process.exit(1);
   }
 
@@ -115,7 +117,9 @@ function analyzeBuildDirectory() {
   console.log('─'.repeat(80));
   console.log(`  Total JS size: ${colors.bold}${totalJsSize.toFixed(2)} KB${colors.reset}`);
   console.log(`  Total CSS size: ${colors.bold}${totalCssSize.toFixed(2)} KB${colors.reset}`);
-  console.log(`  Total size: ${colors.bold}${(totalJsSize + totalCssSize).toFixed(2)} KB${colors.reset}`);
+  console.log(
+    `  Total size: ${colors.bold}${(totalJsSize + totalCssSize).toFixed(2)} KB${colors.reset}`
+  );
 
   // Performance targets
   console.log(`\n${colors.bold}Performance Targets:${colors.reset}`);
@@ -123,12 +127,18 @@ function analyzeBuildDirectory() {
 
   const targetSize = 300; // KB gzipped
   const mainBundle = jsBundles.find(b => b.file.includes('index'));
-  const mainBundleSize = mainBundle?.gzipSize ? parseFloat(mainBundle.gzipSize) : mainBundle?.size || 0;
+  const mainBundleSize = mainBundle?.gzipSize
+    ? parseFloat(mainBundle.gzipSize)
+    : mainBundle?.size || 0;
 
   if (mainBundleSize <= targetSize) {
-    console.log(`  ${colors.green}✓ Main bundle: ${mainBundleSize} KB (target: <${targetSize} KB)${colors.reset}`);
+    console.log(
+      `  ${colors.green}✓ Main bundle: ${mainBundleSize} KB (target: <${targetSize} KB)${colors.reset}`
+    );
   } else {
-    console.log(`  ${colors.red}✗ Main bundle: ${mainBundleSize} KB (target: <${targetSize} KB)${colors.reset}`);
+    console.log(
+      `  ${colors.red}✗ Main bundle: ${mainBundleSize} KB (target: <${targetSize} KB)${colors.reset}`
+    );
     console.log(`    Exceeds target by ${(mainBundleSize - targetSize).toFixed(2)} KB`);
   }
 
@@ -139,14 +149,18 @@ function analyzeBuildDirectory() {
   const chunkTypes = {
     vendor: jsBundles.filter(b => b.file.includes('vendor')),
     widgets: jsBundles.filter(b => b.file.includes('widget')),
-    routes: jsBundles.filter(b => !b.file.includes('vendor') && !b.file.includes('widget') && !b.file.includes('index')),
+    routes: jsBundles.filter(
+      b => !b.file.includes('vendor') && !b.file.includes('widget') && !b.file.includes('index')
+    ),
     main: jsBundles.filter(b => b.file.includes('index')),
   };
 
   for (const [type, bundles] of Object.entries(chunkTypes)) {
     if (bundles.length > 0) {
       const totalSize = bundles.reduce((sum, b) => sum + b.size, 0);
-      console.log(`  ${type.charAt(0).toUpperCase() + type.slice(1)}: ${bundles.length} chunks (${totalSize.toFixed(2)} KB)`);
+      console.log(
+        `  ${type.charAt(0).toUpperCase() + type.slice(1)}: ${bundles.length} chunks (${totalSize.toFixed(2)} KB)`
+      );
     }
   }
 
