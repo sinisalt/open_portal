@@ -25,6 +25,11 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
+ * Image optimization constants
+ */
+const IMAGE_PRELOAD_MARGIN = '50px';
+
+/**
  * Image optimization options
  */
 export interface ImageOptimizationOptions {
@@ -118,7 +123,7 @@ export function useLazyImage(enabled = true) {
         }
       },
       {
-        rootMargin: '50px', // Load images 50px before they come into view
+        rootMargin: IMAGE_PRELOAD_MARGIN, // Load images before they come into view
       }
     );
 
@@ -292,7 +297,7 @@ export function useLazyBackgroundImage(src: string, enabled = true) {
         }
       },
       {
-        rootMargin: '50px',
+        rootMargin: IMAGE_PRELOAD_MARGIN,
       }
     );
 

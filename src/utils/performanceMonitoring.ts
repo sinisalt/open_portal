@@ -21,6 +21,11 @@
  */
 
 /**
+ * Performance threshold constants
+ */
+const SLOW_RENDER_THRESHOLD_MS = 30;
+
+/**
  * Performance marker interface
  */
 export interface PerformanceMarker {
@@ -108,10 +113,10 @@ class PerformanceMonitor {
     // Store widget performance data
     this.recordWidgetRender(marker.name, duration);
 
-    // Warn about slow renders (> 30ms target)
-    if (duration > 30) {
+    // Warn about slow renders (> threshold target)
+    if (duration > SLOW_RENDER_THRESHOLD_MS) {
       console.warn(
-        `[Performance] Slow widget render detected: ${marker.name} took ${duration.toFixed(2)}ms (target: <30ms)`
+        `[Performance] Slow widget render detected: ${marker.name} took ${duration.toFixed(2)}ms (target: <${SLOW_RENDER_THRESHOLD_MS}ms)`
       );
     }
 
@@ -152,10 +157,10 @@ class PerformanceMonitor {
     for (const [name, data] of this.widgetPerformance.entries()) {
       allRenderTimes.push(...data.renderTimes);
 
-      // Find slow widgets (avg > 30ms)
+      // Find slow widgets (avg > threshold)
       const avgTime =
         data.renderTimes.reduce((sum, time) => sum + time, 0) / data.renderTimes.length;
-      if (avgTime > 30) {
+      if (avgTime > SLOW_RENDER_THRESHOLD_MS) {
         slowWidgets.push({ name, time: avgTime });
       }
     }
@@ -234,7 +239,7 @@ class PerformanceMonitor {
     console.log(`Min render time: ${metrics.minRenderTime.toFixed(2)}ms`);
 
     if (metrics.slowWidgets.length > 0) {
-      console.group('Slow widgets (avg > 30ms):');
+      console.group(`Slow widgets (avg > ${SLOW_RENDER_THRESHOLD_MS}ms):`);
       for (const widget of metrics.slowWidgets) {
         console.log(`  ${widget.name}: ${widget.time.toFixed(2)}ms`);
       }

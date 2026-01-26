@@ -18,6 +18,9 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Configuration constants
+const BUNDLE_SIZE_TARGET_KB = 300; // Target main bundle size in KB (gzipped)
+
 // Color codes for terminal output
 const colors = {
   reset: '\x1b[0m',
@@ -125,21 +128,20 @@ function analyzeBuildDirectory() {
   console.log(`\n${colors.bold}Performance Targets:${colors.reset}`);
   console.log('─'.repeat(80));
 
-  const targetSize = 300; // KB gzipped
   const mainBundle = jsBundles.find(b => b.file.includes('index'));
   const mainBundleSize = mainBundle?.gzipSize
     ? parseFloat(mainBundle.gzipSize)
     : mainBundle?.size || 0;
 
-  if (mainBundleSize <= targetSize) {
+  if (mainBundleSize <= BUNDLE_SIZE_TARGET_KB) {
     console.log(
-      `  ${colors.green}✓ Main bundle: ${mainBundleSize} KB (target: <${targetSize} KB)${colors.reset}`
+      `  ${colors.green}✓ Main bundle: ${mainBundleSize} KB (target: <${BUNDLE_SIZE_TARGET_KB} KB)${colors.reset}`
     );
   } else {
     console.log(
-      `  ${colors.red}✗ Main bundle: ${mainBundleSize} KB (target: <${targetSize} KB)${colors.reset}`
+      `  ${colors.red}✗ Main bundle: ${mainBundleSize} KB (target: <${BUNDLE_SIZE_TARGET_KB} KB)${colors.reset}`
     );
-    console.log(`    Exceeds target by ${(mainBundleSize - targetSize).toFixed(2)} KB`);
+    console.log(`    Exceeds target by ${(mainBundleSize - BUNDLE_SIZE_TARGET_KB).toFixed(2)} KB`);
   }
 
   // Chunk analysis
@@ -179,7 +181,7 @@ function analyzeBuildDirectory() {
     console.log(`  ${colors.green}✓ All bundles are under 500 KB${colors.reset}`);
   }
 
-  if (mainBundleSize > targetSize) {
+  if (mainBundleSize > BUNDLE_SIZE_TARGET_KB) {
     console.log(`  ${colors.yellow}⚠ Main bundle exceeds target size${colors.reset}`);
     console.log(`    - Enable tree shaking for unused code`);
     console.log(`    - Move heavy dependencies to lazy-loaded chunks`);
