@@ -35,7 +35,7 @@ export default defineConfig({
   build: {
     outDir: 'build',
     sourcemap: true,
-    chunkSizeWarningLimit: 600, // Increase slightly from default 500KB for better chunking
+    chunkSizeWarningLimit: 600, // Raise from default 500KB to avoid noisy warnings for legitimately large vendor chunks (e.g. recharts ~319KB) that are already optimally split by manualChunks
     rollupOptions: {
       output: {
         // Advanced manual chunking strategy for better code splitting
