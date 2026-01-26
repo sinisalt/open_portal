@@ -4,13 +4,6 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { WidgetRenderer } from '@/core/renderer/WidgetRenderer';
 import { cn } from '@/lib/utils';
 import type { PageConfig } from '@/types/page.types';
@@ -156,7 +149,7 @@ export function PagePreviewTool() {
     }
   };
 
-  const handleRefresh = () => {
+  const _handleRefresh = () => {
     handlePreview();
   };
 
@@ -168,7 +161,7 @@ export function PagePreviewTool() {
         const parsed = JSON.parse(value);
         setPageConfig(parsed);
         setParseError(null);
-      } catch (error) {
+      } catch (_error) {
         // Silently fail during typing
       }
     }
@@ -312,7 +305,7 @@ export function PagePreviewTool() {
                         <div className="border-b pb-2">
                           <h3 className="text-lg font-semibold">{pageConfig.title}</h3>
                         </div>
-                        {pageConfig.widgets?.map((widget: any) => (
+                        {pageConfig.widgets?.map((widget: Record<string, unknown>) => (
                           <WidgetRenderer
                             key={widget.id}
                             config={widget}

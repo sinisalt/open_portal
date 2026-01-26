@@ -393,13 +393,26 @@ interface ExecutionStep {
   status: 'pending' | 'success' | 'error';
   timestamp: number;
   duration: number;
-  input: any;
-  output: any;
+  input: unknown;
+  output: unknown;
   error?: string;
 }
 
+interface ActionConfig {
+  id: string;
+  type: string;
+  handler?: string;
+  params?: Record<string, unknown>;
+  steps?: Array<{
+    id: string;
+    type: string;
+    handler?: string;
+    params?: Record<string, unknown>;
+  }>;
+}
+
 // Simulate action execution for demo purposes
-async function simulateActionExecution(config: any): Promise<ExecutionStep[]> {
+async function simulateActionExecution(config: ActionConfig): Promise<ExecutionStep[]> {
   const steps: ExecutionStep[] = [];
 
   if (config.type === 'workflow' && config.steps) {

@@ -30,7 +30,7 @@ export function MockDataGenerator() {
     { id: '3', name: 'email', type: 'email', required: true },
   ]);
   const [recordCount, setRecordCount] = useState(10);
-  const [generatedData, setGeneratedData] = useState<any[]>([]);
+  const [generatedData, setGeneratedData] = useState<Record<string, unknown>[]>([]);
 
   const fieldTypes = [
     { value: 'uuid', label: 'UUID' },
@@ -70,9 +70,9 @@ export function MockDataGenerator() {
   };
 
   const generateData = () => {
-    const data: any[] = [];
+    const data: Record<string, unknown>[] = [];
     for (let i = 0; i < recordCount; i++) {
-      const record: any = {};
+      const record: Record<string, unknown> = {};
       for (const field of schema) {
         record[field.name] = generateFieldValue(field, i);
       }
@@ -248,7 +248,7 @@ interface SchemaField {
 }
 
 // Generate field value based on type
-function generateFieldValue(field: SchemaField, index: number): any {
+function generateFieldValue(field: SchemaField, index: number): unknown {
   switch (field.type) {
     case 'uuid':
       return `${Date.now()}-${index}-${Math.random().toString(36).substring(2, 11)}`;

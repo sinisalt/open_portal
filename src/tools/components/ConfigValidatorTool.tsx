@@ -90,7 +90,7 @@ export function ConfigValidatorTool() {
 
     try {
       // Parse JSON first
-      let parsedConfig: any;
+      let parsedConfig: unknown;
       try {
         parsedConfig = JSON.parse(configText);
       } catch (parseError) {
@@ -142,7 +142,7 @@ export function ConfigValidatorTool() {
     }
   };
 
-  const performBasicValidation = (config: any, type: string) => {
+  const performBasicValidation = (config: Record<string, unknown>, type: string) => {
     const errors: Array<{
       message: string;
       path?: string;
@@ -330,7 +330,7 @@ export function ConfigValidatorTool() {
                 <div className="space-y-2">
                   {validationResult.errors.map((error, index) => (
                     <div
-                      key={index}
+                      key={`error-${error.path || 'root'}-${index}`}
                       className={cn(
                         'flex items-start gap-2 rounded-md border p-3',
                         error.severity === 'error' && 'border-destructive bg-destructive/5',

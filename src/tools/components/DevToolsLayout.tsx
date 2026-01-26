@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from '@tanstack/react-router';
-import { BookOpen, Bug, Code2, Database, Eye, FileCode, Wrench } from 'lucide-react';
+import { BookOpen, Bug, Code2, Database, Eye, Wrench } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 /**

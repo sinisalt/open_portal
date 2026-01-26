@@ -1,7 +1,6 @@
 import { Code2, Eye, Package, Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -32,13 +31,16 @@ export function WidgetDocsBrowser() {
   // Get all registered widgets
   const registeredWidgets = useMemo(() => {
     const widgets = widgetRegistry.getAll();
-    
+
     // Handle case where registry returns empty or malformed result
     if (!widgets || !(widgets instanceof Map) || widgets.size === 0) {
-      console.warn('[WidgetDocsBrowser] Widget registry returned empty or invalid result:', widgets);
+      console.warn(
+        '[WidgetDocsBrowser] Widget registry returned empty or invalid result:',
+        widgets
+      );
       return [];
     }
-    
+
     // Convert Map to array of widget metadata
     return Array.from(widgets.entries()).map(([type, definition]) => ({
       type,
@@ -301,7 +303,7 @@ function getWidgetProps(type: string): Array<{
   description: string;
   default?: string;
 }> {
-  const propsByType: Record<string, any> = {
+  const propsByType: Record<string, unknown> = {
     TextInput: [
       { name: 'id', type: 'string', required: true, description: 'Unique widget identifier' },
       { name: 'label', type: 'string', required: false, description: 'Input label text' },
@@ -355,8 +357,8 @@ function getWidgetProps(type: string): Array<{
   );
 }
 
-function getWidgetExample(type: string): any {
-  const examples: Record<string, any> = {
+function getWidgetExample(type: string): Record<string, unknown> {
+  const examples: Record<string, Record<string, unknown>> = {
     TextInput: {
       id: 'email',
       type: 'TextInput',

@@ -23,9 +23,31 @@ import {
  * - Configuration validation
  * - Quick templates for common patterns
  */
+
+type ConfigType = 'page' | 'route' | 'branding' | 'menu';
+
+interface ConfigData {
+  id?: string;
+  title?: string;
+  layout?: string;
+  path?: string;
+  pageId?: string;
+  tenantId?: string;
+  colors?: {
+    primary?: string;
+    secondary?: string;
+  };
+  typography?: {
+    fontFamily?: string;
+  };
+  items?: unknown[];
+  widgets?: unknown[];
+  [key: string]: unknown;
+}
+
 export function ConfigEditor() {
-  const [configType, setConfigType] = useState<'page' | 'route' | 'branding' | 'menu'>('page');
-  const [configData, setConfigData] = useState<any>({});
+  const [configType, setConfigType] = useState<ConfigType>('page');
+  const [configData, setConfigData] = useState<ConfigData>({});
   const [jsonView, setJsonView] = useState('');
   const [saveMessage, setSaveMessage] = useState('');
 
@@ -108,7 +130,7 @@ export function ConfigEditor() {
       const parsed = JSON.parse(value);
       setConfigData(parsed);
       setSaveMessage('');
-    } catch (error) {
+    } catch (_error) {
       // Invalid JSON, don't update configData
     }
   };
@@ -141,7 +163,7 @@ export function ConfigEditor() {
             setConfigData(json);
             setJsonView(JSON.stringify(json, null, 2));
             setSaveMessage('Configuration imported successfully');
-          } catch (error) {
+          } catch (_error) {
             setSaveMessage('Error: Invalid JSON file');
           }
         };
@@ -172,7 +194,10 @@ export function ConfigEditor() {
           <div className="flex flex-wrap items-end gap-4">
             <div className="flex-1 space-y-2">
               <Label htmlFor="config-type">Configuration Type</Label>
-              <Select value={configType} onValueChange={(value: any) => setConfigType(value)}>
+              <Select
+                value={configType}
+                onValueChange={value => setConfigType(value as ConfigType)}
+              >
                 <SelectTrigger id="config-type">
                   <SelectValue />
                 </SelectTrigger>
