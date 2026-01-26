@@ -311,6 +311,14 @@ export function startMonitoring(intervalMs = 60000): NodeJS.Timeout {
 }
 
 /**
+ * Stop monitoring periodic checks
+ */
+export function stopMonitoring(interval: NodeJS.Timeout): void {
+  clearInterval(interval);
+  logger.info('Monitoring stopped');
+}
+
+/**
  * Export monitoring service
  */
 export const monitoringService = {
@@ -318,4 +326,5 @@ export const monitoringService = {
   alertManager,
   initializeDefaultAlerts,
   startMonitoring,
+  stopMonitoring,
 };
