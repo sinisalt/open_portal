@@ -4,6 +4,8 @@ import helmet from 'helmet';
 import pino from 'pino';
 import pinoHttp from 'pino-http';
 import { config } from './config/index.js';
+import { auditMiddleware } from './middleware/audit.js';
+import { correlationId, trackMetrics } from './middleware/monitoring.js';
 import { generalRateLimiter } from './middleware/rateLimiter.js';
 import { identifyTenant } from './middleware/tenant.js';
 import { seedTenants, seedUsers } from './models/seed.js';
@@ -13,9 +15,11 @@ import { seedUiConfig } from './models/seedUiConfig.js';
 import actionsRouter from './routes/actions.js';
 import authRouter from './routes/auth.js';
 import configRouter from './routes/config.js';
+import monitoringRouter from './routes/monitoring.js';
 import tenantsRouter from './routes/tenants.js';
 import uiRouter from './routes/ui.js';
 import websocketRouter from './routes/websocket.js';
+import { initializeDefaultAlerts, startMonitoring } from './services/monitoringService.js';
 import { websocketServer } from './services/websocketServer.js';
 
 const logger = pino({ level: config.logLevel });
@@ -33,9 +37,20 @@ app.use(
 );
 
 /**
+ * Monitoring Middleware
+ * Must come before logging to add correlation IDs
+ */
+app.use(correlationId);
+
+/**
  * Logging Middleware
  */
 app.use(pinoHttp({ logger }));
+
+/**
+ * Metrics Tracking
+ */
+app.use(trackMetrics);
 
 /**
  * Rate Limiting
@@ -55,6 +70,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(identifyTenant);
 
 /**
+ * Audit Logging
+ * Logs all authenticated actions
+ */
+app.use(auditMiddleware);
+
+/**
  * Routes
  */
 app.use('/auth', authRouter);
@@ -63,6 +84,7 @@ app.use('/ui', uiRouter);
 app.use('/ui/actions', actionsRouter);
 app.use('/config', configRouter);
 app.use('/ws', websocketRouter);
+app.use('/monitoring', monitoringRouter);
 
 /**
  * Health Check
@@ -113,6 +135,11 @@ const server = app.listen(config.port, async () => {
 
   // Register action handlers
   await registerActions();
+
+  // Initialize monitoring
+  initializeDefaultAlerts();
+  startMonitoring(60000); // Check alerts every minute
+  logger.info('Monitoring and alerting initialized');
 });
 
 /**

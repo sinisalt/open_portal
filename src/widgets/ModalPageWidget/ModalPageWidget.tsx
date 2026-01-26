@@ -114,7 +114,7 @@ export function ModalPageWidget({ config, bindings, events }: WidgetProps<ModalP
   }, []);
 
   // Create event handlers for child widgets
-  const createChildEvents = useCallback(
+  const _createChildEvents = useCallback(
     (fieldId: string) => ({
       onChange: (value: unknown) => handleDataChange(fieldId, value),
     }),
