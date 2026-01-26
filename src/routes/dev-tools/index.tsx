@@ -14,12 +14,12 @@ export const Route = createFileRoute('/dev-tools/')({
         replace: true,
       });
     }
-  },
-  component: () => {
-    // Redirect to default tool (validator)
+
+    // Redirect to default tool (validator) when in dev mode
     throw redirect({
       to: '/dev-tools/validator',
       replace: true,
     });
   },
+  component: () => null,
 });
