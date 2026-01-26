@@ -17,9 +17,5 @@ export const Route = createFileRoute('/dev-tools')({
       });
     }
   },
-  component: DevToolsLayoutRoute,
+  component: DevToolsLayout,
 });
-
-function DevToolsLayoutRoute() {
-  return <DevToolsLayout />;
-}
