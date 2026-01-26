@@ -24,10 +24,11 @@ export function KPIWidget({ config, bindings, events }: WidgetProps<KPIWidgetCon
     size = 'md',
     loading = false,
     description,
+    value: configValue, // Note: aliased in config to avoid conflict
   } = config;
 
-  // Get value from bindings
-  const value = bindings?.value;
+  // Get value from bindings first, then fall back to config
+  const value = bindings?.value ?? configValue;
 
   // Size classes
   const sizeClasses = {

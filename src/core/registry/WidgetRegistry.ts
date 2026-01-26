@@ -49,8 +49,12 @@ class WidgetRegistry implements IWidgetRegistry {
       );
     }
 
-    // Validate component
-    if (!component || typeof component !== 'function') {
+    // Validate component - accept both regular functions and React.lazy() wrapped components
+    const isValidComponent =
+      typeof component === 'function' ||
+      (typeof component === 'object' && component !== null && '$$typeof' in component);
+
+    if (!component || !isValidComponent) {
       throw new WidgetError(
         `Widget component for type "${type}" must be a React component`,
         WidgetErrorType.INVALID_CONFIG,

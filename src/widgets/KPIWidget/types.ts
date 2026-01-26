@@ -74,4 +74,7 @@ export interface KPIWidgetConfig extends BaseWidgetConfig {
 
   /** Description text */
   description?: string;
+
+  /** Static value for the KPI (used when no binding provided) */
+  value?: string | number;
 }

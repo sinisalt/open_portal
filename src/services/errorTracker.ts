@@ -33,6 +33,7 @@ class ErrorTracker {
   private listeners: ((event: ErrorEvent) => void)[] = [];
   private enabled = true;
   private maxErrors = 100;
+  private isCapturing = false; // Prevent infinite recursion loops
 
   constructor() {
     this.enabled = import.meta.env.VITE_ENABLE_ERROR_TRACKING !== 'false';
@@ -64,6 +65,11 @@ class ErrorTracker {
     if (import.meta.env.DEV) {
       const originalConsoleError = console.error;
       console.error = (...args) => {
+        // Prevent infinite recursion: don't intercept our own error logs
+        if (this.isCapturing) {
+          originalConsoleError.apply(console, args);
+          return;
+        }
         this.captureMessage(String(args[0]), 'error', {
           tags: { type: 'console-error' },
         });
@@ -169,9 +175,11 @@ class ErrorTracker {
     // Notify listeners
     this.notifyListeners(errorEvent);
 
-    // Log to console in development
+    // Log to console in development (set flag to prevent infinite recursion)
     if (import.meta.env.DEV) {
+      this.isCapturing = true;
       console.error('[Error Tracker]', errorEvent.message, errorEvent);
+      this.isCapturing = false;
     }
   }
 
