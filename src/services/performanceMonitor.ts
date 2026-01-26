@@ -237,14 +237,17 @@ class PerformanceMonitor {
     customMetrics: Record<string, { avg: number; count: number }>;
   } {
     const webVitals: Record<string, { value: number; rating: string }> = {};
+    const webVitalsTimestamps: Record<string, number> = {};
 
     // Get latest value for each Web Vital
     for (const metric of this.metrics) {
-      if (!webVitals[metric.name] || metric.timestamp > webVitals[metric.name].value) {
+      const lastTimestamp = webVitalsTimestamps[metric.name] ?? 0;
+      if (metric.timestamp > lastTimestamp) {
         webVitals[metric.name] = {
           value: metric.value,
           rating: metric.rating,
         };
+        webVitalsTimestamps[metric.name] = metric.timestamp;
       }
     }
 
