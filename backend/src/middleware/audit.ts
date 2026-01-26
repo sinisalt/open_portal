@@ -130,11 +130,7 @@ function shouldLogBody(action: string): boolean {
   if (action.startsWith('auth.')) return false;
 
   // Log config/user/tenant changes
-  if (
-    action.startsWith('config.') ||
-    action.startsWith('user.') ||
-    action.startsWith('tenant.')
-  ) {
+  if (action.startsWith('config.') || action.startsWith('user.') || action.startsWith('tenant.')) {
     return true;
   }
   return false;

@@ -135,10 +135,12 @@ class AuditLogger {
       results = results.filter((log) => log.resource === filters.resource);
     }
     if (filters.startDate) {
-      results = results.filter((log) => log.timestamp >= filters.startDate!);
+      const startDate = filters.startDate;
+      results = results.filter((log) => log.timestamp >= startDate);
     }
     if (filters.endDate) {
-      results = results.filter((log) => log.timestamp <= filters.endDate!);
+      const endDate = filters.endDate;
+      results = results.filter((log) => log.timestamp <= endDate);
     }
     if (filters.success !== undefined) {
       results = results.filter((log) => log.success === filters.success);
@@ -164,10 +166,12 @@ class AuditLogger {
     let logs = [...this.logs];
 
     if (filters?.startDate) {
-      logs = logs.filter((log) => log.timestamp >= filters.startDate!);
+      const startDate = filters.startDate;
+      logs = logs.filter((log) => log.timestamp >= startDate);
     }
     if (filters?.endDate) {
-      logs = logs.filter((log) => log.timestamp <= filters.endDate!);
+      const endDate = filters.endDate;
+      logs = logs.filter((log) => log.timestamp <= endDate);
     }
     if (filters?.tenantId) {
       logs = logs.filter((log) => log.tenantId === filters.tenantId);

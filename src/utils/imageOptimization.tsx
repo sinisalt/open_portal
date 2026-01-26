@@ -66,7 +66,7 @@ export function supportsWebP(): boolean {
   if (typeof document === 'undefined') return false;
 
   const elem = document.createElement('canvas');
-  if (elem.getContext && elem.getContext('2d')) {
+  if (elem.getContext?.('2d')) {
     return elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
   }
   return false;
@@ -173,7 +173,7 @@ export function OptimizedImage({
     .join(' ');
 
   // Handle errors
-  const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const handleError = (_e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     if (onError) {
       onError(new Error('Image failed to load'));
     }
@@ -220,7 +220,7 @@ export function preloadImage(src: string): Promise<void> {
 /**
  * Preload multiple images
  */
-export async function preloadImages(sources: string[]): Promise<void[]> {
+export async function preloadImages(sources: string[]): Promise<undefined[]> {
   return Promise.all(sources.map(preloadImage));
 }
 
@@ -250,7 +250,11 @@ export function generateSizes(
  * Blur up placeholder generator
  * Creates a tiny base64 encoded placeholder for blur-up effect
  */
-export function generateBlurPlaceholder(width: number, height: number, color = '#f0f0f0'): string {
+export function generateBlurPlaceholder(
+  _width: number,
+  _height: number,
+  color = '#f0f0f0'
+): string {
   // Create a tiny 10x10 canvas
   if (typeof document === 'undefined') return '';
 

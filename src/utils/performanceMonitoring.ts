@@ -105,7 +105,7 @@ class PerformanceMonitor {
     if (typeof performance !== 'undefined' && performance.measure) {
       try {
         performance.measure(`${marker.name}-duration`, marker.id);
-      } catch (error) {
+      } catch (_error) {
         // Ignore measurement errors
       }
     }

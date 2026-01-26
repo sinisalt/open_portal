@@ -11,9 +11,9 @@
  *   node scripts/analyze-bundle.js
  */
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -188,7 +188,7 @@ function analyzeBuildDirectory() {
     console.log(`    - Consider code splitting by route`);
   }
 
-  console.log('\n' + '═'.repeat(80));
+  console.log(`\n${'═'.repeat(80)}`);
 }
 
 // Run analyzer

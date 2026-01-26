@@ -62,7 +62,7 @@ export interface WebSocketState {
  * Hook for WebSocket datasources
  */
 export function useWebSocket(options: UseWebSocketOptions): WebSocketState {
-  const { url, topic, onMessage, onConnect, onDisconnect, onError, enabled = true } = options;
+  const { url, topic, onMessage, enabled = true } = options;
 
   const [isConnected, setIsConnected] = useState(false);
   const [lastMessage, setLastMessage] = useState<unknown>(null);

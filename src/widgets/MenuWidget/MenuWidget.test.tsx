@@ -6,9 +6,9 @@
 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type { MenuItem } from '@/types/menu.types';
+import type { FooterMenuProps, MenuItem, SideMenuProps, TopMenuProps } from '@/types/menu.types';
 import { MenuWidget } from './MenuWidget';
-import type { MenuWidgetConfig } from './types';
+import type { MenuVariant, MenuWidgetConfig } from './types';
 
 // Mock the useMenu hook
 jest.mock('@/hooks/useMenu', () => ({
@@ -17,7 +17,7 @@ jest.mock('@/hooks/useMenu', () => ({
 
 // Mock menu components
 jest.mock('@/components/menus/TopMenu/TopMenu', () => ({
-  TopMenu: ({ items, onItemClick }: any) => (
+  TopMenu: ({ items, onItemClick }: TopMenuProps) => (
     <nav data-testid="top-menu">
       {items.map((item: MenuItem) => (
         <button key={item.id} type="button" onClick={() => onItemClick?.(item)}>
@@ -29,7 +29,7 @@ jest.mock('@/components/menus/TopMenu/TopMenu', () => ({
 }));
 
 jest.mock('@/components/menus/SideMenu/SideMenu', () => ({
-  SideMenu: ({ items, collapsed, onToggleCollapse, onItemClick }: any) => (
+  SideMenu: ({ items, collapsed, onToggleCollapse, onItemClick }: SideMenuProps) => (
     <aside data-testid="side-menu" data-collapsed={collapsed}>
       {onToggleCollapse && (
         <button type="button" onClick={onToggleCollapse}>
@@ -46,7 +46,7 @@ jest.mock('@/components/menus/SideMenu/SideMenu', () => ({
 }));
 
 jest.mock('@/components/menus/FooterMenu/FooterMenu', () => ({
-  FooterMenu: ({ items, columns, onItemClick }: any) => (
+  FooterMenu: ({ items, columns, onItemClick }: FooterMenuProps) => (
     <footer data-testid="footer-menu" data-columns={columns}>
       {items.map((item: MenuItem) => (
         <button key={item.id} type="button" onClick={() => onItemClick?.(item)}>
@@ -326,7 +326,7 @@ describe('MenuWidget', () => {
       const config: MenuWidgetConfig = {
         id: 'menu',
         type: 'Menu',
-        variant: 'unknown' as any,
+        variant: 'unknown' as unknown as MenuVariant,
       };
 
       render(<MenuWidget config={config} />);
