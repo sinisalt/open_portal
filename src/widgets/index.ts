@@ -230,9 +230,10 @@ export function registerWidgets(): void {
   // Log registration summary in development
   if (process.env.NODE_ENV !== 'production') {
     const stats = widgetRegistry.getStats();
+    const eagerWidgets = stats.totalWidgets - stats.lazyWidgets;
     console.log('[Widget Registration] Summary:', stats);
     console.log(
-      `[Widget Registration] Eager widgets: ${stats.totalWidgets - stats.lazyWidgets}, Lazy widgets: ${stats.lazyWidgets}`
+      `[Widget Registration] Eager widgets: ${eagerWidgets}, Lazy widgets: ${stats.lazyWidgets}`
     );
 
     if (stats.totalWidgets === 0) {
