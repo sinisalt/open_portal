@@ -73,6 +73,7 @@
     "dev": "vite",
     "build": "vite build",
     "build:check": "tsc && vite build",
+    "build:analyze": "vite build && node scripts/analyze-bundle.js",
     "preview": "vite preview",
     "test": "jest",
     "test:watch": "jest --watch",
