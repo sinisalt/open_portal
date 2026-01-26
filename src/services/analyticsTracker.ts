@@ -49,7 +49,7 @@ class AnalyticsTracker {
   private sessionId: string;
   private maxEvents = 1000;
   private batchSize = 10;
-  private batchTimeout: NodeJS.Timeout | null = null;
+  private batchTimeout: number | null = null;
   private eventQueue: AnalyticsEvent[] = [];
 
   constructor() {
