@@ -9,10 +9,12 @@
  * - Automatic error boundaries for each widget
  * - Visibility policy handling
  * - Loading states and Suspense boundaries
+ * - Memoization to prevent unnecessary re-renders
+ * - Performance monitoring and tracking
  * - Development mode debugging
  */
 
-import { type ReactNode, Suspense } from 'react';
+import { memo, type ReactNode, Suspense, useEffect } from 'react';
 import { widgetRegistry } from '@/core/registry/WidgetRegistry';
 import { UnknownWidgetError, WidgetErrorBoundary } from '@/core/widgets/WidgetErrorBoundary';
 import type { WidgetConfig } from '@/types/page.types';
@@ -22,6 +24,7 @@ import type {
   WidgetEvents,
   WidgetRendererOptions,
 } from '@/types/widget.types';
+import { endPerformanceMark, startPerformanceMark } from '@/utils/performanceMonitoring';
 
 /**
  * Widget renderer props
@@ -56,10 +59,10 @@ function DefaultLoadingFallback(): ReactNode {
 }
 
 /**
- * Widget Renderer Component
+ * Widget Renderer Component (Memoized for performance)
  * Dynamically renders widgets from configuration
  */
-export function WidgetRenderer({
+export const WidgetRenderer = memo(function WidgetRenderer({
   config,
   bindings,
   events,
@@ -71,6 +74,14 @@ export function WidgetRenderer({
     debug = process.env.NODE_ENV !== 'production',
     fallbackComponent,
   } = options;
+
+  // Performance monitoring for widget render
+  useEffect(() => {
+    const perfMarker = startPerformanceMark(`${config.type}-${config.id}`);
+    return () => {
+      endPerformanceMark(perfMarker);
+    };
+  }, [config.type, config.id]);
 
   // Handle visibility policy
   if (config.policy?.hide === true || config.policy?.show === false) {
@@ -144,7 +155,7 @@ export function WidgetRenderer({
   }
 
   return suspenseWrapped;
-}
+});
 
 /**
  * Render multiple widgets from configurations
