@@ -23,7 +23,7 @@ Implemented comprehensive developer tools for OpenPortal, enabling developers to
     - `/dev-tools/validator` - Configuration Validator
     - `/dev-tools/widget-docs` - Widget Documentation Browser
     - `/dev-tools/preview` - Page Preview Tool
-    - `/dev-tools/preview` - Action Debugger
+    - `/dev-tools/debugger` - Action Debugger
     - `/dev-tools/editor` - Configuration Editor
     - `/dev-tools/mock-data` - Mock Data Generator
   - Development-mode route guards (only accessible when `import.meta.env.DEV`)
