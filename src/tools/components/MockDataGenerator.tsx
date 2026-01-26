@@ -251,7 +251,7 @@ interface SchemaField {
 function generateFieldValue(field: SchemaField, index: number): any {
   switch (field.type) {
     case 'uuid':
-      return `${Date.now()}-${index}-${Math.random().toString(36).substr(2, 9)}`;
+      return `${Date.now()}-${index}-${Math.random().toString(36).substring(2, 11)}`;
     case 'number':
       return Math.floor(Math.random() * 1000);
     case 'string':
