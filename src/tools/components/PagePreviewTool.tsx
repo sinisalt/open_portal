@@ -15,12 +15,13 @@ function renderWidget(config: Record<string, unknown>): React.ReactNode {
   // Extract children and props from config, merge props into widget config
   const { children, props, ...rest } = config;
   // Merge props with the rest of config so widgets can access properties directly
-  const widgetConfig = { ...rest, ...(props as Record<string, unknown> || {}) };
+  const widgetConfig = { ...rest, ...((props as Record<string, unknown>) || {}) };
 
   // Render children recursively if they exist
-  const renderedChildren = children && Array.isArray(children)
-    ? children.map((child: Record<string, unknown>) => renderWidget(child))
-    : undefined;
+  const renderedChildren =
+    children && Array.isArray(children)
+      ? children.map((child: Record<string, unknown>) => renderWidget(child))
+      : undefined;
 
   return (
     <WidgetRenderer
@@ -343,7 +344,9 @@ export function PagePreviewTool() {
                         <div className="border-b pb-2">
                           <h3 className="text-lg font-semibold">{pageConfig.title}</h3>
                         </div>
-                        {pageConfig.widgets?.map((widget: Record<string, unknown>) => renderWidget(widget))}
+                        {pageConfig.widgets?.map((widget: Record<string, unknown>) =>
+                          renderWidget(widget)
+                        )}
                       </div>
                     </PreviewErrorBoundary>
                   ) : (
