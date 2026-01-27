@@ -35,7 +35,10 @@ app.use(
 );
 
 // Improved CORS: allow multiple comma-separated origins
-const allowedOrigins = (config.corsOrigin || '').split(',').map(o => o.trim()).filter(Boolean);
+const allowedOrigins = (config.corsOrigin || '')
+  .split(',')
+  .map((o) => o.trim())
+  .filter(Boolean);
 app.use(
   cors({
     origin: (origin, callback) => {

@@ -227,7 +227,7 @@ export function ActionDebugger() {
             </div>
 
             {executionSteps.length > 0 && (
-              <div className="rounded-md border border-border bg-muted/30 p-3">
+              <div className="rounded-md border border bg-muted/30 p-3">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Progress</span>
                   <span className="font-medium">
@@ -335,7 +335,7 @@ export function ActionDebugger() {
                 {/* Input */}
                 <div>
                   <Label className="text-sm font-semibold">Input</Label>
-                  <div className="mt-2 rounded-md border border-border bg-muted/30 p-3">
+                  <div className="mt-2 rounded-md border border bg-muted/30 p-3">
                     <pre className="overflow-x-auto text-xs">
                       <code>{JSON.stringify(currentStepData.input, null, 2)}</code>
                     </pre>
@@ -345,7 +345,7 @@ export function ActionDebugger() {
                 {/* Output */}
                 <div>
                   <Label className="text-sm font-semibold">Output</Label>
-                  <div className="mt-2 rounded-md border border-border bg-muted/30 p-3">
+                  <div className="mt-2 rounded-md border border bg-muted/30 p-3">
                     <pre className="overflow-x-auto text-xs">
                       <code>
                         {currentStepData.output
@@ -357,7 +357,7 @@ export function ActionDebugger() {
                 </div>
 
                 {/* Metadata */}
-                <div className="grid grid-cols-2 gap-4 rounded-md border border-border bg-muted/30 p-3 text-sm">
+                <div className="grid grid-cols-2 gap-4 rounded-md border border bg-muted/30 p-3 text-sm">
                   <div>
                     <p className="text-muted-foreground">Duration</p>
                     <p className="font-medium">{currentStepData.duration}ms</p>

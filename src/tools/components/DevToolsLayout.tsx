@@ -73,7 +73,7 @@ export function DevToolsLayout() {
           </div>
           <Link
             to="/"
-            className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
+            className="rounded-md border border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
           >
             ← Back to App
           </Link>
@@ -96,7 +96,7 @@ export function DevToolsLayout() {
                   'border-b-2 px-4 py-3 text-sm font-medium transition-colors',
                   isActive
                     ? 'border-primary text-primary'
-                    : 'border-transparent text-muted-foreground hover:border-border hover:text-foreground'
+                    : 'border-transparent text-muted-foreground hover:border hover:text-foreground'
                 )}
                 title={tool.description}
               >

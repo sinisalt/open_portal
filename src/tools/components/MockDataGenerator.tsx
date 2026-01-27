@@ -126,10 +126,7 @@ export function MockDataGenerator() {
           <CardContent className="space-y-4">
             <div className="space-y-3">
               {schema.map(field => (
-                <div
-                  key={field.id}
-                  className="flex items-end gap-2 rounded-md border border-border p-3"
-                >
+                <div key={field.id} className="flex items-end gap-2 rounded-md border border p-3">
                   <div className="flex-1 space-y-2">
                     <div className="grid grid-cols-2 gap-2">
                       <div>
@@ -225,7 +222,7 @@ export function MockDataGenerator() {
                     {(JSON.stringify(generatedData).length / 1024).toFixed(1)} KB
                   </p>
                 </div>
-                <div className="h-96 overflow-auto rounded-md border border-border bg-muted/30">
+                <div className="h-96 overflow-auto rounded-md border border bg-muted/30">
                   <pre className="p-4 text-xs">
                     <code>{JSON.stringify(generatedData, null, 2)}</code>
                   </pre>
