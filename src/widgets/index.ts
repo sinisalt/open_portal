@@ -29,6 +29,8 @@ import { widgetRegistry } from '@/core/registry/WidgetRegistry';
 
 // CRITICAL WIDGETS - Load eagerly (always needed)
 // These are small and required for basic page structure
+import { BadgeWidget } from './BadgeWidget';
+import { ButtonGroupWidget } from './ButtonGroupWidget';
 import { CardWidget } from './CardWidget';
 import { CheckboxWidget } from './CheckboxWidget';
 import { GridWidget } from './GridWidget';
@@ -155,6 +157,20 @@ export function registerWidgets(): void {
     category: 'form',
     description: 'Boolean checkbox',
     lazy: false, // Basic input, commonly used
+  });
+
+  widgetRegistry.register('ButtonGroup', ButtonGroupWidget, {
+    displayName: 'Button Group',
+    category: 'form',
+    description: 'Group of related buttons (actions, links, social media)',
+    lazy: false, // Common UI pattern, load eagerly
+  });
+
+  widgetRegistry.register('Badge', BadgeWidget, {
+    displayName: 'Badge',
+    category: 'content',
+    description: 'Status badge, label, or tag indicator',
+    lazy: false, // Common UI pattern, load eagerly
   });
 
   widgetRegistry.register('Select', SelectWidget, {
