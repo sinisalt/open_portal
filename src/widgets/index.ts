@@ -32,6 +32,7 @@ import { widgetRegistry } from '@/core/registry/WidgetRegistry';
 import { CardWidget } from './CardWidget';
 import { CheckboxWidget } from './CheckboxWidget';
 import { GridWidget } from './GridWidget';
+import { HeroWidget } from './HeroWidget';
 import { PageWidget } from './PageWidget';
 import { SectionWidget } from './SectionWidget';
 import { TextInputWidget } from './TextInputWidget';
@@ -108,6 +109,13 @@ export function registerWidgets(): void {
     category: 'layout',
     description: 'Content card container',
     lazy: false, // Critical, always needed
+  });
+
+  widgetRegistry.register('Hero', HeroWidget, {
+    displayName: 'Hero',
+    category: 'layout',
+    description: 'Hero section with background and CTA buttons',
+    lazy: false, // Used on many landing pages, load eagerly
   });
 
   // Form Input widgets (mixed - basic inputs eager, complex inputs lazy)
@@ -283,6 +291,8 @@ export type { DatePickerWidgetConfig } from './DatePickerWidget';
 export { DatePickerWidget } from './DatePickerWidget';
 export type { GridWidgetConfig } from './GridWidget';
 export { GridWidget } from './GridWidget';
+export type { HeroWidgetConfig } from './HeroWidget';
+export { HeroWidget } from './HeroWidget';
 export type { KPIWidgetConfig } from './KPIWidget';
 export { KPIWidget } from './KPIWidget';
 export type { MenuPosition, MenuTheme, MenuVariant, MenuWidgetConfig } from './MenuWidget';
