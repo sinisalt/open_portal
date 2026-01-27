@@ -32,9 +32,13 @@ import { widgetRegistry } from '@/core/registry/WidgetRegistry';
 import { CardWidget } from './CardWidget';
 import { CheckboxWidget } from './CheckboxWidget';
 import { GridWidget } from './GridWidget';
+import { HeroWidget } from './HeroWidget';
+import { ImageWidget } from './ImageWidget';
 import { PageWidget } from './PageWidget';
 import { SectionWidget } from './SectionWidget';
+import { TextareaWidget } from './TextareaWidget';
 import { TextInputWidget } from './TextInputWidget';
+import { TextWidget } from './TextWidget';
 
 // HEAVY WIDGETS - Lazy load (on-demand)
 // These are large or rarely used, so load them only when needed
@@ -110,11 +114,39 @@ export function registerWidgets(): void {
     lazy: false, // Critical, always needed
   });
 
+  widgetRegistry.register('Hero', HeroWidget, {
+    displayName: 'Hero',
+    category: 'layout',
+    description: 'Hero section with background and CTA buttons',
+    lazy: false, // Used on many landing pages, load eagerly
+  });
+
+  widgetRegistry.register('Image', ImageWidget, {
+    displayName: 'Image',
+    category: 'content',
+    description: 'Generic image display with aspect ratio and responsive behavior',
+    lazy: false, // Common, load eagerly
+  });
+
+  widgetRegistry.register('Text', TextWidget, {
+    displayName: 'Text',
+    category: 'content',
+    description: 'Generic text display with typography variants',
+    lazy: false, // Very common, load eagerly
+  });
+
   // Form Input widgets (mixed - basic inputs eager, complex inputs lazy)
   widgetRegistry.register('TextInput', TextInputWidget, {
     displayName: 'Text Input',
     category: 'form',
     description: 'Single-line text input',
+    lazy: false, // Basic input, commonly used
+  });
+
+  widgetRegistry.register('Textarea', TextareaWidget, {
+    displayName: 'Textarea',
+    category: 'form',
+    description: 'Multi-line text input',
     lazy: false, // Basic input, commonly used
   });
 
@@ -283,6 +315,10 @@ export type { DatePickerWidgetConfig } from './DatePickerWidget';
 export { DatePickerWidget } from './DatePickerWidget';
 export type { GridWidgetConfig } from './GridWidget';
 export { GridWidget } from './GridWidget';
+export type { HeroWidgetConfig } from './HeroWidget';
+export { HeroWidget } from './HeroWidget';
+export type { ImageWidgetConfig } from './ImageWidget';
+export { ImageWidget } from './ImageWidget';
 export type { KPIWidgetConfig } from './KPIWidget';
 export { KPIWidget } from './KPIWidget';
 export type { MenuPosition, MenuTheme, MenuVariant, MenuWidgetConfig } from './MenuWidget';
@@ -310,8 +346,12 @@ export type { SelectOption, SelectWidgetConfig } from './SelectWidget';
 export { SelectWidget } from './SelectWidget';
 export type { TableWidgetConfig } from './TableWidget';
 export { TableWidget } from './TableWidget';
+export type { TextareaWidgetConfig } from './TextareaWidget';
+export { TextareaWidget } from './TextareaWidget';
 export type { TextInputWidgetConfig } from './TextInputWidget';
 export { TextInputWidget } from './TextInputWidget';
+export type { TextWidgetConfig } from './TextWidget';
+export { TextWidget } from './TextWidget';
 export type {
   ToastAction,
   ToastOptions,
