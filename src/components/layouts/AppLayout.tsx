@@ -13,7 +13,6 @@ import { ConnectedHeader } from '@/components/menus/Header/ConnectedHeader';
 import { ConnectedSideMenu } from '@/components/menus/SideMenu/ConnectedSideMenu';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { useMenuContext } from '@/contexts/MenuContext';
-import { useBootstrap } from '@/hooks/useBootstrap';
 import { cn } from '@/lib/utils';
 
 /**
@@ -46,30 +45,14 @@ export function AppLayout({
   hideFooter = false,
 }: AppLayoutProps) {
   const location = useLocation();
-  const { setMenus, footerMenu, sidebarCollapsed } = useMenuContext();
-  const { menus } = useBootstrap();
+  const { footerMenu, sidebarCollapsed } = useMenuContext();
 
   /**
-   * Load menus from bootstrap when they change
+   * Log route changes for debugging
+   * Menu loading is handled by useMenu hook in child components
    */
   useEffect(() => {
-    if (menus) {
-      setMenus({
-        top: menus.top || [],
-        side: menus.side || [],
-        footer: menus.footer || [],
-      });
-    }
-  }, [menus, setMenus]);
-
-  /**
-   * Update active menu item based on current route
-   */
-  useEffect(() => {
-    // Auto-detect active item based on current pathname
-    // This will be enhanced in future iterations
-    const pathname = location.pathname;
-    console.log('Current route:', pathname);
+    console.log('Current route:', location.pathname);
   }, [location.pathname]);
 
   return (

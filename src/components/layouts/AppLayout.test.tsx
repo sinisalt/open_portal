@@ -13,6 +13,13 @@ import { AppLayout } from './AppLayout';
 // Mock TanStack Router
 jest.mock('@tanstack/react-router', () => ({
   useLocation: () => ({ pathname: '/test' }),
+  useRouter: () => ({
+    state: {
+      location: {
+        pathname: '/test',
+      },
+    },
+  }),
 }));
 
 // Mock the menu components
@@ -41,11 +48,19 @@ jest.mock('@/components/ui/sidebar', () => ({
 // Mock hooks
 jest.mock('@/hooks/useBootstrap', () => ({
   useBootstrap: () => ({
-    menus: {
-      top: [],
-      side: [],
-      footer: [],
+    data: {
+      menu: [],
+      user: null,
+      permissions: [],
+      tenant: null,
+      defaults: null,
+      featureFlags: {},
     },
+    loading: false,
+    error: null,
+    loaded: true,
+    permissions: [],
+    refresh: jest.fn(),
   }),
 }));
 
