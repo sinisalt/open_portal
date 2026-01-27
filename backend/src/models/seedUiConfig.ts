@@ -1346,9 +1346,11 @@ export async function seedUiConfig(): Promise<void> {
               id: 'hero-section',
               type: 'Hero',
               props: {
-                backgroundImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920',
+                backgroundImage:
+                  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920',
                 title: 'Build Dynamic UIs with Configuration',
-                subtitle: 'OpenPortal empowers you to create powerful business applications without coding. Define your UI with JSON, manage multi-tenant deployments, and scale effortlessly.',
+                subtitle:
+                  'OpenPortal empowers you to create powerful business applications without coding. Define your UI with JSON, manage multi-tenant deployments, and scale effortlessly.',
                 height: 'lg',
                 textAlign: 'center',
                 overlay: {
@@ -1396,7 +1398,8 @@ export async function seedUiConfig(): Promise<void> {
                       layoutProps: { span: 4 },
                       props: {
                         title: 'Configuration-Driven',
-                        description: 'Define your entire UI with JSON configurations. No frontend changes needed for new features.',
+                        description:
+                          'Define your entire UI with JSON configurations. No frontend changes needed for new features.',
                         elevation: 'md',
                         padding: 'lg',
                         hoverable: true,
@@ -1419,7 +1422,8 @@ export async function seedUiConfig(): Promise<void> {
                       layoutProps: { span: 4 },
                       props: {
                         title: 'Multi-Tenant Ready',
-                        description: 'Support multiple tenants with custom branding, themes, and configurations out of the box.',
+                        description:
+                          'Support multiple tenants with custom branding, themes, and configurations out of the box.',
                         elevation: 'md',
                         padding: 'lg',
                         hoverable: true,
@@ -1442,7 +1446,8 @@ export async function seedUiConfig(): Promise<void> {
                       layoutProps: { span: 4 },
                       props: {
                         title: 'Rich Widget Library',
-                        description: '28+ generic, reusable widgets. Build everything from dashboards to complex forms.',
+                        description:
+                          '28+ generic, reusable widgets. Build everything from dashboards to complex forms.',
                         elevation: 'md',
                         padding: 'lg',
                         hoverable: true,
@@ -1507,7 +1512,8 @@ export async function seedUiConfig(): Promise<void> {
                           id: 'price-starter-features',
                           type: 'Text',
                           props: {
-                            content: '• Up to 5 users\n• Basic widgets\n• Email support\n• 1 tenant',
+                            content:
+                              '• Up to 5 users\n• Basic widgets\n• Email support\n• 1 tenant',
                             variant: 'body',
                           },
                         },
@@ -1546,7 +1552,8 @@ export async function seedUiConfig(): Promise<void> {
                           id: 'price-pro-features',
                           type: 'Text',
                           props: {
-                            content: '• Up to 50 users\n• All widgets\n• Priority support\n• 10 tenants\n• Custom branding',
+                            content:
+                              '• Up to 50 users\n• All widgets\n• Priority support\n• 10 tenants\n• Custom branding',
                             variant: 'body',
                           },
                         },
@@ -1585,7 +1592,8 @@ export async function seedUiConfig(): Promise<void> {
                           id: 'price-enterprise-features',
                           type: 'Text',
                           props: {
-                            content: '• Unlimited users\n• All widgets + custom\n• 24/7 support\n• Unlimited tenants\n• White-label',
+                            content:
+                              '• Unlimited users\n• All widgets + custom\n• 24/7 support\n• Unlimited tenants\n• White-label',
                             variant: 'body',
                           },
                         },
@@ -1786,7 +1794,8 @@ export async function seedUiConfig(): Promise<void> {
                           id: 'mission-text',
                           type: 'Text',
                           props: {
-                            content: 'At OpenPortal, we believe that building business applications should be fast, flexible, and accessible to everyone. Our mission is to empower organizations to create powerful, scalable applications without the complexity of traditional development.\n\nWe achieve this through a revolutionary configuration-driven approach where the entire user interface is defined by JSON configurations from the backend. This means:\n\n• **Zero frontend changes** for new features\n• **Rapid deployment** of new business requirements\n• **Multi-tenant architecture** out of the box\n• **Consistent UI patterns** across your organization',
+                            content:
+                              'At OpenPortal, we believe that building business applications should be fast, flexible, and accessible to everyone. Our mission is to empower organizations to create powerful, scalable applications without the complexity of traditional development.\n\nWe achieve this through a revolutionary configuration-driven approach where the entire user interface is defined by JSON configurations from the backend. This means:\n\n• **Zero frontend changes** for new features\n• **Rapid deployment** of new business requirements\n• **Multi-tenant architecture** out of the box\n• **Consistent UI patterns** across your organization',
                             variant: 'body',
                             markdown: true,
                           },
@@ -1997,7 +2006,8 @@ export async function seedUiConfig(): Promise<void> {
                       id: 'tech-text',
                       type: 'Text',
                       props: {
-                        content: 'OpenPortal is built on a cutting-edge technology stack:\n\n• **Frontend**: React 19 + TypeScript + Vite\n• **UI Components**: shadcn/ui + Tailwind CSS v4\n• **Routing**: TanStack Router\n• **State Management**: TanStack Query + Store\n• **Backend**: Node.js + Express + TypeScript\n• **Database**: SQLite (easily swappable)\n• **Real-time**: WebSocket support\n• **Testing**: Jest + Playwright\n\nEvery component is accessible (WCAG 2.1 AA), performant, and production-ready.',
+                        content:
+                          'OpenPortal is built on a cutting-edge technology stack:\n\n• **Frontend**: React 19 + TypeScript + Vite\n• **UI Components**: shadcn/ui + Tailwind CSS v4\n• **Routing**: TanStack Router\n• **State Management**: TanStack Query + Store\n• **Backend**: Node.js + Express + TypeScript\n• **Database**: SQLite (easily swappable)\n• **Real-time**: WebSocket support\n• **Testing**: Jest + Playwright\n\nEvery component is accessible (WCAG 2.1 AA), performant, and production-ready.',
                         variant: 'body',
                         markdown: true,
                       },
@@ -2141,7 +2151,8 @@ export async function seedUiConfig(): Promise<void> {
                           id: 'member-ceo-bio',
                           type: 'Text',
                           props: {
-                            content: 'Visionary leader with 15+ years in enterprise software. Passionate about making technology accessible to everyone.',
+                            content:
+                              'Visionary leader with 15+ years in enterprise software. Passionate about making technology accessible to everyone.',
                             variant: 'body',
                             align: 'center',
                             color: 'muted',
@@ -2221,7 +2232,8 @@ export async function seedUiConfig(): Promise<void> {
                           id: 'member-cto-bio',
                           type: 'Text',
                           props: {
-                            content: 'Technical architect with expertise in scalable systems. Leads our engineering team to build world-class software.',
+                            content:
+                              'Technical architect with expertise in scalable systems. Leads our engineering team to build world-class software.',
                             variant: 'body',
                             align: 'center',
                             color: 'muted',
@@ -2301,7 +2313,8 @@ export async function seedUiConfig(): Promise<void> {
                           id: 'member-coo-bio',
                           type: 'Text',
                           props: {
-                            content: 'Operations expert focused on efficiency and growth. Ensures our platform runs smoothly at scale.',
+                            content:
+                              'Operations expert focused on efficiency and growth. Ensures our platform runs smoothly at scale.',
                             variant: 'body',
                             align: 'center',
                             color: 'muted',
@@ -2556,7 +2569,8 @@ export async function seedUiConfig(): Promise<void> {
                       id: 'join-description',
                       type: 'Text',
                       props: {
-                        content: 'We are always looking for talented individuals who are passionate about building great software.',
+                        content:
+                          'We are always looking for talented individuals who are passionate about building great software.',
                         variant: 'body',
                         align: 'center',
                         color: 'muted',
@@ -2977,7 +2991,10 @@ export async function seedUiConfig(): Promise<void> {
                             checked: '{{state.currentUser.emailNotifications}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateUserField', params: { field: 'emailNotifications' } },
+                            onChange: {
+                              actionId: 'updateUserField',
+                              params: { field: 'emailNotifications' },
+                            },
                           },
                         },
                         {
@@ -2991,7 +3008,10 @@ export async function seedUiConfig(): Promise<void> {
                             checked: '{{state.currentUser.newsletter}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateUserField', params: { field: 'newsletter' } },
+                            onChange: {
+                              actionId: 'updateUserField',
+                              params: { field: 'newsletter' },
+                            },
                           },
                         },
                       ],
@@ -3043,7 +3063,8 @@ export async function seedUiConfig(): Promise<void> {
                   id: 'delete-message',
                   type: 'Text',
                   props: {
-                    content: 'Are you sure you want to delete this user? This action cannot be undone.',
+                    content:
+                      'Are you sure you want to delete this user? This action cannot be undone.',
                     variant: 'body',
                   },
                 },
@@ -3541,7 +3562,10 @@ export async function seedUiConfig(): Promise<void> {
                             value: '{{state.currentLocation.name}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateLocationField', params: { field: 'name' } },
+                            onChange: {
+                              actionId: 'updateLocationField',
+                              params: { field: 'name' },
+                            },
                           },
                         },
                         {
@@ -3559,7 +3583,10 @@ export async function seedUiConfig(): Promise<void> {
                             value: '{{state.currentLocation.description}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateLocationField', params: { field: 'description' } },
+                            onChange: {
+                              actionId: 'updateLocationField',
+                              params: { field: 'description' },
+                            },
                           },
                         },
                         {
@@ -3582,7 +3609,10 @@ export async function seedUiConfig(): Promise<void> {
                             value: '{{state.currentLocation.type}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateLocationField', params: { field: 'type' } },
+                            onChange: {
+                              actionId: 'updateLocationField',
+                              params: { field: 'type' },
+                            },
                           },
                         },
                         {
@@ -3604,7 +3634,10 @@ export async function seedUiConfig(): Promise<void> {
                             value: '{{state.currentLocation.status}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateLocationField', params: { field: 'status' } },
+                            onChange: {
+                              actionId: 'updateLocationField',
+                              params: { field: 'status' },
+                            },
                           },
                         },
                       ],
@@ -3632,7 +3665,10 @@ export async function seedUiConfig(): Promise<void> {
                             value: '{{state.currentLocation.address.line1}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateLocationField', params: { field: 'address.line1' } },
+                            onChange: {
+                              actionId: 'updateLocationField',
+                              params: { field: 'address.line1' },
+                            },
                           },
                         },
                         {
@@ -3647,7 +3683,10 @@ export async function seedUiConfig(): Promise<void> {
                             value: '{{state.currentLocation.address.line2}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateLocationField', params: { field: 'address.line2' } },
+                            onChange: {
+                              actionId: 'updateLocationField',
+                              params: { field: 'address.line2' },
+                            },
                           },
                         },
                         {
@@ -3663,7 +3702,10 @@ export async function seedUiConfig(): Promise<void> {
                             value: '{{state.currentLocation.address.city}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateLocationField', params: { field: 'address.city' } },
+                            onChange: {
+                              actionId: 'updateLocationField',
+                              params: { field: 'address.city' },
+                            },
                           },
                         },
                         {
@@ -3678,7 +3720,10 @@ export async function seedUiConfig(): Promise<void> {
                             value: '{{state.currentLocation.address.state}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateLocationField', params: { field: 'address.state' } },
+                            onChange: {
+                              actionId: 'updateLocationField',
+                              params: { field: 'address.state' },
+                            },
                           },
                         },
                         {
@@ -3694,7 +3739,10 @@ export async function seedUiConfig(): Promise<void> {
                             value: '{{state.currentLocation.address.postalCode}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateLocationField', params: { field: 'address.postalCode' } },
+                            onChange: {
+                              actionId: 'updateLocationField',
+                              params: { field: 'address.postalCode' },
+                            },
                           },
                         },
                         {
@@ -3719,7 +3767,10 @@ export async function seedUiConfig(): Promise<void> {
                             value: '{{state.currentLocation.address.country}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateLocationField', params: { field: 'address.country' } },
+                            onChange: {
+                              actionId: 'updateLocationField',
+                              params: { field: 'address.country' },
+                            },
                           },
                         },
                       ],
@@ -3750,7 +3801,10 @@ export async function seedUiConfig(): Promise<void> {
                             value: '{{state.currentLocation.images}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateLocationField', params: { field: 'images' } },
+                            onChange: {
+                              actionId: 'updateLocationField',
+                              params: { field: 'images' },
+                            },
                           },
                         },
                         {
@@ -3769,7 +3823,10 @@ export async function seedUiConfig(): Promise<void> {
                             suggestions: '{{datasources.locationTags.data}}',
                           },
                           events: {
-                            onChange: { actionId: 'updateLocationField', params: { field: 'tags' } },
+                            onChange: {
+                              actionId: 'updateLocationField',
+                              params: { field: 'tags' },
+                            },
                           },
                         },
                         {
@@ -3792,7 +3849,10 @@ export async function seedUiConfig(): Promise<void> {
                                 checked: '{{state.currentLocation.features.parking}}',
                               },
                               events: {
-                                onChange: { actionId: 'updateLocationField', params: { field: 'features.parking' } },
+                                onChange: {
+                                  actionId: 'updateLocationField',
+                                  params: { field: 'features.parking' },
+                                },
                               },
                             },
                             {
@@ -3806,7 +3866,10 @@ export async function seedUiConfig(): Promise<void> {
                                 checked: '{{state.currentLocation.features.wifi}}',
                               },
                               events: {
-                                onChange: { actionId: 'updateLocationField', params: { field: 'features.wifi' } },
+                                onChange: {
+                                  actionId: 'updateLocationField',
+                                  params: { field: 'features.wifi' },
+                                },
                               },
                             },
                             {
@@ -3820,7 +3883,10 @@ export async function seedUiConfig(): Promise<void> {
                                 checked: '{{state.currentLocation.features.accessible}}',
                               },
                               events: {
-                                onChange: { actionId: 'updateLocationField', params: { field: 'features.accessible' } },
+                                onChange: {
+                                  actionId: 'updateLocationField',
+                                  params: { field: 'features.accessible' },
+                                },
                               },
                             },
                             {
@@ -3834,7 +3900,10 @@ export async function seedUiConfig(): Promise<void> {
                                 checked: '{{state.currentLocation.features.security}}',
                               },
                               events: {
-                                onChange: { actionId: 'updateLocationField', params: { field: 'features.security' } },
+                                onChange: {
+                                  actionId: 'updateLocationField',
+                                  params: { field: 'features.security' },
+                                },
                               },
                             },
                           ],
@@ -3919,7 +3988,8 @@ export async function seedUiConfig(): Promise<void> {
                                   id: 'review-address-text',
                                   type: 'Text',
                                   props: {
-                                    content: '{{state.currentLocation.address.line1}}\n{{state.currentLocation.address.city}}, {{state.currentLocation.address.state}} {{state.currentLocation.address.postalCode}}\n{{state.currentLocation.address.country}}',
+                                    content:
+                                      '{{state.currentLocation.address.line1}}\n{{state.currentLocation.address.city}}, {{state.currentLocation.address.state}} {{state.currentLocation.address.postalCode}}\n{{state.currentLocation.address.country}}',
                                     variant: 'body',
                                   },
                                 },
@@ -3973,7 +4043,8 @@ export async function seedUiConfig(): Promise<void> {
                   id: 'delete-location-message',
                   type: 'Text',
                   props: {
-                    content: 'Are you sure you want to delete "{{state.locationToDelete.name}}"? This action cannot be undone.',
+                    content:
+                      'Are you sure you want to delete "{{state.locationToDelete.name}}"? This action cannot be undone.',
                     variant: 'body',
                   },
                 },

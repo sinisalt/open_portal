@@ -3,7 +3,7 @@ import type { TenantBranding } from './database.js';
 
 /**
  * Tenant Theme Configurations for Issue #050 Week 4
- * 
+ *
  * Three distinct tenant themes to demonstrate multi-tenant theming:
  * 1. Acme Corporation - Blue professional theme
  * 2. EcoTech Solutions - Green eco-friendly theme
@@ -12,7 +12,7 @@ import type { TenantBranding } from './database.js';
 
 /**
  * Acme Corporation Theme - Blue Professional
- * 
+ *
  * A professional, corporate theme with blue as the primary color.
  * Suitable for: Enterprise SaaS, B2B platforms, financial services
  */
@@ -142,7 +142,7 @@ export const acmeCorporationTheme: TenantBranding = {
 
 /**
  * EcoTech Solutions Theme - Green Eco-Friendly
- * 
+ *
  * An environmental, eco-friendly theme with green as the primary color.
  * Suitable for: Sustainability platforms, green tech, environmental services
  */
@@ -277,7 +277,7 @@ export const ecoTechSolutionsTheme: TenantBranding = {
 
 /**
  * Creative Studios Theme - Purple Creative
- * 
+ *
  * A bold, creative theme with purple as the primary color.
  * Suitable for: Creative agencies, design studios, artistic platforms
  */
@@ -441,5 +441,5 @@ export function getAllTenantThemes(): TenantBranding[] {
  */
 export function getTenantTheme(tenantId: string): TenantBranding | undefined {
   const themes = getAllTenantThemes();
-  return themes.find(theme => theme.tenantId === tenantId);
+  return themes.find((theme) => theme.tenantId === tenantId);
 }
