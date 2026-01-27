@@ -15,12 +15,13 @@ function renderWidget(config: Record<string, unknown>): React.ReactNode {
   // Extract children and props from config, merge props into widget config
   const { children, props, ...rest } = config;
   // Merge props with the rest of config so widgets can access properties directly
-  const widgetConfig = { ...rest, ...(props as Record<string, unknown> || {}) };
+  const widgetConfig = { ...rest, ...((props as Record<string, unknown>) || {}) };
 
   // Render children recursively if they exist
-  const renderedChildren = children && Array.isArray(children)
-    ? children.map((child: Record<string, unknown>) => renderWidget(child))
-    : undefined;
+  const renderedChildren =
+    children && Array.isArray(children)
+      ? children.map((child: Record<string, unknown>) => renderWidget(child))
+      : undefined;
 
   return (
     <WidgetRenderer
@@ -320,7 +321,7 @@ export function PagePreviewTool() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="rounded-md border border-border bg-muted/30 p-4">
+            <div className="rounded-md border border bg-muted/30 p-4">
               <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <ModeIcon className="h-4 w-4" />
@@ -335,7 +336,7 @@ export function PagePreviewTool() {
                     width: currentMode?.width,
                     margin: '0 auto',
                   }}
-                  className="min-h-96 rounded-md border border-border bg-background p-4"
+                  className="min-h-96 rounded-md border border bg-background p-4"
                 >
                   {pageConfig ? (
                     <PreviewErrorBoundary>
@@ -343,7 +344,9 @@ export function PagePreviewTool() {
                         <div className="border-b pb-2">
                           <h3 className="text-lg font-semibold">{pageConfig.title}</h3>
                         </div>
-                        {pageConfig.widgets?.map((widget: Record<string, unknown>) => renderWidget(widget))}
+                        {pageConfig.widgets?.map((widget: Record<string, unknown>) =>
+                          renderWidget(widget)
+                        )}
                       </div>
                     </PreviewErrorBoundary>
                   ) : (
