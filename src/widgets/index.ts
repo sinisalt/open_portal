@@ -33,11 +33,13 @@ import { BadgeWidget } from './BadgeWidget';
 import { ButtonGroupWidget } from './ButtonGroupWidget';
 import { CardWidget } from './CardWidget';
 import { CheckboxWidget } from './CheckboxWidget';
+import { FileUploadWidget } from './FileUploadWidget';
 import { GridWidget } from './GridWidget';
 import { HeroWidget } from './HeroWidget';
 import { ImageWidget } from './ImageWidget';
 import { PageWidget } from './PageWidget';
 import { SectionWidget } from './SectionWidget';
+import { TagInputWidget } from './TagInputWidget';
 import { TextareaWidget } from './TextareaWidget';
 import { TextInputWidget } from './TextInputWidget';
 import { TextWidget } from './TextWidget';
@@ -171,6 +173,20 @@ export function registerWidgets(): void {
     category: 'content',
     description: 'Status badge, label, or tag indicator',
     lazy: false, // Common UI pattern, load eagerly
+  });
+
+  widgetRegistry.register('FileUpload', FileUploadWidget, {
+    displayName: 'File Upload',
+    category: 'form',
+    description: 'Generic file upload with drag-and-drop',
+    lazy: false, // Common form input, load eagerly
+  });
+
+  widgetRegistry.register('TagInput', TagInputWidget, {
+    displayName: 'Tag Input',
+    category: 'form',
+    description: 'Tag/chip input with autocomplete',
+    lazy: false, // Common form input, load eagerly
   });
 
   widgetRegistry.register('Select', SelectWidget, {
@@ -313,6 +329,10 @@ export function getWidgetRegistry() {
  */
 export { widgetRegistry };
 
+export type { BadgeWidgetConfig } from './BadgeWidget';
+export { BadgeWidget } from './BadgeWidget';
+export type { ButtonConfig, ButtonGroupWidgetConfig } from './ButtonGroupWidget';
+export { ButtonGroupWidget } from './ButtonGroupWidget';
 export type { CardWidgetConfig } from './CardWidget';
 export { CardWidget } from './CardWidget';
 export type {
@@ -329,6 +349,8 @@ export type { CheckboxWidgetConfig } from './CheckboxWidget';
 export { CheckboxWidget } from './CheckboxWidget';
 export type { DatePickerWidgetConfig } from './DatePickerWidget';
 export { DatePickerWidget } from './DatePickerWidget';
+export type { FileUploadWidgetConfig, UploadedFile } from './FileUploadWidget';
+export { FileUploadWidget } from './FileUploadWidget';
 export type { GridWidgetConfig } from './GridWidget';
 export { GridWidget } from './GridWidget';
 export type { HeroWidgetConfig } from './HeroWidget';
@@ -362,6 +384,8 @@ export type { SelectOption, SelectWidgetConfig } from './SelectWidget';
 export { SelectWidget } from './SelectWidget';
 export type { TableWidgetConfig } from './TableWidget';
 export { TableWidget } from './TableWidget';
+export type { TagInputWidgetConfig, TagSuggestion } from './TagInputWidget';
+export { TagInputWidget } from './TagInputWidget';
 export type { TextareaWidgetConfig } from './TextareaWidget';
 export { TextareaWidget } from './TextareaWidget';
 export type { TextInputWidgetConfig } from './TextInputWidget';
