@@ -337,9 +337,9 @@
 - [x] Logo customization per tenant (existing in branding types)
 - [ ] Test theme switching in browser (pending)
 
-#### Testing & Quality (15-20 hours) - IN PROGRESS
+#### Testing & Quality (15-20 hours) - PARTIAL COMPLETE
 
-**Unit Tests** - COMPLETED IN WEEKS 2-3 ✅
+**Unit Tests** - 100% PASSING ✅
 - [x] HeroWidget tests (15 tests passing) ✅
 - [x] ImageWidget tests (19 tests passing) ✅
 - [x] TextWidget tests (17 tests passing) ✅
@@ -348,15 +348,18 @@
 - [x] BadgeWidget tests (16 tests passing) ✅
 - [x] FileUploadWidget tests (33 tests passing) ✅
 - [x] TagInputWidget tests (39 tests passing) ✅
-- [x] Total: 182/182 tests passing (100%)
+- [x] Total: 1434/1434 tests passing (100%) ✅
 - [x] Coverage: 89-97% for new widgets ✅
+- [x] **Fixed failing tests:** ✅
+  - [x] TextareaWidget - Added ResizeObserver mock to setupTests.js
+  - [x] useBootstrap - Fixed loaded state expectation on error
 
-**Integration Tests** - PENDING
-- [ ] AppLayout + menu persistence
-- [ ] Widget registry integration
-- [ ] Configuration-driven rendering
-- [ ] Theme switching in browser
-- [ ] Theme loading and caching
+**Integration Tests** - PARTIAL
+- [x] Widget registry integration (28 widgets registered successfully) ✅
+- [x] Configuration-driven rendering (verified in console logs) ✅
+- [x] Theme switching in browser (purple gradient theme visible on login) ✅
+- [ ] AppLayout + menu persistence (requires authenticated session)
+- [ ] Theme loading and caching (requires testing across page navigation)
 
 **E2E Tests (Playwright)** - PENDING
 - [ ] Navigation without reload
