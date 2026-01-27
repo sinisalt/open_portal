@@ -127,7 +127,8 @@ describe('useBootstrap', () => {
 
     expect(result.current.data).toBeNull();
     expect(result.current.loading).toBe(false);
-    expect(result.current.loaded).toBe(false);
+    // loaded is set to true even on error to prevent infinite retry loops
+    expect(result.current.loaded).toBe(true);
   });
 
   it('should clear tokens on authentication error', async () => {
