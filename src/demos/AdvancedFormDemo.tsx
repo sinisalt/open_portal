@@ -201,7 +201,7 @@ export function AdvancedFormDemo() {
           </p>
         </div>
 
-        <div className="bg-card rounded-lg border border-border p-6 shadow-sm">
+        <div className="bg-card rounded-lg border border p-6 shadow-sm">
           <FormWidget
             config={formConfig}
             events={{
@@ -243,7 +243,7 @@ export function AdvancedFormDemo() {
         )}
 
         {/* Feature List */}
-        <div className="mt-8 p-6 bg-card rounded-lg border border-border">
+        <div className="mt-8 p-6 bg-card rounded-lg border border">
           <h2 className="text-xl font-semibold mb-4">Features Demonstrated</h2>
           <ul className="space-y-2 text-sm">
             <li>✅ Comprehensive validation rules (required, minLength, email, phone, custom)</li>

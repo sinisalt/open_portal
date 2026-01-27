@@ -120,7 +120,7 @@ export function WidgetDocsBrowser() {
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Widget List */}
         <div className="space-y-3 lg:col-span-1">
-          <div className="rounded-md border border-border bg-card p-3">
+          <div className="rounded-md border border bg-card p-3">
             <p className="text-sm font-medium text-foreground">
               {filteredWidgets.length} Widget{filteredWidgets.length !== 1 ? 's' : ''} Found
             </p>
@@ -178,12 +178,12 @@ export function WidgetDocsBrowser() {
                     <Code2 className="h-5 w-5" />
                     Props
                   </h3>
-                  <div className="rounded-md border border-border bg-muted/30 p-4">
+                  <div className="rounded-md border border bg-muted/30 p-4">
                     <div className="space-y-3">
                       {selectedWidgetData.props.map(prop => (
                         <div
                           key={prop.name}
-                          className="border-b border-border pb-3 last:border-0 last:pb-0"
+                          className="border-b border pb-3 last:border-0 last:pb-0"
                         >
                           <div className="flex items-start justify-between">
                             <div className="flex-1">
@@ -214,8 +214,8 @@ export function WidgetDocsBrowser() {
                     <Eye className="h-5 w-5" />
                     Example
                   </h3>
-                  <div className="rounded-md border border-border bg-muted/30">
-                    <div className="border-b border-border bg-muted/50 px-4 py-2">
+                  <div className="rounded-md border border bg-muted/30">
+                    <div className="border-b border bg-muted/50 px-4 py-2">
                       <p className="text-xs font-medium text-muted-foreground">
                         Configuration JSON
                       </p>
@@ -231,7 +231,7 @@ export function WidgetDocsBrowser() {
                 {/* Live Preview (Placeholder) */}
                 <div>
                   <h3 className="mb-3 text-lg font-semibold">Preview</h3>
-                  <div className="rounded-md border border-border bg-background p-6">
+                  <div className="rounded-md border border bg-background p-6">
                     <div className="flex h-32 items-center justify-center text-sm text-muted-foreground">
                       Live preview coming soon...
                     </div>

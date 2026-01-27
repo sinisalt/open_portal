@@ -301,7 +301,7 @@ export function ConfigValidatorTool() {
           </CardHeader>
           <CardContent className="space-y-4">
             {validationResult === null ? (
-              <div className="flex h-96 items-center justify-center rounded-md border border-dashed border-border">
+              <div className="flex h-96 items-center justify-center rounded-md border border-dashed border">
                 <p className="text-sm text-muted-foreground">
                   Click "Validate" to check your configuration
                 </p>
@@ -353,7 +353,7 @@ export function ConfigValidatorTool() {
             )}
 
             {/* Schema Reference */}
-            <div className="rounded-md border border-border bg-muted/30 p-4">
+            <div className="rounded-md border border bg-muted/30 p-4">
               <h4 className="mb-2 text-sm font-semibold">Required Fields</h4>
               <ul className="space-y-1 text-sm text-muted-foreground">
                 {configType === 'page' && (
