@@ -28,18 +28,46 @@ export function TextareaWidget({ config, bindings, events }: WidgetProps<Textare
   } = config;
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const value = (bindings?.value as string) ?? '';
 
-  // Auto-resize functionality
-  // biome-ignore lint/correctness/useExhaustiveDependencies: value needed for resize on content change
+  // Auto-resize functionality using ResizeObserver for more reliable behavior
   useEffect(() => {
-    if (autoResize && textareaRef.current) {
-      const textarea = textareaRef.current;
+    if (!autoResize || !textareaRef.current) {
+      // Clean up any existing observer if autoResize is disabled
+      if (resizeObserverRef.current) {
+        resizeObserverRef.current.disconnect();
+        resizeObserverRef.current = null;
+      }
+      return;
+    }
+
+    const textarea = textareaRef.current;
+
+    const adjustHeight = () => {
+      if (!textarea) return;
       textarea.style.height = 'auto';
       textarea.style.height = `${textarea.scrollHeight}px`;
-    }
-  }, [value, autoResize]);
+    };
 
+    // Initial adjustment
+    adjustHeight();
+
+    // Observe size/content changes
+    const observer = new ResizeObserver(() => {
+      adjustHeight();
+    });
+
+    observer.observe(textarea);
+    resizeObserverRef.current = observer;
+
+    return () => {
+      if (resizeObserverRef.current) {
+        resizeObserverRef.current.disconnect();
+        resizeObserverRef.current = null;
+      }
+    };
+  }, [autoResize]);
   // Handle change event
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (events?.onChange) {
