@@ -95,6 +95,7 @@ export function ImageWidget({ config, bindings, events }: WidgetProps<ImageWidge
           }}
           role="button"
           tabIndex={0}
+          aria-label={`View ${alt}`}
         >
           <img
             src={src}

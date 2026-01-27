@@ -145,6 +145,18 @@ describe('ImageWidget', () => {
     expect(mockOnClick).toHaveBeenCalledTimes(2);
   });
 
+  it('has accessible label when clickable', () => {
+    const config: ImageWidgetConfig = {
+      ...baseConfig,
+      clickable: true,
+    };
+
+    render(<ImageWidget config={config} />);
+    const container = screen.getByRole('button');
+
+    expect(container).toHaveAttribute('aria-label', 'View Test image');
+  });
+
   it('does not respond to click when clickable is false', () => {
     const mockOnClick = jest.fn();
     const config: ImageWidgetConfig = {

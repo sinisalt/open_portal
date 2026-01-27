@@ -32,7 +32,11 @@ export interface TextWidgetConfig extends BaseWidgetConfig {
   /** Text size override (CSS value) */
   size?: string;
 
-  /** Enable markdown parsing (future feature) */
+  /**
+   * Enable markdown parsing (FUTURE FEATURE - NOT YET IMPLEMENTED)
+   * Currently renders as plain text. Will be implemented in a future release with react-markdown.
+   * @deprecated This feature is planned but not yet available. Setting this to true will log a warning.
+   */
   markdown?: boolean;
 
   /** Truncate text with ellipsis after N lines */

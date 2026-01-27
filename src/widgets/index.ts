@@ -123,14 +123,14 @@ export function registerWidgets(): void {
 
   widgetRegistry.register('Image', ImageWidget, {
     displayName: 'Image',
-    category: 'layout',
+    category: 'content',
     description: 'Generic image display with aspect ratio and responsive behavior',
     lazy: false, // Common, load eagerly
   });
 
   widgetRegistry.register('Text', TextWidget, {
     displayName: 'Text',
-    category: 'layout',
+    category: 'content',
     description: 'Generic text display with typography variants',
     lazy: false, // Very common, load eagerly
   });
