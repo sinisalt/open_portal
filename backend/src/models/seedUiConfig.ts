@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import type { MenuConfig, PageConfig, RouteConfig, TenantBranding } from './database.js';
 import { db } from './database.js';
+import { getAllTenantThemes } from './tenantThemes.js';
 
 /**
  * Seed UI configuration data for testing
@@ -59,6 +60,13 @@ export async function seedUiConfig(): Promise<void> {
   };
 
   db.createTenantBranding(defaultBranding);
+
+  // Seed multi-tenant themes (Issue #050 Week 4)
+  // Add three additional tenant themes for demonstration
+  const tenantThemes = getAllTenantThemes();
+  for (const theme of tenantThemes) {
+    db.createTenantBranding(theme);
+  }
 
   // Seed menu config
   const defaultMenu: MenuConfig = {
