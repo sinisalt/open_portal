@@ -1,16 +1,16 @@
-# Issue #042: Quick Start Guide
+# Issue #050: Quick Start Guide
 
 ## 📋 Planning Complete - Ready to Start Implementation
 
 ### Start Here
 
-**For Quick Overview:** Read `ISSUE-042-EXECUTIVE-SUMMARY.md` (5 min read)
+**For Quick Overview:** Read `ISSUE-050-EXECUTIVE-SUMMARY.md` (5 min read)
 
 **For Full Details:**
-1. `ISSUE-042-EXECUTIVE-SUMMARY.md` - Overview and Q&A
-2. `ISSUE-042-SPA-REDESIGN-PLAN.md` - Complete 6-week plan
-3. `ISSUE-042-MISSING-COMPONENTS.md` - Component specifications
-4. `ISSUE-042-DEMO-DATA-SPEC.md` - Data structures and configs
+1. `ISSUE-050-EXECUTIVE-SUMMARY.md` - Overview and Q&A
+2. `ISSUE-050-SPA-REDESIGN-PLAN.md` - Complete 6-week plan
+3. `ISSUE-050-MISSING-COMPONENTS.md` - Component specifications
+4. `ISSUE-050-DEMO-DATA-SPEC.md` - Data structures and configs
 
 ---
 
@@ -224,7 +224,7 @@ feat(menu): Add MenuContext provider with state management
 - Create useMenu() hook for components
 - Add unit tests with 90% coverage
 
-Relates to #042
+Relates to #050
 ```
 
 ---
@@ -303,8 +303,8 @@ npx shadcn@latest add sidebar --overwrite
 
 - **GitHub Repo:** https://github.com/sinisalt/open_portal
 - **Branch:** `feature/spa-redesign` (to be created)
-- **Issue Number:** #042
-- **Planning Docs:** `ISSUE-042-*.md` files
+- **Issue Number:** #050
+- **Planning Docs:** `ISSUE-050-*.md` files
 - **shadcn Components:** https://ui.shadcn.com/docs/components
 
 ---

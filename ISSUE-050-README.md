@@ -1,4 +1,4 @@
-# Issue #042: OpenPortal SPA Architecture Redesign (CORRECTED)
+# Issue #050: OpenPortal SPA Architecture Redesign (CORRECTED)
 
 ## 📋 Complete Planning Package - CORRECTED ARCHITECTURE
 
@@ -30,7 +30,7 @@ A comprehensive plan to transform OpenPortal into a true Single Page Application
 ## 📚 Documentation Files
 
 ### ⭐ START HERE
-**[ISSUE-042-CORRECTED-APPROACH.md](./ISSUE-042-CORRECTED-APPROACH.md)**
+**[ISSUE-050-CORRECTED-APPROACH.md](./ISSUE-050-CORRECTED-APPROACH.md)**
 - Explanation of the architecture correction
 - ❌ What was wrong (business widgets)
 - ✅ What's correct (generic widgets + configs)
@@ -38,31 +38,31 @@ A comprehensive plan to transform OpenPortal into a true Single Page Application
 - **READ THIS FIRST to understand the correction**
 
 ### 🚀 For Developers
-**[ISSUE-042-QUICK-START.md](./ISSUE-042-QUICK-START.md)**
+**[ISSUE-050-QUICK-START.md](./ISSUE-050-QUICK-START.md)**
 - Week 1 implementation checklist
 - Day-by-day breakdown
 - Code examples
 - Troubleshooting guide
 
 ### 📊 Overview (Everyone)
-**[ISSUE-042-EXECUTIVE-SUMMARY.md](./ISSUE-042-EXECUTIVE-SUMMARY.md)**
+**[ISSUE-050-EXECUTIVE-SUMMARY.md](./ISSUE-050-EXECUTIVE-SUMMARY.md)**
 - Quick reference guide (needs update)
 - Problem & solution overview
 - Timeline and Q&A
 
 ### 🧩 Component Specs (Developers)
-**[ISSUE-042-MISSING-COMPONENTS.md](./ISSUE-042-MISSING-COMPONENTS.md)** ✅ **CORRECTED**
+**[ISSUE-050-MISSING-COMPONENTS.md](./ISSUE-050-MISSING-COMPONENTS.md)** ✅ **CORRECTED**
 - Gap analysis: 18 existing → 10 new GENERIC widgets
 - TypeScript interfaces for generic widgets
 - ❌ Removed business-specific widgets
 - Time estimate: 39-51 hours (reduced)
 
 ### 📋 Detailed Plan (Project Managers)
-**[ISSUE-042-SPA-REDESIGN-PLAN.md](./ISSUE-042-SPA-REDESIGN-PLAN.md)**
+**[ISSUE-050-SPA-REDESIGN-PLAN.md](./ISSUE-050-SPA-REDESIGN-PLAN.md)**
 - Complete plan (needs update to reflect corrections)
 
 ### 📊 Data & Config (Backend)
-**[ISSUE-042-DEMO-DATA-SPEC.md](./ISSUE-042-DEMO-DATA-SPEC.md)**
+**[ISSUE-050-DEMO-DATA-SPEC.md](./ISSUE-050-DEMO-DATA-SPEC.md)**
 - Demo data schemas (needs update to show JSON configs)
 
 ---
@@ -230,13 +230,13 @@ All pages use **generic widgets + JSON configurations:**
 ## 🚀 Getting Started
 
 ### 1. Understand the Correction
-Read [ISSUE-042-CORRECTED-APPROACH.md](./ISSUE-042-CORRECTED-APPROACH.md) first!
+Read [ISSUE-050-CORRECTED-APPROACH.md](./ISSUE-050-CORRECTED-APPROACH.md) first!
 
 ### 2. For Developers
-Read [ISSUE-042-QUICK-START.md](./ISSUE-042-QUICK-START.md) for implementation
+Read [ISSUE-050-QUICK-START.md](./ISSUE-050-QUICK-START.md) for implementation
 
 ### 3. For Reference
-See [ISSUE-042-MISSING-COMPONENTS.md](./ISSUE-042-MISSING-COMPONENTS.md) for component specs
+See [ISSUE-050-MISSING-COMPONENTS.md](./ISSUE-050-MISSING-COMPONENTS.md) for component specs
 
 ---
 

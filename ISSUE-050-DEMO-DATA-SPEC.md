@@ -1,4 +1,4 @@
-# Issue #042: Demo Data & Configuration Specification
+# Issue #050: Demo Data & Configuration Specification
 
 **Date:** January 26, 2026  
 **Purpose:** Define demo data structure and tenant configurations for the SPA redesign
